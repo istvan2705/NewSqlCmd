@@ -114,29 +114,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-//    public String [] getTableRows(String tableName)  {
-//        String [] result = new String[1000];
-//        int index = 1;
-//        try (Statement stmt = connection.createStatement();
-//             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
-//            ResultSetMetaData rsmd = rs.getMetaData();
-//            int columnsNumber = rsmd.getColumnCount();
-//
-//            while (rs.next()) {
-//                for (; index <= columnsNumber; index++) {
-//                    result[index-1] = rs.getString(index);
-//                }
-//            }
-//                result = Arrays.copyOf(result, index-1, String [].class );
-//
-//        } catch (SQLException e) {
-//            System.out.println("The table " + tableName + " does not exist");
-//            System.out.println("Here is the list of existing tables: ");
-//            System.out.println(Arrays.toString(getTableNames()));
-//
-//        }
-//        return result;
-//    }
+
 
 
     public void clear(String tableName) {
