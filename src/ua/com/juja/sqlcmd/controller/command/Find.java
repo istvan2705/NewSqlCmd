@@ -64,14 +64,4 @@ public class Find  implements Command{
         }
         view.write(result);
     }
-
-
-
-//    private void printRows(DataSet[] rows) {
-//        String result = "|";
-//        for (DataSet row : rows) {
-//            result += row + "|";
-//        }
-//        view.write(result);
-//    }
 }
