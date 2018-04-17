@@ -2,8 +2,8 @@ package ua.com.juja.sqlcmd.model;
 
 
 public interface DatabaseManager {
+
     DataSet[] getTableData(String tableName);
-   // String [] getTableRows(String tableName);
 
     String[] getTableNames();
 
