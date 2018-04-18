@@ -50,7 +50,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void deleteTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE public." + tableName);
-            System.out.println("The table has been deleted");
+
 
         } catch (SQLException e) {
             System.out.println("The table " + tableName + " does not exist. Please enter only existing");

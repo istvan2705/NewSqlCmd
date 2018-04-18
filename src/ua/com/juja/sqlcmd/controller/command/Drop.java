@@ -24,9 +24,10 @@ public class Drop implements Command {
             String tableName = data[1];
 
             manager.deleteTable(tableName);
+            view.write("The table has been deleted");
         }
         catch(ArrayIndexOutOfBoundsException e)
-        {  view.write("You have not entered all needed parameters or names of parameters are not correct.");
+        {  view.write("Error entering command, should be like drop|tableName");
         }
     }
     }
