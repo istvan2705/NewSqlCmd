@@ -40,7 +40,7 @@ boolean canProcess = command.canProcess("exit");
          //do nothing
      }
 
-        assertEquals("До скорой встречи!\n", view.getContent());
+        assertEquals("See you soon!\n", view.getContent());
   }
 
 }

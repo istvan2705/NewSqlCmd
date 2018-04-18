@@ -3,11 +3,11 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class DeleteContent implements Command {
+public class Clear implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public DeleteContent(DatabaseManager manager, View view) {
+    public Clear(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -22,11 +22,11 @@ public class DeleteContent implements Command {
         try{   String[] data = command.split("\\|");
             String tableName = data[1];
             manager.clear(tableName);
-
+            view.write("The table's content has been deleted");
         }
         catch(
                 ArrayIndexOutOfBoundsException e){
-            view.write("You did not enter any name of table. Please enter it.");
+            view.write("Error entering command, should be like clear|tableName.");
         }
     }
 }

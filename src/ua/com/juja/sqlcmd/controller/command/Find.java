@@ -27,7 +27,7 @@ public class Find  implements Command{
 
             String[] columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);
-            DataSet[] rows = manager.getTableData(tableName);
+            DataSet[] rows = manager.getTableRows(tableName);
 
           // String[] rows = manager.getTableRows(tableName);
             printTable(rows);

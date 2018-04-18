@@ -79,7 +79,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
     @Override
-    public DataSet[] getTableData(String tableName) {
+    public DataSet[] getTableRows(String tableName) {
         int size = getSize(tableName);
 
         try (Statement stmt = connection.createStatement();
@@ -120,7 +120,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void clear(String tableName) {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM public." + tableName);
-            System.out.println("The table's content has been deleted");
+
         } catch (SQLException e) {
             System.out.println("The table " + tableName + " does not exist.Please enter only existing");
         }
