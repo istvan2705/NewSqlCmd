@@ -10,16 +10,12 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     private Connection connection;
 
-    public void create(String[] data, String tableName) {
+    public void create(DataSet column, String tableName) {
         try (Statement stmt = connection.createStatement()) {
-            DataSet column = new DataSet();
-            for (int i = 2; i < data.length; i++) {
-                column.put(data[i], i);
-            }
             String columnNames = getColumnFormated(column, "%s text NOT NULL, ");
             String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
             stmt.executeUpdate(sql);
-            System.out.println("Table is created");
+
         } catch (SQLException e) {
             System.out.println("Table is already exists");
         }

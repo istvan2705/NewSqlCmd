@@ -11,7 +11,7 @@ public interface DatabaseManager {
 
     void clear(String tableName);
 
-    void create( String [] data,String input);
+    void create( DataSet column,String input);
 
     void update(String tableName, String[] data, String id);
 
