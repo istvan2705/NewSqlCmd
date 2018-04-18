@@ -23,8 +23,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     public boolean tableExist(String tableName) {
         try {
-
-
             boolean tExists = false;
             try (ResultSet rs = connection.getMetaData().getTables(null, null, tableName, null)) {
                 while (rs.next()) {
@@ -46,7 +44,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void deleteTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE public." + tableName);
-
 
         } catch (SQLException e) {
             System.out.println("The table " + tableName + " does not exist. Please enter only existing");
@@ -77,7 +74,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public DataSet[] getTableRows(String tableName) {
         int size = getSize(tableName);
-
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
         {
@@ -109,9 +105,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             return 0;
         }
     }
-
-
-
 
     public void clear(String tableName) {
         try (Statement stmt = connection.createStatement()) {
@@ -150,7 +143,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             if (connection != null) {
                 connection.close();
             }
-
 
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/" + database, user,
