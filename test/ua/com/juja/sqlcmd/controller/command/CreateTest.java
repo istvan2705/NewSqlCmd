@@ -5,12 +5,11 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import javax.xml.crypto.Data;
-
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CreateTest {
     private View view;
@@ -34,10 +33,17 @@ public class CreateTest {
         assertFalse(command.canProcess("create"));
     }
 
+    @Test
+    public void testNotCreateIfExists(){
+    String tableName = "students";
+    when(manager.tableExist(tableName)).thenReturn(true);
+    command.process("create|"+tableName);
+    verify(view).write(String.format("Table '%s' already exists", tableName));
+    }
 
 
     @Test
-    public void testDropWrongParameters() {
+    public void testCreateWrongParameters() {
         try {
             command.process("create");
         } catch (ArrayIndexOutOfBoundsException e) {

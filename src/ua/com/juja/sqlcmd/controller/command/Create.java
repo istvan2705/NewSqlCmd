@@ -30,7 +30,7 @@ public class Create implements Command {
         }
 
             if (manager.tableExist(tableName)) {
-                view.write("The table " + tableName + " is already exists. Please enter new name of table");
+                view.write(String.format("Table '%s' already exists", tableName));
             }
             else{
                 manager.create(columns, tableName);
@@ -38,7 +38,7 @@ public class Create implements Command {
             }
 
         }catch (IndexOutOfBoundsException e) {
-            view.write("Error entering command, should be like create|tableName");
+            view.write("Error entering command, it should be like create|tableName");
         }
 
     }

@@ -13,11 +13,11 @@ public interface DatabaseManager {
 
     void create( DataSet column,String input);
 
-    void update(String tableName, String[] data, String id);
+    void update(String tableName, DataSet data, String id);
 
     String [] getColumnsNames(String tableName);
 
-    void insert(String tableName, String[] data, String key);
+    void insert(String tableName, DataSet set, String key);
 
     void deleteTable(String tableName);
 

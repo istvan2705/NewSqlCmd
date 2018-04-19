@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.model;
 
 import org.postgresql.util.PSQLException;
+import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.*;
 import java.util.Arrays;
@@ -9,6 +10,11 @@ import java.util.Arrays;
 public class JDBCDatabaseManager implements DatabaseManager {
 
     private Connection connection;
+    private View view;
+
+    public JDBCDatabaseManager(View view) {
+        this.view = view;
+    }
 
     public void create(DataSet column, String tableName) {
         try (Statement stmt = connection.createStatement()) {
@@ -17,7 +23,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
-            System.out.println("Table is already exists");
+            view.write(String.format("Table '%s' already exists", tableName));
         }
     }
 
@@ -46,7 +52,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.execute("DROP TABLE public." + tableName);
 
         } catch (SQLException e) {
-            System.out.println("The table " + tableName + " does not exist. Please enter only existing");
+            view.write(String.format("The table '%s' does not exist. Please enter only existing", tableName));
 
         }
     }
@@ -65,7 +71,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
         } catch (SQLException e) {
 
-            System.out.println("List of existing tables: ");
+            view.write("List of existing tables: ");
             getTableNames();
             return new String[0];
 
@@ -111,7 +117,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate("DELETE FROM public." + tableName);
 
         } catch (SQLException e) {
-            System.out.println("The table " + tableName + " does not exist.Please enter only existing");
+            view.write(String.format("The table '%s' does not exist. Please enter only existing", tableName));
         }
     }
 
@@ -136,7 +142,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("Please add jdbc jar to project.");
+            view.write("Please add jdbc jar to project.");
             e.printStackTrace();
         }
         try {
@@ -148,7 +154,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     "jdbc:postgresql://localhost:5432/" + database, user,
                     password);
         } catch (SQLException e) {
-            System.out.println(String.format("Cant get connection for database:%s user:%s", database, user));
+            view.write(String.format("Cant get connection for database:%s user:%s", database, user));
             e.printStackTrace();
             connection = null;
         }
@@ -159,28 +165,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     }
 
-    public void insert(String tableName, String[] data, String constraint) {
+    public void insert(String tableName, DataSet set, String constraint) {
         try (Statement stmt = connection.createStatement()) {
-            DataSet set = new DataSet();
-            for (int i = 2; i < data.length; i++) {
-                set.put(data[i], data[++i]);
-            }
             String columns = getNameFormated(set, "%s,");
             String values = getValuesFormated(set, "'%s',");
             stmt.executeUpdate("INSERT INTO public." + tableName + "(" + columns + ")" +
                     "VALUES (" + values + ")" + " ON CONFLICT " + "(" + constraint + ")" + " DO NOTHING");
+            view.write(String.format("Statement are added into the table '%s'", tableName));
+        }
+         catch (SQLException e) {
+           view.write("The number of entered parameters does not correspond to the number of columns in the table or you have entered wrong names of parameters");
 
-            System.out.println("Statement are added into the table");
-
-        } catch (PSQLException e) {
-            System.out.println("The number of entered parameters does not correspond to the number of columns in the table or you have entered wrong names of parameters");
-        } catch (SQLException e) {
-            System.out.println("The table " + tableName + " does not exists");
-        } catch (StringIndexOutOfBoundsException e) {
-            System.out.println("You have not entered any name of columns. Please enter all columns");
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("You have not specified value for last entered column(parameter). Please enter all columns");
         }
 
 
@@ -203,17 +198,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             }
         } catch (SQLException e) {
-            System.out.println("Please enter existing names of parameters");
+            view.write("You have entered not existing parameters. Please enter only existing");
 
         }
     }
 
+    public void update(String tableName,DataSet set, String id) {
 
-    public void update(String tableName, String[] data, String id) {
-        DataSet set = new DataSet();
-        for (int i = 2; i < data.length - 1; i++) {
-            set.put(data[i], data[++i]);
-        }
         String columns = getNameFormated(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
             int index = 1;
@@ -226,7 +217,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             String a = countUpdatedRows > 0 ? "The row has been updated" : "The row has been not updated. Please enter correct parameters";
             System.out.println(a);
         } catch (SQLException e) {
-            System.out.println("You have entered not existing column. Please enter only existing");
+            view.write("You have entered not existing parameters. Please enter only existing");
         }
     }
 

@@ -27,16 +27,12 @@ public class Find  implements Command{
 
             String[] columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);
-            DataSet[] rows = manager.getTableRows(tableName);
 
-          // String[] rows = manager.getTableRows(tableName);
+            DataSet[] rows = manager.getTableRows(tableName);
             printTable(rows);
 
         }catch (IndexOutOfBoundsException e){
-
-
-            view.write("You did not specify any name any column of the table");
-
+            view.write("Error entering command, it should be like find|tableName");
         }
     }
 

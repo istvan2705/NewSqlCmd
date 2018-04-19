@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -27,6 +28,13 @@ public class Delete implements Command {
 
             if (manager.tableExist(tableName)&& data.length == 4) {
                 manager.deleteRows(tableName, columnName, rowName);
+                String[] columns = manager.getColumnsNames(tableName);
+                printColumnsNames(columns);
+
+                DataSet[] rows = manager.getTableRows(tableName);
+                printTable(rows);
+
+
             }
             else if(data.length > 4){
                 view.write("You have entered more parameters than needed. Please enter only existing");
@@ -44,4 +52,29 @@ public class Delete implements Command {
 
 
     }
+    private void printColumnsNames(String[] columns) {
+        String result ="|";
+        for (String column : columns) {
+            result += column + "|";
+        }
+        view.write("--------------------------");
+        view.write(result);
+        view.write("--------------------------");
+    }
+    private void printTable(DataSet[] tableData) {
+        for (DataSet row : tableData) {
+            printRow(row);
+        }
+        view.write("--------------------");
+    }
+
+    private void printRow(DataSet row) {
+        Object[] values = row.getValues();
+        String result = "|";
+        for (Object value : values) {
+            result += value + "|";
+        }
+        view.write(result);
+    }
+
 }

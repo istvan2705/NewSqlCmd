@@ -47,7 +47,7 @@ public class ClearTest {
         } catch (ArrayIndexOutOfBoundsException e) {
             //do nothing
         }
-        verify(view).write("Error entering command, should be like clear|tableName.");
+        verify(view).write("Error entering command, it should be like clear|tableName.");
     }
 
 
