@@ -69,7 +69,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
             columns = Arrays.copyOf(columns, index, String[].class);
             return columns;
 
-        } catch (SQLException e) {
+        }
+
+        catch (SQLException e) {
+            view.write("The entered table does not exist. Please enter existing");
 
             view.write("List of existing tables: ");
             getTableNames();
@@ -95,7 +98,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            view.write("The entered table does not exist. Please enter existing");
             return new DataSet[0];
         }
     }
@@ -107,7 +110,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             int size = rsCount.getInt(1);
             return size;
         } catch (SQLException e) {
-            e.printStackTrace();
+            view.write("The entered table does not exist. Please enter existing");
             return 0;
         }
     }
@@ -133,7 +136,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             return tables;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            view.write(String.format("The entered table does not exist. Please enter only existing"));
             return new String[0];
         }
     }
