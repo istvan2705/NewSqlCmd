@@ -49,7 +49,7 @@ public class CreateTest {
         } catch (ArrayIndexOutOfBoundsException e) {
             //do nothing
         }
-        verify(view).write("Error entering command, should be like create|tableName");
+        verify(view).write("Error entering command,it should be like create|tableName");
     }
 
 } 
