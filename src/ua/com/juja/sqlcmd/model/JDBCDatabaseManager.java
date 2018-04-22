@@ -76,7 +76,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE public." + tableName);
-
+            view.write("The table has been deleted");
             }
         }
 
@@ -88,6 +88,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         if (data.length != 2 && data.length != 4) {
             view.write(String.format("Error entering command '%s'. Should be " +
                     "'find|tableName' or 'find|tableName|limit|offset'", command));
+
         }
 
         String tableName = data[1];
@@ -97,6 +98,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
         if (data.length == 4) {
             limit = Integer.valueOf(data[2]);
             offset = Integer.valueOf(data[3]);
+
+
         }
         String[] result = null;
         if (limit == null) {

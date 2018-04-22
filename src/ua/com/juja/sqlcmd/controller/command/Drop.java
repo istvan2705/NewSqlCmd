@@ -25,7 +25,7 @@ public class Drop implements Command {
         try {
 
             manager.deleteTable(command);
-            view.write("The table has been deleted");
+
         }
         catch(SQLException e){
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
