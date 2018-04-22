@@ -4,6 +4,7 @@ import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 
@@ -24,7 +25,14 @@ public class List implements Command {
 
     @Override
     public void process(String command) {
-        String [] tables = manager.getTableNames();
-        view.write(Arrays.toString(tables));
+        try {
+            view.write(format(manager.getTableNames()));
+        } catch (SQLException e) {
+            view.write(String.format("Can not execute command: %s",
+                    e.getMessage()));
+        }
+    }
+    private String format(String[] tables) {
+        return Arrays.toString(tables);
     }
 }

@@ -14,7 +14,7 @@ public class JDBCDatabaseManagerTest {
 
 
        private DatabaseManager manager;
-    View view;
+       private View view;
 
     public JDBCDatabaseManagerTest(View view) {
         this.view = view;
@@ -28,7 +28,7 @@ public class JDBCDatabaseManagerTest {
         }
 
         @Test
-        public void testGetAllTableNames() {
+        public void testGetAllTableNames() throws SQLException {
             String[] tableNames = manager.getTableNames();
             assertEquals("[teachers, students, workers]", Arrays.toString(tableNames));
         }

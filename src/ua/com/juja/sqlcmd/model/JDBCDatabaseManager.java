@@ -15,7 +15,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public JDBCDatabaseManager(View view) {
         this.view = view;
     }
-
+        @Override
     public void create(String command) throws SQLException {
         String[] data = command.split("\\|");
         if (data.length < 4) {
@@ -68,7 +68,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
         String [] data = command.split("\\|");
         if (data.length != 2) {
-            view.write(String.format("Error entering command, it should be'drop|tableName"));
+            view.write(String.format("Error entering command '%s', it should be'drop|tableName", command));
             return;
         }
 
@@ -81,69 +81,85 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
 
 
-    public String[] getColumnsNames(String tableName) {
-        try {
-            DatabaseMetaData metadata = connection.getMetaData();
-            ResultSet resultSet = metadata.getColumns(null, null, tableName, null);
-            String[] columns = new String[100];//todo magic number
-            int index = 0;
-            while (resultSet.next()) {
-                columns[index++] = resultSet.getString("COLUMN_NAME");
-            }
-            columns = Arrays.copyOf(columns, index, String[].class);
-            return columns;
-
-        }
-
-        catch (SQLException e) {
-            view.write("The entered table does not exist. Please enter existing");
-
-            view.write("List of existing tables: ");
-            getTableNames();
-            return new String[0];
-
-        }
-    }
     @Override
-    public DataSet[] getTableRows(String tableName) {
-        int size = getSize(tableName);
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
-        {
-            ResultSetMetaData rsmd = rs.getMetaData();
-            DataSet[] result = new DataSet[size];
-            int index = 0;
-            while (rs.next()) {
-                DataSet dataSet = new DataSet();
-                result[index++] = dataSet;
-                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
-                }
+    public String[] getTableData(String command) throws SQLException {
+        String[] data = command.split("\\|");
+
+        if (data.length != 2 && data.length != 4) {
+            view.write(String.format("Error entering command '%s'. Should be " +
+                    "'find|tableName' or 'find|tableName|limit|offset'", command));
+        }
+
+        String tableName = data[1];
+
+        Integer limit = null;
+        Integer offset = null;
+        if (data.length == 4) {
+            limit = Integer.valueOf(data[2]);
+            offset = Integer.valueOf(data[3]);
+        }
+        String[] result = null;
+        if (limit == null) {
+            result = new String[1000];
+        } else {
+            result = new String[limit];
+        }
+
+        try (Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            String limitOffsetSubQuery = "";
+            if (limit != null) {
+                limitOffsetSubQuery = " LIMIT " + limit + " OFFSET " + offset;
             }
-            return result;
-        } catch (SQLException e) {
-            view.write("The entered table does not exist. Please enter existing");
-            return new DataSet[0];
+
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM public." + tableName + limitOffsetSubQuery);
+            int columnsCount = resultSet.getMetaData().getColumnCount();
+
+            result[0] = toCSV(getColumnNames(resultSet));
+
+            int rowIndex = 1;
+            while (resultSet.next() && rowIndex < 1000) {
+                String[] rowData = new String[columnsCount];
+                for (int columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
+                    rowData[columnIndex] = resultSet.getString(columnIndex + 1);
+                }
+
+                result[rowIndex] = toCSV(rowData);
+                rowIndex++;
+            }
+
+
+            result = Arrays.copyOf(result, rowIndex);
+
+            resultSet.close();
         }
+        return result;
     }
 
-    private int getSize(String tableName) {
-        try (Statement stmt = connection.createStatement();
-             ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName)) {
-            rsCount.next();
-            int size = rsCount.getInt(1);
-            return size;
-        } catch (SQLException e) {
-            view.write("The entered table does not exist. Please enter existing");
-            return 0;
+    private String toCSV(String[] array) {
+        StringBuilder buffer = new StringBuilder();
+        for (String element : array) {
+            buffer.append(element).append(',');
         }
+        String result = buffer.toString();
+        return result.substring(0, result.length() - 1);
     }
 
+    private String[] getColumnNames(ResultSet resultSet) throws SQLException {
+        String[] result = new String[resultSet.getMetaData().getColumnCount()];
+        for (int index = 0; index < result.length; index++) {
+            result[index] = resultSet.getMetaData().getColumnName(index + 1);
+        }
+        return result;
+    }
+
+
+
+    @Override
     public void clear(String command) throws SQLException {
 
         String [] data = command.split("\\|");
         if (data.length != 2) {
-            view.write(String.format("Error entering command, it should be'clear|tableName"));
+            view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
             return;
         }
 
@@ -156,7 +172,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-    public String[] getTableNames() {
+    public String[] getTableNames() throws SQLException{
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
             String[] tables = new String[100]; //TODO magic number
@@ -167,9 +183,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             tables = Arrays.copyOf(tables, index, String[].class);
             return tables;
 
-        } catch (SQLException e) {
-            view.write(String.format("The entered table does not exist. Please enter only existing"));
-            return new String[0];
         }
     }
 
@@ -191,45 +204,72 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     }
 
-    public void insert(String tableName, DataSet set, String constraint) {
+    public void insert(String command) throws SQLException  {
+        String[] data = command.split("\\|");
+
+
+        if (data.length < 6 || data.length %2 == 1) {
+            view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
+            return;
+        }
+        String tableName =  data[1];
+        String primaryKey = data[2];
+         DataSet set = new DataSet();
+        for (int i = 2; i < data.length; i++) {
+        set.put(data[i], data[++i]);
+          }
+
         try (Statement stmt = connection.createStatement()) {
             String columns = getNameFormated(set, "%s,");
             String values = getValuesFormated(set, "'%s',");
-            stmt.executeUpdate("INSERT INTO public." + tableName + "(" + columns + ")" +
-                    "VALUES (" + values + ")" + " ON CONFLICT " + "(" + constraint + ")" + " DO NOTHING");
+           stmt.executeUpdate("INSERT INTO public." + tableName + "(" + columns + ")" +
+                    "VALUES (" + values + ")" + " ON CONFLICT " + "(" + primaryKey + ")" + " DO NOTHING");
+
             view.write(String.format("Statement are added into the table '%s'", tableName));
         }
          catch (SQLException e) {
-           view.write("The number of entered parameters does not correspond to the number of columns in the table or you have entered wrong names of parameters");
+           view.write("Error entering command");
 
         }
 
 
     }
 
-    public void deleteRows(String tableName, String columnName, String rowName) {
-        try (Statement stmt = connection.createStatement();
+    public void deleteRows(String command) throws SQLException  {
+        String[] data = command.split("\\|");
+
+        if (data.length != 4) {
+            view.write(String.format("Erorr entering command '%s'. Should be delete|tableName|column|value", command));
+            return;
+        }
+        String tableName = data[1];
+        String columnName = data[2];
+        String rowName = data[3];
+
+
+        try (Statement stmt = connection.createStatement()){
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName);
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")) {
-            ResultSetMetaData rm = rs.getMetaData();
+             PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?");
 
-            for (int i = 1; i <= rm.getColumnCount(); i++) {
+                ResultSetMetaData rm = rs.getMetaData();
 
-                if (columnName.equals(rm.getColumnName(i))) {
-                    ps.setString(1, rowName);
-                    int countUpdatedRows = ps.executeUpdate();
-                    String a = countUpdatedRows > 0 ? "The row has been deleted" : "The row has been not deleted. Please enter correct parameters";
-                    System.out.println(a);
+                for (int i = 1; i <= rm.getColumnCount(); i++) {
+
+                    if (columnName.equals(rm.getColumnName(i))) {
+                        ps.setString(1, rowName);
+                        int countUpdatedRows = ps.executeUpdate();
+                        String a = countUpdatedRows > 0 ? "The row has been deleted" : "The row has been not deleted. Please enter correct parameters";
+                        System.out.println(a);
+                    }
                 }
 
-            }
         } catch (SQLException e) {
-            view.write("You have entered not existing parameters. Please enter only existing");
+            view.write(String.format("The table '%s' does not exist", tableName));
 
         }
     }
     @Override
-    public void update(String command) throws SQLException {
+    public void update(String command) throws SQLException  {
         String[] data = command.split("\\|");
 
 
@@ -258,8 +298,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             view.write(result);
         } catch (SQLException e) {
             view.write("Error entering command");
-            return;
-        }
+                   }
    }
 
 

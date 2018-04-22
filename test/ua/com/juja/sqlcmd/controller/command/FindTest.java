@@ -10,6 +10,8 @@ import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 public class FindTest {
@@ -25,10 +27,11 @@ public class FindTest {
     }
 
     @Test
-    public void testFind(){
+    public void testFind()  {
 
     Command command = new Find(manager, view);
-   when(manager.getColumnsNames("teachers")).thenReturn(new String[] {"id", "surname", "subject", "city"} );
+
+ //  when(manager.getTableData("find|teachers").thenReturn(new String[] {"id", "surname", "subject", "city"} );
 
  //connect|Academy|postgres|1401198n when(manager.getTableRows("teachers")).thenReturn(new String[]{"1", "Petrov", "Math", "Lviv"});
 
@@ -38,7 +41,7 @@ public class FindTest {
     verify(view, atLeastOnce()).write(captor.capture());
     assertEquals(
     "[--------------------------, "+
-            "|id|surname|subject|city|, "+
+            "|id|surname|subject|city|,nt "+
             "--------------------------, "+
             "|1|Petrov|Math|Lviv|]",captor.getAllValues().toString());
     }

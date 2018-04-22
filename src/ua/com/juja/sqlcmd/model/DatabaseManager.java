@@ -5,9 +5,7 @@ import java.sql.SQLException;
 
 public interface DatabaseManager {
 
-    DataSet[] getTableRows(String tableName);
-
-    String[] getTableNames();
+    String[] getTableData(String command) throws SQLException;
 
     void connect(String database, String userName, String password) throws SQLException;
 
@@ -17,13 +15,13 @@ public interface DatabaseManager {
 
     void update(String command) throws SQLException;
 
-    String [] getColumnsNames(String tableName);
+    String [] getTableNames() throws SQLException;
 
-    void insert(String tableName, DataSet set, String key);
+    void insert(String command) throws SQLException;
 
     void deleteTable(String tableName) throws SQLException;
 
-    void deleteRows(String tableName, String columnName, String rowName);
+    void deleteRows(String command) throws SQLException;
 
     boolean tableExist( String tableName);
 
