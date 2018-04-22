@@ -1,7 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
+import java.sql.SQLException;
 
 public class Drop implements Command {
    private DatabaseManager manager;
@@ -20,14 +23,12 @@ public class Drop implements Command {
     @Override
     public void process(String command) {
         try {
-            String[] data = command.split("\\|");
-            String tableName = data[1];
 
-            manager.deleteTable(tableName);
+            manager.deleteTable(command);
             view.write("The table has been deleted");
         }
-        catch(ArrayIndexOutOfBoundsException e)
-        {  view.write("Error entering command, should be like drop|tableName");
+        catch(SQLException e){
+            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }
     }
     }

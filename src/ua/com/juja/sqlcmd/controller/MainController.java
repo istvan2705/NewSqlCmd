@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller;
 
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -9,7 +10,7 @@ public class MainController {
 
     private View view;
     private DatabaseManager manager;
-    private Command [] commands;
+    private Command[] commands;
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
@@ -33,7 +34,7 @@ public class MainController {
 
     public void run() {
         view.write("Hello user!");
-        view.write("Please enter name of database, username and password in a format: connect|database|userName|password");
+        view.write("Please enter database, username and password in a format: connect|database|userName|password");
 
         while (true) {
             String input = view.read();

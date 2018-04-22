@@ -1,7 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
+import java.sql.SQLException;
 
 public class Clear implements Command {
     private DatabaseManager manager;
@@ -19,14 +22,12 @@ public class Clear implements Command {
 
     @Override
     public void process(String command) {
-        try{   String[] data = command.split("\\|");
-            String tableName = data[1];
-            manager.clear(tableName);
-            view.write("The table's content has been deleted");
-        }
-        catch(
-                ArrayIndexOutOfBoundsException e){
-            view.write("Error entering command, should be like clear|tableName.");
+        try{
+            manager.clear(command);
+          }
+        catch (SQLException e) {
+            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
+
         }
     }
 }

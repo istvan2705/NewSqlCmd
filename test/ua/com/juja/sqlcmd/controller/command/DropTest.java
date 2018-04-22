@@ -2,8 +2,11 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
+import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -33,10 +36,10 @@ public class DropTest {
     }
 
     @Test
-    public void testDropTableProcess() {
+    public void testDropTableProcess() throws SQLException {
         String tableName = "students";
         command.process("drop|" + tableName);
-        verify(manager).deleteTable(tableName);
+        verify(manager).deleteTable("drop|" + tableName);
         verify(view).write("The table has been deleted");
     }
 

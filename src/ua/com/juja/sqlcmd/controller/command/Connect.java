@@ -1,7 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
+import java.sql.SQLException;
 
 public class Connect implements Command {
     private static String COMMAND = "connect|Academy|postgres|1401198n";
@@ -23,17 +26,18 @@ public class Connect implements Command {
 
         String[] data = command.split("\\|");
         if (data.length != parametersLength()) {
-            throw new IllegalArgumentException(String.format("You have entered not correct quantity of parameters, separated by symbol '|', waiting %s, and there is: %s ", parametersLength(), data.length));
+            throw new IllegalArgumentException("Error entering command, should be 'connect|database|username|password'");
         }
         String databaseName = data[1];
         String userName = data[2];
         String password = data[3];
-
-        manager.connect(databaseName, userName, password);
-        view.write("You have login successfully!");
-
+        try {
+            manager.connect(databaseName, userName, password);
+            view.write(String.format("You have login to database '%s' successfully!", databaseName));
+        } catch (SQLException e) {
+            view.write(String.format("The connection to database '%s' for user '%s' is failed due to'%s'", databaseName, userName, e.getMessage()));
+        }
     }
-
     private int parametersLength() {
         return COMMAND.split("\\|").length;
     }

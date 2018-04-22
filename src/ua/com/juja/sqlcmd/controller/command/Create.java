@@ -1,12 +1,15 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
+
 public class Create implements Command {
-  private  DatabaseManager manager;
-  private View view;
+    private DatabaseManager manager;
+    private View view;
 
     public Create(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -20,25 +23,12 @@ public class Create implements Command {
 
     @Override
     public void process(String command) {
-        String[] data = command.split("\\|");
 
         try {
-        String tableName = data[1];
-        DataSet columns = new DataSet();
-        for (int i = 2; i < data.length; i++) {
-            columns.put(data[i], i);
-        }
+            manager.create(command);
 
-            if (manager.tableExist(tableName)) {
-                view.write(String.format("Table '%s' already exists", tableName));
-            }
-            else{
-                manager.create(columns, tableName);
-               view.write("Table has been created");
-            }
-
-        }catch (IndexOutOfBoundsException e) {
-            view.write("Error entering command, it should be like create|tableName");
+        } catch (SQLException e) {
+            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }
 
     }

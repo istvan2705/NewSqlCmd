@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -20,7 +21,7 @@ public class JDBCDatabaseManagerTest {
     }
 
     @Before
-        public void setup() {
+        public void setup() throws SQLException {
 
             manager = new JDBCDatabaseManager(view);
             manager.connect("Academy", "postgres", "1401198n");

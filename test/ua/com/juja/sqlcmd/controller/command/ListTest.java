@@ -7,10 +7,9 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
-
-import java.util.Arrays;
 
 
 public class ListTest {

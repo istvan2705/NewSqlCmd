@@ -1,8 +1,9 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Help implements Command{
+public class Help implements Command {
     private View view;
 
     public Help(View view) {

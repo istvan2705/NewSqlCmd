@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Test;
+import ua.com.juja.sqlcmd.Command;
 
 import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertEquals;

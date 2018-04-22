@@ -16,17 +16,33 @@ public class JDBCDatabaseManager implements DatabaseManager {
         this.view = view;
     }
 
-    public void create(DataSet column, String tableName) {
-        try (Statement stmt = connection.createStatement()) {
-            String columnNames = getColumnFormated(column, "%s text NOT NULL, ");
-            String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
-            stmt.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            view.write(String.format("Table '%s' already exists", tableName));
+    public void create(String command) throws SQLException {
+        String[] data = command.split("\\|");
+        if (data.length < 4) {
+            view.write(String.format("Error entering command '%s'. Should be 'create|tableName|column1|column2|...|columnN", command));
+            return;
         }
-    }
 
+        String tableName = data[1];
+        DataSet columns = new DataSet();
+        for (int i = 2; i < data.length; i++) {
+            columns.put(data[i], i);
+        }
+        boolean tableExist = tableExist(tableName);
+
+        if (!tableExist) {
+            try (Statement stmt = connection.createStatement()) {
+                String columnNames = getColumnFormated(columns, "%s text NOT NULL, ");
+                String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
+                stmt.executeUpdate(sql);
+            }
+            view.write(String.format("The table '%s' has been created", tableName));
+        } else {
+            view.write(String.format("The table '%s' already exist", tableName));
+
+        }
+
+    }
     public boolean tableExist(String tableName) {
         try {
             boolean tExists = false;
@@ -46,16 +62,24 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
 
     }
+        @Override
+    public void deleteTable(String command) throws SQLException {
 
-    public void deleteTable(String tableName) {
+
+        String [] data = command.split("\\|");
+        if (data.length != 2) {
+            view.write(String.format("Error entering command, it should be'drop|tableName"));
+            return;
+        }
+
+        String tableName = data[1];
+
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE public." + tableName);
 
-        } catch (SQLException e) {
-            view.write(String.format("The table '%s' does not exist. Please enter only existing", tableName));
-
+            }
         }
-    }
+
 
     public String[] getColumnsNames(String tableName) {
         try {
@@ -115,12 +139,20 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-    public void clear(String tableName) {
+    public void clear(String command) throws SQLException {
+
+        String [] data = command.split("\\|");
+        if (data.length != 2) {
+            view.write(String.format("Error entering command, it should be'clear|tableName"));
+            return;
+        }
+
+        String tableName = data[1];
+
+
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM public." + tableName);
-
-        } catch (SQLException e) {
-            view.write(String.format("The table '%s' does not exist. Please enter only existing", tableName));
+            view.write(String.format("The content of table '%s' has been deleted", tableName));
         }
     }
 
@@ -141,27 +173,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-    public void connect(String database, String user, String password) {
+    public void connect(String database, String user, String password) throws SQLException  {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            view.write("Please add jdbc jar to project.");
-            e.printStackTrace();
-        }
-        try {
-            if (connection != null) {
-                connection.close();
-            }
+           throw new SQLException("Please add jdbc jar to project.", e);
 
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/" + database, user,
-                    password);
-        } catch (SQLException e) {
-            view.write(String.format("Cant get connection for database:%s user:%s", database, user));
-            e.printStackTrace();
-            connection = null;
         }
-    }
+         connection = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/" + database, user,
+           password);
+        }
+
 
     public boolean isConnected() {
         return connection != null;
@@ -205,10 +228,24 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
         }
     }
+    @Override
+    public void update(String command) throws SQLException {
+        String[] data = command.split("\\|");
 
-    public void update(String tableName,DataSet set, String id) {
 
-        String columns = getNameFormated(set, "%s = ?,");
+        if (data.length < 6 || data.length %2 == 1) {
+        view.write(String.format("Error entering command '%s'. Should be 'update|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
+        return;
+        }
+        String tableName = data[1];
+        DataSet set = new DataSet();
+        for (int i = 2; i < data.length - 1; i++) {
+            set.put(data[i], data[++i]);
+        }
+        String id = data[3];
+
+
+       String columns = getNameFormated(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
             int index = 1;
             for (Object value : set.getValues()) {
@@ -217,12 +254,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
             ps.setString(index, id);
             int countUpdatedRows = ps.executeUpdate();
-            String a = countUpdatedRows > 0 ? "The row has been updated" : "The row has been not updated. Please enter correct parameters";
-            System.out.println(a);
+            String result = countUpdatedRows > 0 ? "The row has been updated" : "The row has been not updated. Please enter correct parameters";
+            view.write(result);
         } catch (SQLException e) {
-            view.write("You have entered not existing parameters. Please enter only existing");
+            view.write("Error entering command");
+            return;
         }
-    }
+   }
 
 
     private String getNameFormated(DataSet name, String format) {

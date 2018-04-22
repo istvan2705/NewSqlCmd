@@ -2,8 +2,12 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
+import java.sql.SQLException;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
@@ -32,11 +36,11 @@ public class ClearTest {
     }
 
     @Test
-    public void testClearTableProcess() {
+    public void testClearTableProcess() throws SQLException {
         String tableName = "users";
 
         command.process("clear|" + tableName);
-        verify(manager).clear(tableName);
+        verify(manager).clear("clear|" + tableName);
         verify(view).write("The table's content has been deleted");
     }
 
