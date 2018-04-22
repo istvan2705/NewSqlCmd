@@ -85,7 +85,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public String[] getTableData(String command) throws SQLException {
         String[] data = command.split("\\|");
 
-        if (data.length != 2 && data.length != 4) {
+        if (data.length != 2 || data.length != 4) {
             view.write(String.format("Error entering command '%s'. Should be " +
                     "'find|tableName' or 'find|tableName|limit|offset'", command));
 
