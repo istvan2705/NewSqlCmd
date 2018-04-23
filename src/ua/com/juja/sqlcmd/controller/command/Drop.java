@@ -23,9 +23,16 @@ public class Drop implements Command {
     @Override
     public void process(String command) {
         try {
+            String [] data = command.split("\\|");
+            if (data.length != 2) {
+                view.write(String.format("Error entering command '%s', it should be'drop|tableName", command));
+                return;
+            }
 
-            manager.deleteTable(command);
+            String tableName = data[1];
 
+            manager.deleteTable(tableName);
+            view.write("The table has been deleted");
         }
         catch(SQLException e){
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));

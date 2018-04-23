@@ -37,6 +37,8 @@ public class Connect implements Command {
         } catch (SQLException e) {
             view.write(String.format("The connection to database '%s' for user '%s' is failed due to'%s'", databaseName, userName, e.getMessage()));
         }
+
+
     }
     private int parametersLength() {
         return COMMAND.split("\\|").length;

@@ -27,7 +27,24 @@ public class Update implements Command {
 
 
         try {
-           manager.update(command);
+            String[] data = command.split("\\|");
+
+
+            if (data.length < 6 || data.length %2 == 1) {
+                view.write(String.format("Error entering command '%s'. Should be 'update|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
+                return;
+            }
+            String tableName = data[1];
+            DataSet set = new DataSet();
+            for (int i = 2; i < data.length - 1; i++) {
+                set.put(data[i], data[++i]);
+            }
+            String id = data[3];
+
+
+           manager.update(tableName, id, set);
+            view.write("The row has been updated");
+
              }
              catch (SQLException e) {
                  view.write(String.format("Can not execute command  due to: %s", e.getMessage()));

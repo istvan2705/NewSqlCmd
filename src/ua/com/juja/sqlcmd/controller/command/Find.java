@@ -24,10 +24,24 @@ public class Find  implements Command {
 
     @Override
     public void process(String command) {
-
-
         try {
-            String[] tableData = manager.getTableData(command);
+            String[] data = command.split("\\|");
+
+            if (data.length != 2 && data.length != 4) {
+                view.write(String.format("Error entering command '%s'. Should be " +
+                        "'find|tableName' or 'find|tableName|limit|offset'", command));
+                    return;
+            }
+            String tableName = data[1];
+
+            Integer limit = null;
+            Integer offset = null;
+            if (data.length == 4) {
+                limit = Integer.valueOf(data[2]);
+                offset = Integer.valueOf(data[3]);
+            }
+
+            String[] tableData = manager.getTableData(tableName, limit, offset);
             view.write(formatTable(tableData));
 
         } catch (SQLException e) {

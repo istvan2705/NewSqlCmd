@@ -25,8 +25,21 @@ public class Delete implements Command {
     public void process(String command) {
 
         try{
-            manager.deleteRows(command);
+            String[] data = command.split("\\|");
+
+            if (data.length != 4) {
+                view.write(String.format("Erorr entering command '%s'. Should be delete|tableName|column|value", command));
+                return;
             }
+            String tableName = data[1];
+            String columnName = data[2];
+            String rowName = data[3];
+
+            manager.deleteRows(tableName, columnName, rowName);
+           view.write("The row has been deleted");
+
+            }
+
           catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }
