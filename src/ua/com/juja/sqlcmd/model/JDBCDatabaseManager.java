@@ -8,16 +8,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     private Connection connection;
 
-        @Override
-    public void create(String tableName, DataSet columns) throws SQLException {
 
+   @Override
+    public void create(String tableName, DataSet columns) throws SQLException {
             try (Statement stmt = connection.createStatement()) {
                 String columnNames = getColumnFormated(columns, "%s text NOT NULL, ");
                 String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
                 stmt.executeUpdate(sql);
             }
-    }
+         }
 
+
+    @Override
     public boolean tableExist(String tableName) throws SQLException {
         try {
             boolean tExists = false;
@@ -37,7 +39,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
 
     }
-        @Override
+    @Override
     public void deleteTable(String tableName) throws SQLException {
             try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE public." + tableName);
@@ -107,6 +109,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
+    @Override
     public String[] getTableNames() throws SQLException{
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
@@ -121,6 +124,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
+    @Override
     public void connect(String database, String user, String password) throws SQLException  {
         try {
             Class.forName("org.postgresql.Driver");
@@ -139,9 +143,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     }
 
+    @Override
     public void insert(String tableName,DataSet set, String primaryKey) throws SQLException  {
-
-
         try (Statement stmt = connection.createStatement()) {
             String columns = getNameFormated(set, "%s,");
             String values = getValuesFormated(set, "'%s',");
@@ -150,14 +153,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
                }
         }
 
+    @Override
     public void deleteRows(String tableName,String columnName, String rowName) throws SQLException  {
-
-        try (Statement stmt = connection.createStatement()){
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?");
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")){
              ps.setString(1, rowName);
             ps.executeUpdate();
                     }
                 }
+
+
     @Override
     public void update(String tableName, String id, DataSet set) throws SQLException  {
        String columns = getNameFormated(set, "%s = ?,");
