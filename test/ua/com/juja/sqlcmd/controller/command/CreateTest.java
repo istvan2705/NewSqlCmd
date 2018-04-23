@@ -9,9 +9,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 
-import static java.util.AbstractMap.eq;
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
