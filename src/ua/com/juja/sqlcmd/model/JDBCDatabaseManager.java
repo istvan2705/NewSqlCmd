@@ -172,6 +172,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, id);
+            ps.executeUpdate();
         }
    }
 
