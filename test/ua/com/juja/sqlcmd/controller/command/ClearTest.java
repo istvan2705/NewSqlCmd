@@ -37,11 +37,11 @@ public class ClearTest {
 
     @Test
     public void testClearTableProcess() throws SQLException {
-        String tableName = "users";
+        String tableName = "teachers";
 
         command.process("clear|" + tableName);
-        verify(manager).clear("clear|" + tableName);
-        verify(view).write("The table's content has been deleted");
+        verify(manager).clear( tableName);
+        verify(view).write(String.format("The content of table '%s' has been deleted", tableName));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ClearTest {
         } catch (ArrayIndexOutOfBoundsException e) {
             //do nothing
         }
-        verify(view).write("Error entering command, it should be like clear|tableName.");
+        verify(view).write("Error entering command 'clear', it should be'clear|tableName");
     }
 
 

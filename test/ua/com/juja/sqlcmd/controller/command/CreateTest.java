@@ -3,12 +3,15 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.Command;
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 
+import static java.util.AbstractMap.eq;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -48,11 +51,21 @@ public class CreateTest {
     @Test
     public void testCreateWrongParameters() {
         try {
-            command.process("create");
-        } catch (ArrayIndexOutOfBoundsException e) {
+            String[] data = "create|employees|id|surname".split("\\|");
+            String tableName = data[1];
+            DataSet columns = new DataSet();
+            for (int i = 2; i < data.length; i++) {
+                columns.put(data[i], i);
+            }
+
+            command.process("create" + tableName + columns);
+            verify(manager).create(tableName, columns);
+            verify(view).write(String.format("The table '%s' has been created", tableName));
+        } catch (SQLException e) {
             //do nothing
         }
-        verify(view).write("Error entering command,it should be like create|tableName");
+
+
     }
 
 } 
