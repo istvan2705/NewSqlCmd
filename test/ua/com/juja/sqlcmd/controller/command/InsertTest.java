@@ -12,6 +12,8 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
+
 
 public class InsertTest {
 
@@ -37,7 +39,7 @@ public class InsertTest {
         assertFalse(command.canProcess("insert"));
     }
     @Test
-    public void testInsertIfWrongParameter() {
+    public void testInsertIfWrongParameter() throws SQLException {
         String tableName = "wrongParameter";
         when(manager.tableExist(tableName)).thenReturn(false);
         command.process("insert|" + tableName);
@@ -46,7 +48,7 @@ public class InsertTest {
 
     }
     @Test
-    public void testInsertIfCorrectParameters(){
+    public void testInsertIfCorrectParameters() throws SQLException {
      String tableName = "teachers";
      String key = "id";
      DataSet set = new DataSet();
@@ -54,9 +56,9 @@ public class InsertTest {
      set.put("surname", "Ivanov");
      set.put("subject", "History");
      set.put("city", "Lviv");
-     when(manager.tableExist("teachers")).thenReturn(true);
+
      command.process("insert|teachers|id|3|surname|Ivanov|subject|History|city|Lviv");
-   //     verify(manager).insert(eq(tableName), any(DataSet.class), eq(key));
+        verify(manager).insert(tableName,set, key);
      verify(view).write(String.format("Statement are added into the table '%s'", tableName));
 
 

@@ -23,7 +23,7 @@ public class JDBCDatabaseManagerTest {
     @Before
         public void setup() throws SQLException {
 
-            manager = new JDBCDatabaseManager(view);
+            manager = new JDBCDatabaseManager();
             manager.connect("Academy", "postgres", "1401198n");
         }
 

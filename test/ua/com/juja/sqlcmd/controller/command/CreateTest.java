@@ -6,6 +6,8 @@ import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
@@ -35,9 +37,9 @@ public class CreateTest {
     }
 
     @Test
-    public void testNotCreateIfExists(){
+    public void testNotCreateIfExists() throws SQLException{
     String tableName = "students";
-    when(manager.tableExist(tableName)).thenReturn(true);
+    when(!manager.tableExist(tableName)).thenReturn(true);
     command.process("create|"+tableName);
     verify(view).write(String.format("Table '%s' already exists", tableName));
     }
