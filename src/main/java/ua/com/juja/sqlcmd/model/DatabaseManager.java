@@ -2,10 +2,14 @@ package ua.com.juja.sqlcmd.model;
 
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Set;
 
 public interface DatabaseManager {
 
-    String[] getTableData(String tableName, Integer limit, Integer offset) throws SQLException;
+    List<DataSet> getTableRows(String tableName) throws SQLException;
+
+    Set<String> getColumnsNames(String tableName) throws SQLException;
 
     void connect(String database, String userName, String password) throws SQLException;
 
@@ -15,7 +19,7 @@ public interface DatabaseManager {
 
     void update(String tableName, String id, DataSet set) throws SQLException;
 
-    String [] getTableNames() throws SQLException;
+    Set<String> getTableNames() throws SQLException;
 
     void insert(String tableName,DataSet set, String primaryKey) throws SQLException;
 

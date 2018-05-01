@@ -1,7 +1,7 @@
 package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
-import java.util.Arrays;
+import java.util.*;
 
 
 public class JDBCDatabaseManager implements DatabaseManager {
@@ -47,60 +47,34 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
 
     @Override
-    public String[] getTableData(String tableName, Integer limit, Integer offset) throws SQLException {
+    public Set<String> getColumnsNames(String tableName) throws SQLException {
+       Set<String> columns = new LinkedHashSet<>();
+            DatabaseMetaData metadata = connection.getMetaData();
+        try (
+            ResultSet resultSet = metadata.getColumns(null, null, tableName, null)){
 
-        String[] result = null;
-        if (limit == null) {
-            result = new String[1000];
-        } else {
-            result = new String[limit];
-        }
-
-        try (Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-            String limitOffsetSubQuery = "";
-            if (limit != null) {
-                limitOffsetSubQuery = " LIMIT " + limit + " OFFSET " + offset;
+            while (resultSet.next()) {
+                columns.add(resultSet.getString("COLUMN_NAME"));
             }
-
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM public." + tableName + limitOffsetSubQuery);
-            int columnsCount = resultSet.getMetaData().getColumnCount();
-
-            result[0] = toCSV(getColumnNames(resultSet));
-
-            int rowIndex = 1;
-            while (resultSet.next() && rowIndex < 1000) {
-                String[] rowData = new String[columnsCount];
-                for (int columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
-                    rowData[columnIndex] = resultSet.getString(columnIndex + 1);
+            return columns;
+        }
+    }
+    @Override
+    public List<DataSet> getTableRows(String tableName) throws SQLException {
+        List<DataSet> set = new LinkedList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            while (rs.next()) {
+                DataSet dataSet = new DataSet();
+                set.add(dataSet);
+                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
-
-                result[rowIndex] = toCSV(rowData);
-                rowIndex++;
             }
-            result = Arrays.copyOf(result, rowIndex);
-
-            resultSet.close();
+            return set;
         }
-        return result;
     }
-
-    private String toCSV(String[] array) {
-        StringBuilder buffer = new StringBuilder();
-        for (String element : array) {
-            buffer.append(element).append(',');
-        }
-        String result = buffer.toString();
-        return result.substring(0, result.length() - 1);
-    }
-
-    private String[] getColumnNames(ResultSet resultSet) throws SQLException {
-        String[] result = new String[resultSet.getMetaData().getColumnCount()];
-        for (int index = 0; index < result.length; index++) {
-            result[index] = resultSet.getMetaData().getColumnName(index + 1);
-        }
-        return result;
-    }
-
     @Override
     public void clear(String tableName) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
@@ -110,16 +84,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String[] getTableNames() throws SQLException{
+    public Set<String> getTableNames() throws SQLException{
+       Set<String> columns = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
-            String[] tables = new String[100]; //TODO magic number
-            int index = 0;
+
             while (rs.next()) {
-                tables[index++] = rs.getString("table_name");
+                columns.add(rs.getString("table_name"));
             }
-            tables = Arrays.copyOf(tables, index, String[].class);
-            return tables;
+
+            return columns;
 
         }
     }
