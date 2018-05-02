@@ -7,6 +7,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,8 +30,8 @@ public class JDBCDatabaseManagerTest {
 
         @Test
         public void testGetAllTableNames() throws SQLException {
-            String[] tableNames = manager.getTableNames();
-            assertEquals("[teachers, students, workers]", Arrays.toString(tableNames));
+            Set<String> tableNames = manager.getTableNames();
+            assertEquals("[teachers, students, workers]", tableNames.toString());
         }
 
 

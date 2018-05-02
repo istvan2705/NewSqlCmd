@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Set;
 
 
 public class List implements Command {
@@ -32,7 +33,7 @@ public class List implements Command {
                     e.getMessage()));
         }
     }
-    private String format(String[] tables) {
-        return Arrays.toString(tables);
+    private String format(Set<String> tables) {
+        return tables.toString();
     }
 }

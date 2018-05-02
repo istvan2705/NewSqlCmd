@@ -12,6 +12,9 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 public class ListTest {
@@ -27,7 +30,7 @@ private View view;
 @Test
  public void testListTables() throws SQLException{
     Command command = new List(manager, view);
-    when(manager.getTableNames()).thenReturn(new String[]{"teachers", "students"});
+    when(manager.getTableNames()).thenReturn(new LinkedHashSet<>(Arrays.asList("teachers", "students")));
 
     command.process("list");
 

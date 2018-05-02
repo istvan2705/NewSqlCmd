@@ -38,15 +38,7 @@ public class InsertTest {
     public void testInsertCanProcessError() {
         assertFalse(command.canProcess("insert"));
     }
-    @Test
-    public void testInsertIfWrongParameter() throws SQLException {
-        String tableName = "wrongParameter";
-        when(manager.tableExist(tableName)).thenReturn(false);
-        command.process("insert|" + tableName);
-        verify(view).write(String.format("Error entering command, it should be like insert|tableName|column1|value1"));
 
-
-    }
     @Test
     public void testInsertIfCorrectParameters() throws SQLException {
      String tableName = "teachers";
@@ -58,7 +50,7 @@ public class InsertTest {
      set.put("city", "Lviv");
 
      command.process("insert|teachers|id|3|surname|Ivanov|subject|History|city|Lviv");
-        verify(manager).insert(tableName,set, key);
+        verify(manager).insert(eq(tableName),any(DataSet.class), eq(key));
      verify(view).write(String.format("Statement are added into the table '%s'", tableName));
 
 

@@ -72,8 +72,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
             }
-            return set;
-        }
+
+                return set;
+            }
     }
     @Override
     public void clear(String tableName) throws SQLException {

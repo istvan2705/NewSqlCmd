@@ -39,7 +39,7 @@ public class Insert implements Command {
                 set.put(data[i], data[++i]);
             }
             manager.insert(tableName,set, primaryKey);
-            view.write("Statement are added into the table");
+            view.write(String.format("Statement are added into the table '%s'", tableName));
         } catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }

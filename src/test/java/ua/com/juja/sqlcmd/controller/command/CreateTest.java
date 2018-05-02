@@ -11,6 +11,8 @@ import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,29 +43,25 @@ public class CreateTest {
     public void testNotCreateIfExists() throws SQLException{
     String tableName = "students";
     when(!manager.tableExist(tableName)).thenReturn(true);
-    command.process("create|"+tableName);
-    verify(view).write(String.format("Table '%s' already exists", tableName));
+    command.process("create|students|id|surname");
+    verify(view).write(String.format("The table '%s' already exist", tableName));
     }
 
 
     @Test
-    public void testCreateWrongParameters() {
-        try {
-            String[] data = "create|employees|id|surname".split("\\|");
-            String tableName = data[1];
-            DataSet columns = new DataSet();
-            for (int i = 2; i < data.length; i++) {
-                columns.put(data[i], i);
-            }
+    public void testCreateIfNotExists() throws SQLException {
 
-            command.process("create" + tableName + columns);
-            verify(manager).create(tableName, columns);
+            String tableName = "workers";
+
+            DataSet columns = new DataSet();
+            columns.put("id",2);
+            columns.put("surname", 3);
+           when(manager.tableExist(tableName)).thenReturn(false);
+            command.process("create|workers|id|surname");
+            verify(manager).create(eq(tableName), any(DataSet.class));
             verify(view).write(String.format("The table '%s' has been created", tableName));
-        } catch (SQLException e) {
-            //do nothing
         }
 
 
     }
 
-} 

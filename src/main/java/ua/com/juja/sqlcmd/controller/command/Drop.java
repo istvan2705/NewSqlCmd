@@ -32,7 +32,7 @@ public class Drop implements Command {
             String tableName = data[1];
 
             manager.deleteTable(tableName);
-            view.write("The table has been deleted");
+            view.write(String.format("The table '%s' has been deleted", tableName));
         }
         catch(SQLException e){
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));

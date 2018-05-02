@@ -5,7 +5,9 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+
 import java.sql.SQLException;
+import java.util.Set;
 
 public class Find  implements Command {
     private static final String SEPARATOR = "\\,";
@@ -25,24 +27,21 @@ public class Find  implements Command {
     @Override
     public void process(String command) {
         try {
-            String[] data = command.split("\\|");
+            String[] data = command.split(SEPARATOR);
 
-            if (data.length != 2 && data.length != 4) {
+            if (data.length != 2) {
                 view.write(String.format("Error entering command '%s'. Should be " +
                         "'find|tableName' or 'find|tableName|limit|offset'", command));
-                    return;
+                return;
             }
             String tableName = data[1];
 
-            Integer limit = null;
-            Integer offset = null;
-            if (data.length == 4) {
-                limit = Integer.valueOf(data[2]);
-                offset = Integer.valueOf(data[3]);
-            }
+//            List<DataSet> rows = manager.getTableRows(tableName);
+//            printTable(rows);
 
-            String[] tableData = manager.getTableData(tableName, limit, offset);
-            view.write(formatTable(tableData));
+            Set<String> columns = manager.getColumnsNames(tableName);
+            printColumnsNames(columns);
+
 
         } catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
@@ -50,49 +49,30 @@ public class Find  implements Command {
         }
     }
 
-    private String formatTable(String[] tableData) {
-        int columnsCount = tableData[0].split(SEPARATOR).length;
-
-        int maxSize = getMaxSize(tableData);
-        String result = addSeparator(columnsCount, maxSize);
-        boolean header = true;
-        for (String row : tableData) {
-            String[] data = row.split(SEPARATOR);
-            result += "|";
-            for (String value : data) {
-                result += String.format("%-" + maxSize + "s", " " + value);
-                result += "|";
-            }
-            result += "\n";
-            if (header) {
-                result += addSeparator( columnsCount, maxSize);
-                header = false;
-            }
+    private void printColumnsNames(Set<String> columns) {
+        String result = "|";
+        for (String column : columns) {
+            result += column + "|";
         }
-        result += addSeparator(columnsCount, maxSize);
-
-        return result;
+        view.write("--------------------------");
+        view.write(result);
+        view.write("--------------------------");
     }
 
-    private int getMaxSize(String[] tableData) {
-        int longestSize = 0;
-        for (String row : tableData) {
-            String[] data = row.split(SEPARATOR);
-            for (String value : data) {
-                int length = value.length();
-                longestSize = Math.max(length, longestSize);
-            }
-        }
-        return longestSize + 2;
+//    private void printTable(List<DataSet> tableData) {
+//        for (DataSet row : tableData) {
+//            printRow(row);
+//        }
+//        view.write("--------------------");
+//    }
+//
+//
+//    private void printRow(DataSet row) {
+//        List<Object> values = row.getValues();
+//        String result = "|";
+//        for (Object value : values) {
+//            result += value + "|";
+//        }
+//        view.write(result);
     }
 
-    private String addSeparator(int columnsCount, int maxSize) {
-        int separatorLength = columnsCount * maxSize + columnsCount;
-        String result = "+";
-        for (int i = 0; i <= separatorLength - 2; i++) {
-            result += "-";
-        }
-        result += "+\n";
-        return result;
-    }
-}

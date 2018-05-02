@@ -51,51 +51,7 @@ public class Update implements Command {
 
              }
         }
-    private String formatTable(String[] tableData) {
-        int columnsCount = tableData[0].split(SEPARATOR).length;
 
-        int maxSize = getMaxSize(tableData);
-        String result = addSeparator(columnsCount, maxSize);
-        boolean header = true;
-        for (String row : tableData) {
-            String[] data = row.split(SEPARATOR);
-            result += "|";
-            for (String value : data) {
-                result += String.format("%-" + maxSize + "s", " " + value);
-                result += "|";
-            }
-            result += "\n";
-            if (header) {
-                result += addSeparator( columnsCount, maxSize);
-                header = false;
-            }
-        }
-        result += addSeparator(columnsCount, maxSize);
-
-        return result;
-    }
-
-    private int getMaxSize(String[] tableData) {
-        int longestSize = 0;
-        for (String row : tableData) {
-            String[] data = row.split(SEPARATOR);
-            for (String value : data) {
-                int length = value.length();
-                longestSize = Math.max(length, longestSize);
-            }
-        }
-        return longestSize + 2;
-    }
-
-    private String addSeparator(int columnsCount, int maxSize) {
-        int separatorLength = columnsCount * maxSize + columnsCount;
-        String result = "+";
-        for (int i = 0; i <= separatorLength - 2; i++) {
-            result += "-";
-        }
-        result += "+\n";
-        return result;
-    }
 
     }
 

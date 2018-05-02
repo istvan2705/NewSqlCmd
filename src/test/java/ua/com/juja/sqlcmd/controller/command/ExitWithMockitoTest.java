@@ -43,7 +43,7 @@ boolean canProcess = command.canProcess("exit");
          //do nothing
      }
 
-      Mockito.verify(view).write("До скорой встречи!");
+      Mockito.verify(view).write("See you soon!");
   }
 
 }
