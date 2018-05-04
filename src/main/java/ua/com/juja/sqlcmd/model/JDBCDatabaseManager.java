@@ -119,12 +119,14 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName,DataSet set, String primaryKey) throws SQLException  {
-        try (Statement stmt = connection.createStatement()) {
-            String columns = getNameFormated(set, "%s,");
+    public boolean insert(String tableName,DataSet set, String primaryKey) throws SQLException  {
+         String columns = getNameFormated(set, "%s,");
             String values = getValuesFormated(set, "'%s',");
-           stmt.executeUpdate("INSERT INTO public." + tableName + "(" + columns + ")" +
-                    "VALUES (" + values + ")" + " ON CONFLICT " + "(" + primaryKey + ")" + " DO NOTHING");
+           String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
+                   "VALUES (" + values + ")" + " ON CONFLICT " + "(" + primaryKey + ")" + " DO NOTHING";
+          try(PreparedStatement ps = connection.prepareStatement(insertData)){
+                return countUpdate(ps);
+
                }
         }
 

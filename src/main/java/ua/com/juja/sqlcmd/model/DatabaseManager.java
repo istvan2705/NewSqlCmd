@@ -23,7 +23,7 @@ public interface DatabaseManager {
 
     Set<String> getTableNames() throws SQLException;
 
-    void insert(String tableName,DataSet set, String primaryKey) throws SQLException;
+    boolean insert(String tableName,DataSet set, String primaryKey) throws SQLException;
 
     void deleteTable(String tableName) throws SQLException;
 

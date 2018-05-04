@@ -38,8 +38,17 @@ public class Insert implements Command {
             for (int i = 2; i < data.length; i++) {
                 set.put(data[i], data[++i]);
             }
-            manager.insert(tableName,set, primaryKey);
-            view.write(String.format("Statement are added into the table '%s'", tableName));
+
+           boolean isInsert = manager.insert(tableName,set, primaryKey);
+            if(isInsert) {
+
+                view.write(String.format("Statement are added into the table '%s'", tableName));
+            }
+            else{
+                view.write(String.format("The row with id '%s' already exists. Please insert new one", primaryKey));
+            }
+
+
         } catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }
