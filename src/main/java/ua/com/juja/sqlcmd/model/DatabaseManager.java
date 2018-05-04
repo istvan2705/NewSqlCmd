@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.model;
 
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface DatabaseManager {
 
     void create(String tableName, DataSet columns) throws SQLException;
 
-    void update(String tableName, String id, DataSet set) throws SQLException;
+    boolean update(String tableName, String id, DataSet set) throws SQLException;
 
     Set<String> getTableNames() throws SQLException;
 
@@ -26,10 +27,12 @@ public interface DatabaseManager {
 
     void deleteTable(String tableName) throws SQLException;
 
-    void deleteRows(String tableName,String columnName, String rowName) throws SQLException;
+    boolean deleteRows(String tableName,String columnName, String rowName) throws SQLException;
 
     boolean tableExist( String tableName) throws SQLException;
 
     boolean isConnected();
+
+     boolean countUpdate(PreparedStatement ps) throws SQLException;
 
 }

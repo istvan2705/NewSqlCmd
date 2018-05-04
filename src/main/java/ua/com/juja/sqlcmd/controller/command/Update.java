@@ -5,6 +5,7 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Update implements Command {
@@ -41,9 +42,13 @@ public class Update implements Command {
             }
             String id = data[3];
 
+           boolean isUpdate = manager.update(tableName, id, set);
+           if (isUpdate) {
 
-           manager.update(tableName, id, set);
-            view.write("The row has been updated");
+               view.write("The row has been updated");
+           }
+
+           else view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
 
              }
              catch (SQLException e) {

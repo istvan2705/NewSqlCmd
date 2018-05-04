@@ -24,7 +24,7 @@ public class Delete implements Command {
     @Override
     public void process(String command) {
 
-        try{
+        try {
             String[] data = command.split("\\|");
 
             if (data.length != 4) {
@@ -35,10 +35,13 @@ public class Delete implements Command {
             String columnName = data[2];
             String rowName = data[3];
 
-            manager.deleteRows(tableName, columnName, rowName);
-           view.write("The row has been deleted");
+            boolean isDelete = manager.deleteRows(tableName, columnName, rowName);
+            if (isDelete) {
 
-            }
+                view.write("The row has been deleted");
+
+            } else  view.write(String.format("Error entering command. The row with rowName  '%s' does not exist", rowName));
+        }
 
           catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));

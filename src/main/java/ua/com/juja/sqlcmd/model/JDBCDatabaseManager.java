@@ -129,16 +129,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
 
     @Override
-    public void deleteRows(String tableName,String columnName, String rowName) throws SQLException  {
+    public boolean deleteRows(String tableName,String columnName, String rowName) throws SQLException  {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")){
              ps.setString(1, rowName);
-            ps.executeUpdate();
+          return countUpdate(ps);
                     }
                 }
 
 
     @Override
-    public void update(String tableName, String id, DataSet set) throws SQLException  {
+    public boolean update(String tableName, String id, DataSet set) throws SQLException  {
+
        String columns = getNameFormated(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
             int index = 1;
@@ -147,9 +148,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, id);
-            ps.executeUpdate();
+          return countUpdate(ps);
         }
    }
+
+    public boolean countUpdate(PreparedStatement ps) throws SQLException {
+       if(ps.executeUpdate() > 0){
+           return true;
+       }
+       else return false;
+    }
 
 
     private String getNameFormated(DataSet name, String format) {
