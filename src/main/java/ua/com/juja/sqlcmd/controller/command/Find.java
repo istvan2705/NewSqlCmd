@@ -5,7 +5,6 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -36,8 +35,8 @@ public class Find  implements Command {
             }
             String tableName = data[1];
 
-//            List<DataSet> rows = manager.getTableRows(tableName);
-//            printTable(rows);
+            List<DataSet> rows = manager.getTableRows(tableName);
+            printTable(rows);
 
             Set<String> columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);
@@ -59,20 +58,20 @@ public class Find  implements Command {
         view.write("--------------------------");
     }
 
-//    private void printTable(List<DataSet> tableData) {
-//        for (DataSet row : tableData) {
-//            printRow(row);
-//        }
-//        view.write("--------------------");
-//    }
-//
-//
-//    private void printRow(DataSet row) {
-//        List<Object> values = row.getValues();
-//        String result = "|";
-//        for (Object value : values) {
-//            result += value + "|";
-//        }
-//        view.write(result);
+    private void printTable(List<DataSet> tableData) {
+        for (DataSet row : tableData) {
+            printRow(row);
+        }
+        view.write("--------------------");
     }
 
+
+    private void printRow(DataSet row) {
+        List<Object> values = row.getValues();
+        String result = "|";
+        for (Object value : values) {
+            result += value + "|";
+        }
+        view.write(result);
+    }
+}

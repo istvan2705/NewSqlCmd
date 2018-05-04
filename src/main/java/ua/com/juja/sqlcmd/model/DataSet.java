@@ -1,9 +1,10 @@
 package ua.com.juja.sqlcmd.model;
 
+
 import java.util.*;
 
-
 public class DataSet {
+
 
          private Map<String, Object> data = new LinkedHashMap<>();
 
@@ -14,7 +15,7 @@ public class DataSet {
 
 
         public List<Object> getValues() {
-            return new ArrayList<Object>(data.values());
+            return new ArrayList<>(data.values());
         }
 
 

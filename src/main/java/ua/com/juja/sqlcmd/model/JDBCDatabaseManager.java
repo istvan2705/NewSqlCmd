@@ -61,19 +61,19 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
     @Override
     public List<DataSet> getTableRows(String tableName) throws SQLException {
-        List<DataSet> set = new LinkedList<>();
+        List<DataSet> result = new LinkedList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
             ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 DataSet dataSet = new DataSet();
-                set.add(dataSet);
+                result.add(dataSet);
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
+                  dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
             }
 
-                return set;
+                return result;
             }
     }
     @Override
