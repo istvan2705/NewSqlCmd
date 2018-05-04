@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Find  implements Command {
-    private static final String SEPARATOR = "\\,";
+    private static final String SEPARATOR = "\\|";
     private DatabaseManager manager;
     private View view;
 
@@ -26,21 +26,21 @@ public class Find  implements Command {
 
     @Override
     public void process(String command) {
-        try {
             String[] data = command.split(SEPARATOR);
-
+        try {
             if (data.length != 2) {
-                view.write(String.format("Error entering command '%s'. Should be "+
+               view.write(String.format("Error entering command '%s'. Should be "+
                         "'find|tableName'", command));
-                return;
+
             }
             String tableName = data[1];
+
+            Set<String> columns = manager.getColumnsNames(tableName);
+            printColumnsNames(columns);
 
             List<DataSet> rows = manager.getTableRows(tableName);
             printTable(rows);
 
-            Set<String> columns = manager.getColumnsNames(tableName);
-            printColumnsNames(columns);
 
 
         } catch (SQLException e) {

@@ -9,10 +9,10 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class ConnectTest {
 
@@ -39,17 +39,17 @@ public class ConnectTest {
 
     @Test
 
-    public void testConnect() throws SQLException{
+    public void testConnect() throws SQLException {
 
         String databaseName = "Academy";
         String userName = "postgres";
         String password = "1401198n";
 
         command.process("connect|Academy|postgres|1401198n");
-        verify(manager).connect(databaseName,userName, password );
+        verify(manager).connect(databaseName, userName, password);
+
+
         verify(String.format("You have login to database '%s' successfully!", databaseName));
     }
 
-
-
-} 
+  }

@@ -15,24 +15,24 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 
 
-public class InsertTest {
+    public class InsertTest {
 
- private DatabaseManager manager;
- private View view;
- private Command command;
+    private DatabaseManager manager;
+    private View view;
+    private Command command;
 
- @Before
+     @Before
     public void init(){
      manager = mock(DatabaseManager.class);
      view = mock(View.class);
      command = new Insert(manager, view);
- }
+    }
 
 
- @Test
- public void testInsertCanProcess() {
+    @Test
+     public void testInsertCanProcess() {
      assertTrue(command.canProcess("insert|teachers|id|3|surname|Bogdanov|subject|Geography|city|Kyiv"));
- }
+    }
 
     @Test
     public void testInsertCanProcessError() {
@@ -40,7 +40,7 @@ public class InsertTest {
     }
 
     @Test
-    public void testInsertIfCorrectParameters() throws SQLException {
+    public void testInsert() throws SQLException {
      String tableName = "teachers";
      String key = "id";
      DataSet set = new DataSet();
