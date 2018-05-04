@@ -29,8 +29,8 @@ public class Find  implements Command {
             String[] data = command.split(SEPARATOR);
 
             if (data.length != 2) {
-                view.write(String.format("Error entering command '%s'. Should be " +
-                        "'find|tableName' or 'find|tableName|limit|offset'", command));
+                view.write(String.format("Error entering command '%s'. Should be "+
+                        "'find|tableName'", command));
                 return;
             }
             String tableName = data[1];
