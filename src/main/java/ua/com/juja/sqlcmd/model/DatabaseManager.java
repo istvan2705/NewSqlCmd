@@ -15,7 +15,7 @@ public interface DatabaseManager {
 
     void connect(String database, String userName, String password) throws SQLException;
 
-    void clear(String tableName)  throws SQLException;
+    boolean clear(String tableName)  throws SQLException;
 
     void create(String tableName, DataSet columns) throws SQLException;
 

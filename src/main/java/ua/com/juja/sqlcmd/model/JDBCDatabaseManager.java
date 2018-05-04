@@ -77,9 +77,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
     }
     @Override
-    public void clear(String tableName) throws SQLException {
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DELETE FROM public." + tableName);
+    public boolean clear(String tableName) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
+            return countUpdate(ps);
 
         }
     }
