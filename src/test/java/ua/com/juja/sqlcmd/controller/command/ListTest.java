@@ -29,7 +29,7 @@ private View view;
 }
 @Test
  public void testListTables() throws SQLException{
-    Command command = new List(manager, view);
+    Command command = new Tables(manager, view);
     when(manager.getTableNames()).thenReturn(new LinkedHashSet<>(Arrays.asList("teachers", "students")));
 
     command.process("list");

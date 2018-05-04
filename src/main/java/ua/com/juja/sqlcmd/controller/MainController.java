@@ -27,7 +27,7 @@ public class MainController {
                 new Drop(manager, view),
                 new Find(manager, view),
                 new Insert(manager, view),
-                new List(manager, view),
+                new Tables(manager, view),
                 new Update(manager, view),
                 new Unsupported(view)};
     }

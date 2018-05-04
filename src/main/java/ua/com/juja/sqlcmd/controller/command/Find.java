@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 public class Find  implements Command {
