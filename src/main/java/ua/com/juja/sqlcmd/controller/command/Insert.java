@@ -34,6 +34,7 @@ public class Insert implements Command {
             }
             String tableName =  data[1];
             String primaryKey = data[2];
+            String idValue = data[3];
             DataSet set = new DataSet();
             for (int i = 2; i < data.length; i++) {
                 set.put(data[i], data[++i]);
@@ -45,7 +46,7 @@ public class Insert implements Command {
                 view.write(String.format("Statement are added into the table '%s'", tableName));
             }
             else{
-                view.write(String.format("The row with id '%s' already exists. Please insert new one", primaryKey));
+                view.write(String.format("The row with id '%s' already exists. Please insert new one", idValue));
             }
 
 
