@@ -29,8 +29,14 @@ public interface DatabaseManager {
 
     boolean deleteRows(String tableName,String columnName, String rowName) throws SQLException;
 
-     boolean isConnected();
+    boolean isConnected();
 
-     boolean isUpdateTable(PreparedStatement ps) throws SQLException;
+    boolean isUpdateTable(PreparedStatement ps) throws SQLException;
+
+    String getNameFormatted(DataSet name, String format);
+
+    String getValuesFormatted(DataSet input, String format);
+
+    String getColumnFormatted(DataSet newValue, String format);
 
 }

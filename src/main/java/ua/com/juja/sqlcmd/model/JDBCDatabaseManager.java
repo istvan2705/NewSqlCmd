@@ -11,14 +11,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
    @Override
     public boolean create(String tableName, DataSet columns) throws SQLException {
-                String columnNames = getColumnFormated(columns, "%s text NOT NULL, ");
+                String columnNames = getColumnFormatted(columns, "%s text NOT NULL, ");
                 String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                return isUpdateTable(ps);
 
             }
          }
-
 
     @Override
     public void deleteTable(String tableName) throws SQLException {
@@ -33,7 +32,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             DatabaseMetaData metadata = connection.getMetaData();
         try (
             ResultSet resultSet = metadata.getColumns(null, null, tableName, null)){
-
             while (resultSet.next()) {
                 columns.add(resultSet.getString("COLUMN_NAME"));
             }
@@ -70,13 +68,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
        Set<String> columns = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
-
             while (rs.next()) {
                 columns.add(rs.getString("table_name"));
             }
-
             return columns;
-
         }
     }
 
@@ -101,13 +96,12 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public boolean insert(String tableName,DataSet set, String primaryKey) throws SQLException  {
-         String columns = getNameFormated(set, "%s,");
-            String values = getValuesFormated(set, "'%s',");
+         String columns = getNameFormatted(set, "%s,");
+            String values = getValuesFormatted(set, "'%s',");
            String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
                    "VALUES (" + values + ")" + " ON CONFLICT " + "(" + primaryKey + ")" + " DO NOTHING";
           try(PreparedStatement ps = connection.prepareStatement(insertData)){
                 return isUpdateTable(ps);
-
                }
         }
 
@@ -119,11 +113,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     }
                 }
 
-
     @Override
     public boolean update(String tableName, String id, DataSet set) throws SQLException  {
 
-       String columns = getNameFormated(set, "%s = ?,");
+       String columns = getNameFormatted(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
             int index = 1;
             for (Object value : set.getValues()) {
@@ -141,7 +134,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
 
-    private String getNameFormated(DataSet name, String format) {
+    public String getNameFormatted(DataSet name, String format) {
         String names = "";
         for (String newName : name.getNames()) {
             names += String.format(format, newName);
@@ -150,7 +143,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return names;
     }
 
-    private String getValuesFormated(DataSet input, String format) {
+    public String getValuesFormatted(DataSet input, String format) {
         String values = "";
         for (Object value : input.getValues()) {
             values += String.format(format, value);
@@ -159,7 +152,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return values;
     }
 
-    private String getColumnFormated(DataSet newValue, String format) {
+    public String getColumnFormatted(DataSet newValue, String format) {
         String names = "";
         for (String name : newValue.getNames()) {
             names += String.format(format, name);
