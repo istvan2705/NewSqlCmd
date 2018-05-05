@@ -46,6 +46,7 @@ public class Find  implements Command {
         } catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
 
+
         }
     }
 
