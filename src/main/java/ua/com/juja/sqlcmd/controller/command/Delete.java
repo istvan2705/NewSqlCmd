@@ -35,8 +35,8 @@ public class Delete implements Command {
             String columnName = data[2];
             String rowName = data[3];
 
-            boolean isDelete = manager.deleteRows(tableName, columnName, rowName);
-            if (isDelete) {
+            boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
+            if (isDeleted) {
 
                 view.write("The row has been deleted");
 

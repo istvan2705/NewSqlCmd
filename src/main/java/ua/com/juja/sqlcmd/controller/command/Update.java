@@ -42,8 +42,8 @@ public class Update implements Command {
             }
             String id = data[3];
 
-           boolean isUpdate = manager.update(tableName, id, set);
-           if (isUpdate) {
+           boolean isUpdated = manager.update(tableName, id, set);
+           if (isUpdated) {
 
                view.write("The row has been updated");
            }

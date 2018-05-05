@@ -10,35 +10,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
 
    @Override
-    public void create(String tableName, DataSet columns) throws SQLException {
-            try (Statement stmt = connection.createStatement()) {
+    public boolean create(String tableName, DataSet columns) throws SQLException {
                 String columnNames = getColumnFormated(columns, "%s text NOT NULL, ");
                 String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
-                stmt.executeUpdate(sql);
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+               return isUpdateTable(ps);
+
             }
          }
 
 
-    @Override
-    public boolean tableExist(String tableName) throws SQLException {
-        try {
-            boolean tExists = false;
-            try (ResultSet rs = connection.getMetaData().getTables(null, null, tableName, null)) {
-                while (rs.next()) {
-                    String tName = rs.getString("TABLE_NAME");
-                    if (tName != null && tName.equals(tableName)) {
-                        tExists = true;
-                        break;
-                    }
-                }
-                return tExists;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
     @Override
     public void deleteTable(String tableName) throws SQLException {
             try (Statement stmt = connection.createStatement()) {
@@ -79,7 +60,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public boolean clear(String tableName) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
-            return countUpdate(ps);
+            return isUpdateTable(ps);
 
         }
     }
@@ -125,7 +106,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
            String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
                    "VALUES (" + values + ")" + " ON CONFLICT " + "(" + primaryKey + ")" + " DO NOTHING";
           try(PreparedStatement ps = connection.prepareStatement(insertData)){
-                return countUpdate(ps);
+                return isUpdateTable(ps);
 
                }
         }
@@ -134,7 +115,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public boolean deleteRows(String tableName,String columnName, String rowName) throws SQLException  {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")){
              ps.setString(1, rowName);
-          return countUpdate(ps);
+          return isUpdateTable(ps);
                     }
                 }
 
@@ -150,15 +131,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, id);
-          return countUpdate(ps);
+          return isUpdateTable(ps);
         }
    }
 
-    public boolean countUpdate(PreparedStatement ps) throws SQLException {
+    public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
        if(ps.executeUpdate() > 0){
            return true;
        }
-       else return false;
+     return false;
     }
 
 

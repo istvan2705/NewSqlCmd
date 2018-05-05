@@ -40,26 +40,32 @@ public class CreateTest {
     }
 
     @Test
-    public void testNotCreateIfExists() throws SQLException{
-    String tableName = "students";
-    when(!manager.tableExist(tableName)).thenReturn(true);
-    command.process("create|students|id|surname");
-    verify(view).write(String.format("The table '%s' already exist", tableName));
+    public void testCreateIfNotExists() throws SQLException {
+        String tableName = "students";
+        DataSet columns = new DataSet();
+        columns.put("id", 2);
+        columns.put("surname", 3);
+        columns.put("name", 4);
+
+
+        when(!manager.create(tableName, columns)).thenReturn(true);
+        command.process("create|students|id|surname|name");
+        verify(manager).create(eq(tableName), any(DataSet.class));
+        view.write(String.format("The table '%s' has been created", tableName));
     }
 
-
     @Test
-    public void testCreateIfNotExists() throws SQLException {
+    public void testNotCreateIfExists() throws SQLException {
 
             String tableName = "workers";
 
             DataSet columns = new DataSet();
             columns.put("id",2);
             columns.put("surname", 3);
-           when(manager.tableExist(tableName)).thenReturn(false);
+           when(manager.create(tableName, columns)).thenReturn(false);
             command.process("create|workers|id|surname");
             verify(manager).create(eq(tableName), any(DataSet.class));
-            verify(view).write(String.format("The table '%s' has been created", tableName));
+        view.write(String.format("The table '%s' already exist", tableName));
         }
 
 

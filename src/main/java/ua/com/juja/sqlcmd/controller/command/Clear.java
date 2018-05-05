@@ -32,8 +32,8 @@ public class Clear implements Command {
         String tableName = data[1];
 
         try {
-            boolean isClear = manager.clear(tableName);
-            if (isClear) {
+            boolean isCleared = manager.clear(tableName);
+            if (isCleared) {
 
                 view.write(String.format("The content of table '%s' has been deleted", tableName));
             }

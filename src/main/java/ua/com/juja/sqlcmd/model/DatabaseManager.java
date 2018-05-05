@@ -17,7 +17,7 @@ public interface DatabaseManager {
 
     boolean clear(String tableName)  throws SQLException;
 
-    void create(String tableName, DataSet columns) throws SQLException;
+    boolean create(String tableName, DataSet columns) throws SQLException;
 
     boolean update(String tableName, String id, DataSet set) throws SQLException;
 
@@ -29,10 +29,8 @@ public interface DatabaseManager {
 
     boolean deleteRows(String tableName,String columnName, String rowName) throws SQLException;
 
-    boolean tableExist( String tableName) throws SQLException;
+     boolean isConnected();
 
-    boolean isConnected();
-
-     boolean countUpdate(PreparedStatement ps) throws SQLException;
+     boolean isUpdateTable(PreparedStatement ps) throws SQLException;
 
 }

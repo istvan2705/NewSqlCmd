@@ -15,6 +15,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UpdateTest {
 
@@ -43,20 +44,35 @@ public class UpdateTest {
         }
 
         @Test
-        public void testUpdate() throws SQLException{
+        public void testUpdateIfRowNotExist() throws SQLException{
             String tableName = "teachers";
+            String id = "3";
             DataSet set = new DataSet();
             set.put("id", "3");
             set.put("surname", "Bogdanov");
 
-            String id = "3";
-
+            when(manager.update(tableName, id, set)).thenReturn(true);
             command.process("update|teachers|id|3|surname|Bogdanov");
 
             verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
-            verify(view).write("The row has been updated");
+            view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
+
         }
 
+    @Test
+    public void testUpdateIfRowExist() throws SQLException{
+        String tableName = "teachers";
+        String id = "3";
+        DataSet set = new DataSet();
+        set.put("id", "3");
+        set.put("surname", "Bogdanov");
 
+        when(!manager.update(tableName, id, set)).thenReturn(false);
+
+        command.process("update|teachers|id|3|surname|Bogdanov");
+
+        verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
+        view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
+    }
 
     }

@@ -39,8 +39,8 @@ public class Insert implements Command {
                 set.put(data[i], data[++i]);
             }
 
-           boolean isInsert = manager.insert(tableName,set, primaryKey);
-            if(isInsert) {
+           boolean isInserted = manager.insert(tableName,set, primaryKey);
+            if(isInserted) {
 
                 view.write(String.format("Statement are added into the table '%s'", tableName));
             }

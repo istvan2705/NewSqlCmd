@@ -37,9 +37,9 @@ public class Create implements Command {
                 columns.put(data[i], i);
             }
 
-            boolean tableExist = manager.tableExist(tableName);
-            if (!tableExist) {
-            manager.create(tableName, columns);
+            boolean isCreated = manager.create(tableName,columns);
+            if (!isCreated) {
+
             view.write(String.format("The table '%s' has been created", tableName));
         } else {
             view.write(String.format("The table '%s' already exist", tableName));
