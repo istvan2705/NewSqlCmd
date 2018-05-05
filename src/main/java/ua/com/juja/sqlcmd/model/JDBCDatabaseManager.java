@@ -136,10 +136,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
    }
 
     public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
-       if(ps.executeUpdate() > 0){
-           return true;
-       }
-     return false;
+      return ps.executeUpdate() > 0;
+
     }
 
 
