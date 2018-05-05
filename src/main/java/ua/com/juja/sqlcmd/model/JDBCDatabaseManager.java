@@ -12,7 +12,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
    @Override
     public boolean create(String tableName, DataSet columns) throws SQLException {
                 String columnNames = getNameFormatted(columns, "%s text NOT NULL,");
-                String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
+                String sql = "CREATE TABLE public." + tableName + "(" + columnNames + ")";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                return isUpdateTable(ps);
 
@@ -125,15 +125,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, id);
-          return isUpdateTable(ps);
-        }
+        return isUpdateTable(ps);
    }
+
+
+        }
 
     @Override
     public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
-      return ps.executeUpdate() > 0;
-
+       return ps.executeUpdate() > 0;
     }
+
 
     @Override
     public String getNameFormatted(DataSet name, String format) {
