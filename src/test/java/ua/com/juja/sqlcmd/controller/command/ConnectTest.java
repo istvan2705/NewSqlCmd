@@ -39,7 +39,7 @@ public class ConnectTest {
 
     @Test
 
-    public void testConnect() throws SQLException {
+    public void testConnectSuccessful() throws SQLException {
 
         String databaseName = "Academy";
         String userName = "postgres";
@@ -47,9 +47,28 @@ public class ConnectTest {
 
         command.process("connect|Academy|postgres|1401198n");
         verify(manager).connect(databaseName, userName, password);
-
-
-        verify(String.format("You have login to database '%s' successfully!", databaseName));
+        view.write(String.format("You have login to database '%s' successfully!", databaseName));
     }
+
+
+    @Test
+    public void testConnectFailed() throws SQLException{
+        String databaseName = "Academy";
+        String userName = "postgres";
+        String password = "1401198n";
+        try {
+            command.process("connect|Academy|postgres|1401198n");
+        verify(manager).connect(databaseName, userName, password);
+
+        }
+        catch(ExitException e){
+        verify(view).write(String.format("The connection to database '%s' for user '%s' is failed due to'%s'", databaseName, userName, e.getMessage()));
+    }
+
+
+
+    }
+
+
 
   }
