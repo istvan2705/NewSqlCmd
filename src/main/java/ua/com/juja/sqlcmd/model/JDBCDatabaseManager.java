@@ -11,7 +11,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
    @Override
     public boolean create(String tableName, DataSet columns) throws SQLException {
-                String columnNames = getColumnFormatted(columns, "%s text NOT NULL, ");
+                String columnNames = getNameFormatted(columns, "%s text NOT NULL,");
                 String sql = "CREATE TABLE IF NOT EXISTS public." + tableName + "(" + columnNames + ")";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                return isUpdateTable(ps);
@@ -38,6 +38,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             return columns;
         }
     }
+
     @Override
     public List<DataSet> getTableRows(String tableName) throws SQLException {
         List<DataSet> result = new LinkedList<>();
@@ -88,7 +89,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
            password);
         }
 
-
+    @Override
     public boolean isConnected() {
         return connection != null;
 
@@ -128,12 +129,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
    }
 
+    @Override
     public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
       return ps.executeUpdate() > 0;
 
     }
 
-
+    @Override
     public String getNameFormatted(DataSet name, String format) {
         String names = "";
         for (String newName : name.getNames()) {
@@ -143,6 +145,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return names;
     }
 
+    @Override
     public String getValuesFormatted(DataSet input, String format) {
         String values = "";
         for (Object value : input.getValues()) {
@@ -151,16 +154,5 @@ public class JDBCDatabaseManager implements DatabaseManager {
         values = values.substring(0, values.length() - 1);
         return values;
     }
-
-    public String getColumnFormatted(DataSet newValue, String format) {
-        String names = "";
-        for (String name : newValue.getNames()) {
-            names += String.format(format, name);
-        }
-        names = names.substring(0, names.length() - 2);
-        return names;
-
-    }
-
 
 }
