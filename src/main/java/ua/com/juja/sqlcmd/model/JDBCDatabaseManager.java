@@ -128,8 +128,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return isUpdateTable(ps);
    }
 
-
-        }
+ }
 
     @Override
     public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
