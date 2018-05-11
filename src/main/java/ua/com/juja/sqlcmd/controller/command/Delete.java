@@ -22,7 +22,7 @@ public class Delete implements Command {
     }
 
     @Override
-    public void process(String command) {//TODO зробити ключові поля та
+    public void process(String command) {//TODO зробити ключові поля та можливість інкременту для рядків таблиці
 
         String[] data = command.split(SEPARATOR);//TODO зробити класс який парсить комадну ENUM
 
