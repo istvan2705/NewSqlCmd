@@ -17,13 +17,13 @@ public interface DatabaseManager {
 
     boolean clear(String tableName)  throws SQLException;
 
-    boolean create(String tableName, DataSet columns) throws SQLException;
+   void create(String tableName, DataSet columns) throws SQLException;
 
-    boolean update(String tableName, String id, DataSet set) throws SQLException;
+    void update(String tableName, String id, DataSet set) throws SQLException;
 
     Set<String> getTableNames() throws SQLException;
 
-    boolean insert(String tableName,DataSet set, String primaryKey) throws SQLException;
+    void insert(String tableName,DataSet set, String primaryKey) throws SQLException;
 
     void deleteTable(String tableName) throws SQLException;
 
@@ -33,7 +33,7 @@ public interface DatabaseManager {
 
     boolean isUpdateTable(PreparedStatement ps) throws SQLException;
 
-    String getNameFormatted(DataSet name, String format);
+   String getColumnFormatted(DataSet name, String format);
 
     String getValuesFormatted(DataSet input, String format);
 

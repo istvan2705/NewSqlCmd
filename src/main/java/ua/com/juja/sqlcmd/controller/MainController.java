@@ -3,6 +3,8 @@ package ua.com.juja.sqlcmd.controller;
 import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
+import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
 
@@ -12,9 +14,9 @@ public class MainController {
     private DatabaseManager manager;
     private Command[] commands;
 
-    public MainController(View view, DatabaseManager manager) {
-        this.view = view;
-        this.manager = manager;
+    private MainController() {
+        this.view = new Console();
+        this.manager = new JDBCDatabaseManager();
         this.commands = new Command[] {
 
                 new Connect(manager, view),
@@ -44,7 +46,7 @@ public class MainController {
 
             for(Command command: commands){
                 if(command.canProcess(input)){
-                    command.process(input);
+                  command.process(input);
                     break;
                 }
 

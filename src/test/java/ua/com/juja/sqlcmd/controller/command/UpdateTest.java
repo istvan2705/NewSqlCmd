@@ -51,7 +51,7 @@ public class UpdateTest {
             set.put("id", "3");
             set.put("surname", "Bogdanov");
 
-            when(manager.update(tableName, id, set)).thenReturn(true);
+         //   when(manager.update(tableName, id, set)).thenReturn(true);
             command.process("update|teachers|id|3|surname|Bogdanov");
 
             verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
@@ -67,7 +67,7 @@ public class UpdateTest {
         set.put("id", "3");
         set.put("surname", "Bogdanov");
 
-        when(!manager.update(tableName, id, set)).thenReturn(false);
+    //    when(!manager.update(tableName, id, set)).thenReturn(false);
 
         command.process("update|teachers|id|3|surname|Bogdanov");
 

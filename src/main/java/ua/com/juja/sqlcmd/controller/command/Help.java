@@ -53,5 +53,4 @@ public class Help implements Command {
         view.write("\texit");
         view.write("\t\tto exit the program");
     }
-
-    }
+}

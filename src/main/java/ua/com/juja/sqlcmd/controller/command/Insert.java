@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 public class Insert implements Command {
     private DatabaseManager manager;
@@ -24,36 +25,23 @@ public class Insert implements Command {
     @Override
     public void process(String command) {
 
+        String[] data = command.split(SEPARATOR);
+        if (data.length < 6 || data.length % 2 == 1) {
+            view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
+            return;
+        }
+        String tableName = data[1];
+        String primaryKey = data[2];
+        DataSet set = new DataSet();
+        for (int i = 2; i < data.length; i++) {
+            set.put(data[i], data[++i]);
+        }
+
         try {
-            String[] data = command.split("\\|");
-
-
-            if (data.length < 6 || data.length %2 == 1) {
-                view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
-                return;
-            }
-            String tableName =  data[1];
-            String primaryKey = data[2];
-            String idValue = data[3];
-            DataSet set = new DataSet();
-            for (int i = 2; i < data.length; i++) {
-                set.put(data[i], data[++i]);
-            }
-
-           boolean isInserted = manager.insert(tableName,set, primaryKey);
-            if(isInserted) {
-
-                view.write(String.format("Statement are added into the table '%s'", tableName));
-            }
-            else{
-                view.write(String.format("The row with id '%s' already exists. Please insert new one", idValue));
-            }
-
-
+            manager.insert(tableName, set, primaryKey);
+            view.write(String.format("Statement are added into the table '%s'", tableName));
         } catch (SQLException e) {
-            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
+            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
-
-        }
-
+    }
 }

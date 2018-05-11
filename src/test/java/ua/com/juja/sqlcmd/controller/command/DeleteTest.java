@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class DeleteTest {
+public class DeleteTest {//TODO зробити парент класс
 
         private View view;
         private DatabaseManager manager;

@@ -8,30 +8,28 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     private Connection connection;
 
-
-   @Override
-    public boolean create(String tableName, DataSet columns) throws SQLException {
-                String columnNames = getNameFormatted(columns, "%s text NOT NULL,");
-                String sql = "CREATE TABLE public." + tableName + "(" + columnNames + ")";
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
-               return isUpdateTable(ps);
-
-            }
-         }
+    @Override
+    public void create(String tableName, DataSet columns) throws SQLException {
+        String columnNames = getColumnFormatted(columns, "%s text NOT NULL,");
+        String sql = "CREATE TABLE public." + tableName + "(" + columnNames + ")";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.executeUpdate();
+        }
+    }
 
     @Override
     public void deleteTable(String tableName) throws SQLException {
-            try (Statement stmt = connection.createStatement()) {
+        try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE public." + tableName);
-            }
         }
+    }
 
     @Override
     public Set<String> getColumnsNames(String tableName) throws SQLException {
-       Set<String> columns = new LinkedHashSet<>();
-            DatabaseMetaData metadata = connection.getMetaData();
+        Set<String> columns = new LinkedHashSet<>();
+        DatabaseMetaData metadata = connection.getMetaData();
         try (
-            ResultSet resultSet = metadata.getColumns(null, null, tableName, null)){
+                ResultSet resultSet = metadata.getColumns(null, null, tableName, null)) {
             while (resultSet.next()) {
                 columns.add(resultSet.getString("COLUMN_NAME"));
             }
@@ -49,13 +47,14 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 DataSet dataSet = new DataSet();
                 result.add(dataSet);
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                  dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
+                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
             }
 
-                return result;
-            }
+            return result;
+        }
     }
+
     @Override
     public boolean clear(String tableName) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
@@ -65,8 +64,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public Set<String> getTableNames() throws SQLException{
-       Set<String> columns = new LinkedHashSet<>();
+    public Set<String> getTableNames() throws SQLException {
+        Set<String> columns = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
             while (rs.next()) {
@@ -77,17 +76,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(String database, String user, String password) throws SQLException  {
+    public void connect(String database, String user, String password) throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-           throw new SQLException("Please add jdbc jar to project.", e);
+            throw new SQLException("Please add jdbc jar to project.", e);
 
         }
-         connection = DriverManager.getConnection(
-            "jdbc:postgresql://localhost:5432/" + database, user,
-           password);
-        }
+        connection = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/" + database, user,
+                password);
+    }
 
     @Override
     public boolean isConnected() {
@@ -96,28 +95,28 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public boolean insert(String tableName,DataSet set, String primaryKey) throws SQLException  {
-         String columns = getNameFormatted(set, "%s,");
-            String values = getValuesFormatted(set, "'%s',");
-           String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
-                   "VALUES (" + values + ")" + " ON CONFLICT " + "(" + primaryKey + ")" + " DO NOTHING";
-          try(PreparedStatement ps = connection.prepareStatement(insertData)){
-                return isUpdateTable(ps);
-               }
+    public void insert(String tableName, DataSet set, String primaryKey) throws SQLException {
+        String columns = getColumnFormatted(set, "%s,");
+        String values = getValuesFormatted(set, "'%s',");
+        String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
+                "VALUES (" + values + ")";
+        try (PreparedStatement ps = connection.prepareStatement(insertData)) {
+            ps.executeUpdate();
         }
+    }
 
     @Override
-    public boolean deleteRows(String tableName,String columnName, String rowName) throws SQLException  {
-        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")){
-             ps.setString(1, rowName);
-          return isUpdateTable(ps);
-                    }
-                }
+    public boolean deleteRows(String tableName, String columnName, String rowName) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")) {
+            ps.setString(1, rowName);
+            return isUpdateTable(ps);
+        }
+    }
 
     @Override
-    public boolean update(String tableName, String id, DataSet set) throws SQLException  {
+    public void update(String tableName, String id, DataSet set) throws SQLException {
 
-       String columns = getNameFormatted(set, "%s = ?,");
+        String columns = getColumnFormatted(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
             int index = 1;
             for (Object value : set.getValues()) {
@@ -125,34 +124,33 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, id);
-        return isUpdateTable(ps);
-   }
-
- }
+            ps.executeUpdate();
+        }
+    }
 
     @Override
     public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
-       return ps.executeUpdate() > 0;
+        return ps.executeUpdate() > 0;
     }
 
-
     @Override
-    public String getNameFormatted(DataSet name, String format) {
-        String names = "";
+    public String getColumnFormatted(DataSet name, String format) {
+        StringBuilder names = new StringBuilder();
         for (String newName : name.getNames()) {
-            names += String.format(format, newName);
+            names = names.append(String.format(format, newName));
         }
-        names = names.substring(0, names.length() - 1);
-        return names;
+
+        String columns = names.toString().substring(0, names.length() - 1);
+        return columns;
     }
 
     @Override
     public String getValuesFormatted(DataSet input, String format) {
-        String values = "";
+        StringBuilder names = new StringBuilder();
         for (Object value : input.getValues()) {
-            values += String.format(format, value);
+            names = names.append(String.format(format, value));
         }
-        values = values.substring(0, values.length() - 1);
+        String values = names.substring(0, names.length() - 1);
         return values;
     }
 

@@ -24,7 +24,7 @@ public class Connect implements Command {
     @Override
     public void process(String command) {
 
-        String[] data = command.split("\\|");
+        String[] data = command.split(SEPARATOR);
         if (data.length != parametersLength()) {
             throw new IllegalArgumentException("Error entering command, should be 'connect|database|username|password'");
         }

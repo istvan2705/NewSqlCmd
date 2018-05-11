@@ -48,7 +48,7 @@ public class CreateTest {
         columns.put("name", 4);
 
 
-        when(!manager.create(tableName, columns)).thenReturn(true);
+      //  when(!manager.create(tableName, columns)).thenReturn(true);
         command.process("create|students|id|surname|name");
         verify(manager).create(eq(tableName), any(DataSet.class));
         view.write(String.format("The table '%s' has been created", tableName));
@@ -62,7 +62,7 @@ public class CreateTest {
             DataSet columns = new DataSet();
             columns.put("id",2);
             columns.put("surname", 3);
-           when(manager.create(tableName, columns)).thenReturn(false);
+   //        when(manager.create(tableName, columns)).thenReturn(false);
             command.process("create|workers|id|surname");
             verify(manager).create(eq(tableName), any(DataSet.class));
         view.write(String.format("The table '%s' already exist", tableName));

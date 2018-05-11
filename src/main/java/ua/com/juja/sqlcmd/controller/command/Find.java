@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-public class Find  implements Command {
-    private static final String SEPARATOR = "\\|";
+public class Find implements Command {
+
     private DatabaseManager manager;
     private View view;
 
@@ -26,12 +26,11 @@ public class Find  implements Command {
 
     @Override
     public void process(String command) {
-            String[] data = command.split(SEPARATOR);
+        String[] data = command.split(SEPARATOR);
         try {
             if (data.length != 2) {
-               view.write(String.format("Error entering command '%s'. Should be "+
+                view.write(String.format("Error entering command '%s'. Should be " +
                         "'find|tableName'", command));
-
             }
             String tableName = data[1];
 
@@ -40,13 +39,8 @@ public class Find  implements Command {
 
             List<DataSet> rows = manager.getTableRows(tableName);
             printTable(rows);
-
-
-
         } catch (SQLException e) {
-            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
-
-
+            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
 
@@ -66,7 +60,6 @@ public class Find  implements Command {
         }
         view.write("--------------------");
     }
-
 
     private void printRow(DataSet row) {
         List<Object> values = row.getValues();
