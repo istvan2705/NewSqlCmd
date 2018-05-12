@@ -23,7 +23,7 @@ public class Clear implements Command {
     @Override
     public void process(String command) {
 
-        String [] data = command.split("\\|");
+        String [] data = command.split(SEPARATOR);
         if (data.length != 2) {
             view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
             return;

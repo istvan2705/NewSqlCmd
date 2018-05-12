@@ -25,7 +25,7 @@ public class Update implements Command {
 
     @Override
     public void process(String command) {
-        String[] data = command.split("\\|");
+        String[] data = command.split(SEPARATOR);
 
         if (data.length < 6 || data.length % 2 == 1) {
             view.write(String.format("Error entering command '%s'. Should be 'update|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
