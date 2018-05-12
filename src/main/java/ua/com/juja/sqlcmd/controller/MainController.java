@@ -14,7 +14,7 @@ public class MainController {
     private DatabaseManager manager;
     private Command[] commands;
 
-    private MainController() {
+     MainController() {
         this.view = new Console();
         this.manager = new JDBCDatabaseManager();
         this.commands = new Command[] {
