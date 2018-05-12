@@ -34,13 +34,11 @@ public class Clear implements Command {
         try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {
-
                 view.write(String.format("The content of table '%s' has been deleted", tableName));
             }
             else{
                 view.write("You are trying to clear the contents of an empty table");
             }
-
         }
         catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
