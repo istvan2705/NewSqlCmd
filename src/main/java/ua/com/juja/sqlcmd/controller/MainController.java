@@ -14,16 +14,15 @@ public class MainController {
     private DatabaseManager manager;
     private Command[] commands;
 
-     MainController() {
+    MainController() {
         this.view = new Console();
         this.manager = new JDBCDatabaseManager();
-        this.commands = new Command[] {
-
+        this.commands = new Command[]{
                 new Connect(manager, view),
                 new Exit(view),
                 new Help(view),
-                new isConnected(manager,view),
-                new Create(manager,view),
+                new isConnected(manager, view),
+                new Create(manager, view),
                 new Clear(manager, view),
                 new Delete(manager, view),
                 new Drop(manager, view),
@@ -37,24 +36,20 @@ public class MainController {
     public void run() {
         view.write("Hello user!");
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
-
         while (true) {
             String input = view.read();
-            if (input == null){//null if close application
+            if (input == null) {
                 new Exit(view).process(input);
             }
-
-            for(Command command: commands){
-                if(command.canProcess(input)){
-                  command.process(input);
+            for (Command command : commands) {
+                if (command.canProcess(input)) {
+                    command.process(input);
                     break;
                 }
-
             }
             view.write("Please enter command (or help):");
         }
     }
-
-    }
+}
 
 
