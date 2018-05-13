@@ -15,6 +15,8 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,10 +56,11 @@ public class FindTest  {
         command.process("find|teachers");
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
-        assertEquals("[--------------------------, " +
-                "|id|surname|subject|city|, " +
-                "--------------------------, " +
-                "|1|Petrov|History|Lviv|, " +
+        assertEquals(
+                "[--------------------------, "+
+                "|id||surname||subject||city|, "
+                +"--------------------------, "+
+                "|1||Petrov||History||Lviv|, "+
                 "--------------------]", captor.getAllValues().toString());
     }
 }
