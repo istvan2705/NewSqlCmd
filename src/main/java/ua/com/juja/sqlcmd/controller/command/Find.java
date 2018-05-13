@@ -1,12 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -46,12 +44,12 @@ public class Find extends DataClass implements Command {
     }
 
     private void printColumnsNames(Set<String> columns) {
-        String result = "|";
-        for (String column : columns) {
-            result += column + "|";
+        StringBuilder result = new StringBuilder();
+             for (String column : columns) {
+            result.append("|").append(column).append("|");
         }
         view.write("--------------------------");
-        view.write(result);
+        view.write(result.toString());
         view.write("--------------------------");
     }
 
@@ -64,10 +62,11 @@ public class Find extends DataClass implements Command {
 
     private void printRow(DataSet row) {
         List<Object> values = row.getValues();
-        String result = "|";
+        StringBuilder result = new StringBuilder();
+
         for (Object value : values) {
-            result += value + "|";
+            result.append("|").append(value).append("|");
         }
-        view.write(result);
+        view.write(result.toString());
     }
 }

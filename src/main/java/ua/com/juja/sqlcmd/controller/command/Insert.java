@@ -1,13 +1,11 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.Command;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Insert extends DataClass implements Command {
     private DatabaseManager manager;

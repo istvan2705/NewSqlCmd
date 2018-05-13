@@ -1,6 +1,6 @@
 package ua.com.juja.sqlcmd.controller;
 
-import ua.com.juja.sqlcmd.Command;
+import ua.com.juja.sqlcmd.controller.command.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
@@ -39,7 +39,7 @@ public class MainController {
         while (true) {
             String input = view.read();
             if (input == null) {
-                new Exit(view).process(input);
+                new Exit(view).process(null);
             }
             for (Command command : commands) {
                 if (command.canProcess(input)) {

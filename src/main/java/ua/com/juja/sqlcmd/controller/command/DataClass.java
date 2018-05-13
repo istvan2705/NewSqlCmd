@@ -3,10 +3,10 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import java.util.Arrays;
 import java.util.List;
 
-import static ua.com.juja.sqlcmd.Command.SEPARATOR;
+import static ua.com.juja.sqlcmd.controller.command.Command.SEPARATOR;
 
 
-public class DataClass {
+ class DataClass {
 
     String getTableName(List<String> data){
         return data.get(1);
