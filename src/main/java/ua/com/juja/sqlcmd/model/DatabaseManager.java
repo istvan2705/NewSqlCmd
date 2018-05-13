@@ -23,7 +23,7 @@ public interface DatabaseManager {
 
     Set<String> getTableNames() throws SQLException;
 
-    void insert(String tableName,DataSet set, String primaryKey) throws SQLException;
+    void insert(String tableName,  DataSet set) throws SQLException;
 
     void deleteTable(String tableName) throws SQLException;
 
@@ -33,7 +33,7 @@ public interface DatabaseManager {
 
     boolean isUpdateTable(PreparedStatement ps) throws SQLException;
 
-   String getColumnFormatted(DataSet name, String format);
+   String getColumnFormatted(DataSet set, String format);
 
     String getValuesFormatted(DataSet input, String format);
 
