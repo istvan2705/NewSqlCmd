@@ -17,6 +17,7 @@ public class ConnectTest  {
     public View view;
     public DatabaseManager manager;
     public Command command;
+
     @Before
     public void init() {
         manager = mock(DatabaseManager.class);

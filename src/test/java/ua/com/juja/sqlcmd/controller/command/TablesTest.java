@@ -16,21 +16,20 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 
-public class TablesTest {
-private DatabaseManager manager;
-private View view;
-private Command command;
+public class TablesTest  {
 
-@Before
-    public void setup(){
-    manager = mock(DatabaseManager.class);
-    view = mock(View.class);
-    command = new Tables(manager, view);
+    public View view;
+    public DatabaseManager manager;
+    public Command command;
 
-}
+    @Before
+    public void init() {
+        manager = mock(DatabaseManager.class);
+        view = mock(View.class);
+        command = new Tables(manager, view);
+    }
 
     @Test
     public void testTablesCanProcess() {
@@ -42,23 +41,12 @@ private Command command;
         assertFalse(command.canProcess("table"));
     }
 
-
-
     @Test
-    public void testTables() throws SQLException{
-    when(manager.getTableNames()).thenReturn(new LinkedHashSet<>(Arrays.asList("teachers", "students")));
-
-    command.process("tables");
-
-   ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-    verify(view, atLeastOnce()).write(captor.capture());
-
-
-
-    assertEquals("[[teachers, students]]", captor.getAllValues().toString());
-
-
+    public void testTables() throws SQLException {
+        when(manager.getTableNames()).thenReturn(new LinkedHashSet<>(Arrays.asList("teachers", "students")));
+        command.process("tables");
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(view, atLeastOnce()).write(captor.capture());
+        assertEquals("[[teachers, students]]", captor.getAllValues().toString());
+    }
 }
-
-
-} 

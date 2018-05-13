@@ -15,64 +15,51 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
 
 public class UpdateTest {
 
+    public View view;
+    public DatabaseManager manager;
+    public Command command;
 
-        private DatabaseManager manager;
-        private View view;
-        private Command command;
-
-        @Before
-        public void init() {
-            manager = mock(DatabaseManager.class);
-            view = mock(View.class);
-            command = new Update(manager, view);
-        }
-
-
-        @Test
-        public void testUpdateCanProcess() {
-            assertTrue(command.canProcess("update|teachers|id|3|surname|Bogdanov"));
-        }
-
-        @Test
-        public void testUpdateCanProcessError() {
-            assertFalse(command.canProcess("update"));
-
-        }
-
-        @Test
-        public void testUpdateIfRowNotExist() throws SQLException{
-            String tableName = "teachers";
-            String id = "3";
-            DataSet set = new DataSet();
-            set.put("id", "3");
-            set.put("surname", "Bogdanov");
-
-         //   when(manager.update(tableName, id, set)).thenReturn(true);
-            command.process("update|teachers|id|3|surname|Bogdanov");
-
-            verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
-            view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
-
-        }
+    @Before
+    public void init() {
+        manager = mock(DatabaseManager.class);
+        view = mock(View.class);
+        command = new Update(manager, view);
+    }
+    @Test
+    public void testUpdateCanProcess() {
+        assertTrue(command.canProcess("update|teachers|id|3|surname|Bogdanov"));
+    }
 
     @Test
-    public void testUpdateIfRowExist() throws SQLException{
+    public void testUpdateCanProcessError() {
+        assertFalse(command.canProcess("update"));
+    }
+
+    @Test
+    public void testUpdateIfRowNotExist() throws SQLException {
         String tableName = "teachers";
         String id = "3";
         DataSet set = new DataSet();
         set.put("id", "3");
         set.put("surname", "Bogdanov");
-
-    //    when(!manager.update(tableName, id, set)).thenReturn(false);
-
         command.process("update|teachers|id|3|surname|Bogdanov");
-
         verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
         view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
     }
 
+    @Test
+    public void testUpdateIfRowExist() throws SQLException {
+        String tableName = "teachers";
+        String id = "3";
+        DataSet set = new DataSet();
+        set.put("id", "3");
+        set.put("surname", "Bogdanov");
+        command.process("update|teachers|id|3|surname|Bogdanov");
+        verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
+        view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
     }
+}

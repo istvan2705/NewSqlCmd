@@ -15,12 +15,11 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-public class CreateTest {
-    private View view;
-    private DatabaseManager manager;
-    private Command command;
+public class CreateTest  {
+    public View view;
+    public DatabaseManager manager;
+    public Command command;
 
     @Before
     public void init() {
@@ -43,12 +42,9 @@ public class CreateTest {
     public void testCreateIfNotExists() throws SQLException {
         String tableName = "students";
         DataSet columns = new DataSet();
-        columns.put("id", 2);
-        columns.put("surname", 3);
-        columns.put("name", 4);
-
-
-      //  when(!manager.create(tableName, columns)).thenReturn(true);
+        columns.add("id");
+        columns.add("surname");
+        columns.add("name");
         command.process("create|students|id|surname|name");
         verify(manager).create(eq(tableName), any(DataSet.class));
         view.write(String.format("The table '%s' has been created", tableName));
@@ -57,17 +53,14 @@ public class CreateTest {
     @Test
     public void testNotCreateIfExists() throws SQLException {
 
-            String tableName = "workers";
+        String tableName = "workers";
 
-            DataSet columns = new DataSet();
-            columns.put("id",2);
-            columns.put("surname", 3);
-   //        when(manager.create(tableName, columns)).thenReturn(false);
-            command.process("create|workers|id|surname");
-            verify(manager).create(eq(tableName), any(DataSet.class));
+        DataSet columns = new DataSet();
+        columns.add("id");
+        columns.add("surname");
+        command.process("create|workers|id|surname");
+        verify(manager).create(eq(tableName), any(DataSet.class));
         view.write(String.format("The table '%s' already exist", tableName));
-        }
-
-
     }
+}
 

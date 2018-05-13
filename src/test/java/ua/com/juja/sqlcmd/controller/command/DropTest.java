@@ -14,9 +14,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class DropTest {
-    private View view;
-    private DatabaseManager manager;
-    private Command command;
+
+    public View view;
+    public DatabaseManager manager;
+    public Command command;
 
     @Before
     public void init() {
@@ -39,13 +40,7 @@ public class DropTest {
     public void testDropTableProcess() throws SQLException {
         String tableName = "students";
         command.process("drop|" + tableName);
-        verify(manager).deleteTable( tableName);
+        verify(manager).deleteTable(tableName);
         verify(view).write("The table 'students' has been deleted");
     }
-
-
-
-
-
-
-} 
+}
