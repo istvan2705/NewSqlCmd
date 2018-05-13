@@ -23,7 +23,6 @@ public class Connect extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-
         List<String> data = getTableData(command);
         if (data.size() != parametersLength()) {
            view.write("Error entering command, should be 'connect|database|username|password'");
