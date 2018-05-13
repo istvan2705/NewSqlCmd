@@ -26,7 +26,8 @@ public class Connect implements Command {
 
         String[] data = command.split(SEPARATOR);
         if (data.length != parametersLength()) {
-            throw new IllegalArgumentException("Error entering command, should be 'connect|database|username|password'");
+           view.write("Error entering command, should be 'connect|database|username|password'");
+        return;
         }
         String databaseName = data[1];
         String userName = data[2];
@@ -41,7 +42,7 @@ public class Connect implements Command {
 
     }
     private int parametersLength() {
-        return COMMAND.split("\\|").length;
+        return COMMAND.split(SEPARATOR).length;
     }
 
 
