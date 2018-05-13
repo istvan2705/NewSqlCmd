@@ -24,12 +24,12 @@ public class Clear extends DataClass implements Command {
     @Override
     public void process(String command) {
 
-        List<String> data = Arrays.asList(command.split(SEPARATOR));
+        List<String> data = getTableData(command);
         if (data.size() != 2) {
             view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
             return;
         }
-        String tableName = data.get(1);
+        String tableName = getTableName(data);
         try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {
