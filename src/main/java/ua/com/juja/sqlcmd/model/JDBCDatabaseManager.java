@@ -91,11 +91,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public boolean isConnected() {
         return connection != null;
-
     }
 
     @Override
-    public void insert(String tableName, DataSet set, String primaryKey) throws SQLException {
+    public void insert(String tableName, DataSet set) throws SQLException {
         String columns = getColumnFormatted(set, "%s,");
         String values = getValuesFormatted(set, "'%s',");
         String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
@@ -115,7 +114,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void update(String tableName, String id, DataSet set) throws SQLException {
-
         String columns = getColumnFormatted(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
             int index = 1;
@@ -134,14 +132,12 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String getColumnFormatted(DataSet name, String format) {
+    public String getColumnFormatted(DataSet set, String format) {
         StringBuilder names = new StringBuilder();
-        for (String newName : name.getNames()) {
+        for (String newName : set.getNames()) {
             names = names.append(String.format(format, newName));
         }
-
-        String columns = names.toString().substring(0, names.length() - 1);
-        return columns;
+        return names.toString().substring(0, names.length());
     }
 
     @Override
@@ -150,8 +146,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
         for (Object value : input.getValues()) {
             names = names.append(String.format(format, value));
         }
-        String values = names.substring(0, names.length() - 1);
-        return values;
+        return names.toString().substring(0, names.length() - 1);
     }
-
 }
