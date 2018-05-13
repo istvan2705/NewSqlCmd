@@ -42,7 +42,6 @@ public class Update implements Command {
             view.write("The row has been updated");
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
-
         }
     }
 }

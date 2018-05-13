@@ -30,9 +30,7 @@ import static ua.com.juja.sqlcmd.controller.command.Command.SEPARATOR;
                columns.add(data.get(i));
             }
             return columns;
-
         }
-
     }
 
 

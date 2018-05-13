@@ -37,6 +37,4 @@ public class Insert extends DataClass implements Command {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
-
-
 }
