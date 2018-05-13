@@ -5,8 +5,10 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
-public class Clear implements Command {
+public class Clear extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
 
@@ -23,24 +25,20 @@ public class Clear implements Command {
     @Override
     public void process(String command) {
 
-        String [] data = command.split(SEPARATOR);
-        if (data.length != 2) {
+        List<String> data = Arrays.asList(command.split(SEPARATOR));
+        if (data.size() != 2) {
             view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
             return;
         }
-
-        String tableName = data[1];
-
+        String tableName = data.get(1);
         try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {
                 view.write(String.format("The content of table '%s' has been deleted", tableName));
-            }
-            else{
+            } else {
                 view.write("You are trying to clear the contents of an empty table");
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
 
         }
