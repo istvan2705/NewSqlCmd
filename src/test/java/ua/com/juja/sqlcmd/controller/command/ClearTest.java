@@ -43,12 +43,11 @@ public class ClearTest {
     }
 
     @Test
-    public void testNotClearTableIfContentNotExists() throws SQLException {
+    public void testNotClearTableIfContentNotExists() {
         String tableName = "teachers";
         try {
             command.process("clear|" + tableName);
             verify(manager).clear(tableName);
-
         } catch (SQLException e) {
             view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }

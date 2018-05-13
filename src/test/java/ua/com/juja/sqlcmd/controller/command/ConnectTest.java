@@ -36,7 +36,6 @@ public class ConnectTest  {
     @Test
 
     public void testConnectSuccessful() throws SQLException {
-
         String databaseName = "Academy";
         String userName = "postgres";
         String password = "1401198n";

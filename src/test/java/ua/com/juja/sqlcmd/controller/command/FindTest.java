@@ -32,7 +32,6 @@ public class FindTest  {
         view = mock(View.class);
         command = new Find(manager, view);
     }
-
     @Test
     public void testFindCanProcess() {
         assertTrue(command.canProcess("find|teachers"));

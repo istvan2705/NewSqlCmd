@@ -51,9 +51,7 @@ public class CreateTest  {
 
     @Test
     public void testNotCreateIfExists() throws SQLException {
-
         String tableName = "workers";
-
         DataSet columns = new DataSet();
         columns.put("id", 1);
         columns.put("surname",2 );
