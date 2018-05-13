@@ -6,9 +6,10 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.*;
 import java.util.regex.Pattern;
 
-public class Insert implements Command {
+public class Insert extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
 
@@ -24,24 +25,20 @@ public class Insert implements Command {
 
     @Override
     public void process(String command) {
-
-        String[] data = command.split(SEPARATOR);
-        if (data.length < 6 || data.length % 2 == 1) {
+        List<String> data = getTableData(command);
+        if (data.size() < 6 || data.size() % 2 == 1) {
             view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
             return;
         }
-        String tableName = data[1];
-        String primaryKey = data[2];
-        DataSet set = new DataSet();
-        for (int i = 2; i < data.length; i++) {
-            set.put(data[i], data[++i]);
-        }
-
+        String tableName = getTableName(data);
+        DataSet set = getDataSet(data);
         try {
-            manager.insert(tableName, set, primaryKey);
+            manager.insert(tableName, set);
             view.write(String.format("Statement are added into the table '%s'", tableName));
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
+
+
 }
