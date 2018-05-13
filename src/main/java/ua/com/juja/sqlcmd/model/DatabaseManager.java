@@ -36,6 +36,4 @@ public interface DatabaseManager {
     String getColumnFormatted(DataSet set, String format);
 
     String getValuesFormatted(DataSet input, String format);
-
-
 }
