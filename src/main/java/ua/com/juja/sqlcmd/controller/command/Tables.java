@@ -12,7 +12,7 @@ public class Tables implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public Tables (DatabaseManager manager, View view) {
+    public Tables(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -31,6 +31,7 @@ public class Tables implements Command {
                     e.getMessage()));
         }
     }
+
     private String format(Set<String> tables) {
         return tables.toString();
     }
