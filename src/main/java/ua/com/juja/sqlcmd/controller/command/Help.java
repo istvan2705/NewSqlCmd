@@ -16,7 +16,6 @@ public class Help implements Command {
 
     @Override
     public void process(String command) {
-
         view.write("Existing commands:");
 
         view.write("\tconnect|databaseName|username|password");

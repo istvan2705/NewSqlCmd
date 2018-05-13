@@ -22,7 +22,6 @@ public class Delete extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-
         List<String> data = getTableData(command);//TODO зробити класс який парсить комадну ENUM
         if (data.size() != 4) {
             view.write(String.format("Error entering command '%s'. Should be delete|tableName|column|value", command));
