@@ -25,7 +25,8 @@ public class Insert extends DataClass implements Command {
     public void process(String command) {
         List<String> data = getTableData(command);
         if (data.size() < 6 || data.size() % 2 == 1) {
-            view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
+            view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|" +
+                    "column2|value2|...|columnN|valueN", command));
             return;
         }
         String tableName = getTableName(data);

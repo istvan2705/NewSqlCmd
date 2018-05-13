@@ -25,7 +25,8 @@ public class Create extends DataClass implements Command {
     public void process(String command) {
         List<String> data = getTableData(command);
         if (data.size() < 4) {
-            view.write(String.format("Error entering command '%s'. Should be 'create|tableName|column1|column2|...|columnN", command));
+            view.write(String.format("Error entering command '%s'. Should be 'create|tableName|column1|column2|" +
+                    "...|columnN", command));
             return;
         }
         String tableName = getTableName(data);
