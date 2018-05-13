@@ -30,7 +30,6 @@ public class Delete extends DataClass implements Command {
         String tableName = getTableName(data);
         String columnName = data.get(2);
         String rowName = data.get(3);
-
         try {
             boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
             if (isDeleted) {
