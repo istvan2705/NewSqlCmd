@@ -33,7 +33,6 @@ public class Delete extends DataClass implements Command {
         try {
             boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
             if (isDeleted) {
-
                 view.write("The row has been deleted");
             } else
                 view.write(String.format("Error entering command. The row with rowName  '%s' does not exist", rowName));
