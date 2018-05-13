@@ -5,29 +5,30 @@ import java.util.*;
 
 public class DataSet {
 
+    private Map<String, Object> data = new LinkedHashMap<>();
 
-         private Map<String, Object> data = new LinkedHashMap<>();
-
-
-        public void put(String name, Object value) {
-            data.put(name, value);
-        }
-
-
-        public List<Object> getValues() {
-            return new ArrayList<>(data.values());
-        }
-
-
-        public Set<String> getNames() {
-            return data.keySet();
-        }
-
-
-        public String toString() {
-            return "{" +
-                    "names:" + getNames().toString() + ", " +
-                    "values:" + getValues().toString() +
-                    "}";
-        }
+    public void put(String name, Object value) {
+        data.put(name, value);
     }
+
+    public ArrayList<String> list = new ArrayList<>();
+
+    public void add(String name){
+        list.add(name);
+    }
+
+    public List<Object> getValues() {
+        return new ArrayList<>(data.values());
+    }
+
+    public Set<String> getNames() {
+        return data.keySet();
+    }
+
+    public String toString() {
+        return "{" +
+                "names:" + getNames().toString() + ", " +
+                "values:" + getValues().toString() +
+                "}";
+    }
+}
