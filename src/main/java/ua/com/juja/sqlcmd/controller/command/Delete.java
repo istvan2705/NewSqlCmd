@@ -1,13 +1,14 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.Command;
-import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
-public class Delete implements Command {
+public class Delete extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
 
@@ -22,31 +23,27 @@ public class Delete implements Command {
     }
 
     @Override
-    public void process(String command) {//TODO зробити ключові поля та можливість інкременту для рядків таблиці
+    public void process(String command) {
 
-        String[] data = command.split(SEPARATOR);//TODO зробити класс який парсить комадну ENUM
+        List<String> data = getTableData(command) ;//TODO зробити класс який парсить комадну ENUM
 
-        if (data.length != 4) {
+        if (data.size()!= 4) {
             view.write(String.format("Error entering command '%s'. Should be delete|tableName|column|value", command));
             return;
         }
-        String tableName = data[1];
-        String columnName = data[2];
-        String rowName = data[3];
+        String tableName = getTableName(data);
+        String columnName = data.get(2);
+        String rowName = data.get(3);
 
         try {
             boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
             if (isDeleted) {
 
                 view.write("The row has been deleted");
-
             } else
                 view.write(String.format("Error entering command. The row with rowName  '%s' does not exist", rowName));
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
-
-
     }
-
 }
