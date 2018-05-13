@@ -6,10 +6,11 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class Find implements Command {
+public class Find extends DataClass implements Command {
 
     private DatabaseManager manager;
     private View view;
@@ -26,13 +27,13 @@ public class Find implements Command {
 
     @Override
     public void process(String command) {
-        String[] data = command.split(SEPARATOR);
+        List<String> data = getTableData(command);
         try {
-            if (data.length != 2) {
+            if (data.size() != 2) {
                 view.write(String.format("Error entering command '%s'. Should be " +
                         "'find|tableName'", command));
             }
-            String tableName = data[1];
+            String tableName = getTableName(data);
 
             Set<String> columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);
