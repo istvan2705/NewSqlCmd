@@ -137,7 +137,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         for (String newName : set.getNames()) {
             names = names.append(String.format(format, newName));
         }
-        return names.toString().substring(0, names.length());
+        return names.toString().substring(0, names.length()-1);
     }
 
     @Override

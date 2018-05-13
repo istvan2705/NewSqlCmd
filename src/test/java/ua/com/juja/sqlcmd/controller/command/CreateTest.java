@@ -41,9 +41,9 @@ public class CreateTest  {
     public void testCreateIfNotExists() throws SQLException {
         String tableName = "students";
         DataSet columns = new DataSet();
-        columns.add("id");
-        columns.add("surname");
-        columns.add("name");
+        columns.put("id", 1);
+        columns.put("surname", 2);
+        columns.put("name", 3);
         command.process("create|students|id|surname|name");
         verify(manager).create(eq(tableName), any(DataSet.class));
         view.write(String.format("The table '%s' has been created", tableName));
@@ -55,8 +55,8 @@ public class CreateTest  {
         String tableName = "workers";
 
         DataSet columns = new DataSet();
-        columns.add("id");
-        columns.add("surname");
+        columns.put("id", 1);
+        columns.put("surname",2 );
         command.process("create|workers|id|surname");
         verify(manager).create(eq(tableName), any(DataSet.class));
         view.write(String.format("The table '%s' already exist", tableName));

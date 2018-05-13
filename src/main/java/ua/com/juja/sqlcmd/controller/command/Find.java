@@ -44,7 +44,7 @@ public class Find extends DataClass implements Command {
     }
 
     private void printColumnsNames(Set<String> columns) {
-        StringBuilder result = new StringBuilder();
+    StringBuilder result = new StringBuilder();
              for (String column : columns) {
             result.append("|").append(column).append("|");
         }
@@ -61,11 +61,10 @@ public class Find extends DataClass implements Command {
     }
 
     private void printRow(DataSet row) {
+    StringBuilder result = new StringBuilder();
         List<Object> values = row.getValues();
-        StringBuilder result = new StringBuilder();
-
         for (Object value : values) {
-            result.append("|").append(value).append("|");
+        result.append("|").append(value).append("|");
         }
         view.write(result.toString());
     }

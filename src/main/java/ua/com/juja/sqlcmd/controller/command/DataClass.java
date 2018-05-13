@@ -9,7 +9,8 @@ import static ua.com.juja.sqlcmd.controller.command.Command.SEPARATOR;
 
 class DataClass {
 
-    public static final int FIRST_COLUMN = 2;
+    private static final int FIRST_COLUMN = 2;
+    private DataSet set = new DataSet();
 
     String getTableName(List<String> data) {
         return data.get(1);
@@ -20,21 +21,17 @@ class DataClass {
     }
 
     DataSet getDataSet(List<String> data) {
-        DataSet dataSet = new DataSet();
-        DataSet set = dataSet;
         for (int i = FIRST_COLUMN; i < data.size(); i++) {
             set.put(data.get(i), data.get(++i));
         }
         return set;
     }
 
-    DataSet getData(List<String> data) {
-
-        DataSet columns = new DataSet();
+    DataSet getColumns(List<String> data) {
         for (int i = FIRST_COLUMN; i < data.size(); i++) {
-            columns.add(data.get(i));
+            set.put(data.get(i), i);
         }
-        return columns;
+        return set;
     }
 }
 

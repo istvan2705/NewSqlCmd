@@ -11,18 +11,12 @@ public class DataSet {
         data.put(name, value);
     }
 
-    public ArrayList<String> list = new ArrayList<>();
-
-    public void add(String name){
-        list.add(name);
+    public Set<String> getNames() {
+        return data.keySet();
     }
 
     public List<Object> getValues() {
         return new ArrayList<>(data.values());
-    }
-
-    public Set<String> getNames() {
-        return data.keySet();
     }
 
     public String toString() {
