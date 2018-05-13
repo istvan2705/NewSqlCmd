@@ -7,6 +7,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Update implements Command {
 
@@ -25,18 +27,17 @@ public class Update implements Command {
 
     @Override
     public void process(String command) {
-        String[] data = command.split(SEPARATOR);
-
-        if (data.length < 6 || data.length % 2 == 1) {
+        List<String> data = Arrays.asList(command.split(SEPARATOR));
+        if (data.size() < 6 || data.size() % 2 == 1) {
             view.write(String.format("Error entering command '%s'. Should be 'update|tableName|column1|value1|column2|value2|...|columnN|valueN", command));
             return;
         }
-        String tableName = data[1];
+        String tableName = data.get(1);
         DataSet set = new DataSet();
-        for (int i = 2; i < data.length - 1; i++) {
-            set.put(data[i], data[++i]);
+        for (int i = 2; i < data.size(); i++) {
+            set.put(data.get(i), data.get(++i));
         }
-        String id = data[3];
+        String id = data.get(3);
 
         try {
             manager.update(tableName, id, set);
