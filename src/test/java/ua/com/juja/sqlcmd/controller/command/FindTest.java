@@ -51,7 +51,6 @@ public class FindTest  {
         set.put("surname", "Petrov");
         set.put("subject", "History");
         set.put("city", "Lviv");
-
         when(manager.getTableRows("teachers")).thenReturn(Arrays.asList(set));
         command.process("find|teachers");
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
