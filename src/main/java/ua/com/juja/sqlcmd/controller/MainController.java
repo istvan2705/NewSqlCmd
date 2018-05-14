@@ -21,7 +21,7 @@ public class MainController {
         this.manager = new JDBCDatabaseManager();
     }
 
-    public void run()  {
+    public void run() {
         view.write("Hello user!");
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {
@@ -45,7 +45,6 @@ public class MainController {
             commandList.add(new Unsupported(view));
             CommandsManager commandsManager = new CommandsManager(commandList);
             commandsManager.result(input);
-
 
             view.write("Please enter command input(or help):");
         }
