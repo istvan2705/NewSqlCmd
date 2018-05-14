@@ -16,7 +16,7 @@ public class MainController {
     private static MainController instance;
     private CommandsManager commandsManager;
     private List<Command> commandList;
-    private View view =  new Console();
+    private View view = new Console();
     private DatabaseManager manager = new JDBCDatabaseManager();
 
     private MainController() {
@@ -47,6 +47,7 @@ public class MainController {
         commandList.add(new Unsupported(view));
 
     }
+
     public void run() {
         view.write("Hello user!");
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
@@ -55,11 +56,11 @@ public class MainController {
             if (input == null) {
                 new Exit(view).process(null);
             }
-              commandsManager = new CommandsManager(commandList);
+            commandsManager = new CommandsManager(commandList);
             commandsManager.result(input);
             view.write("Please enter command input(or help):");
-            }
         }
     }
+}
 
 
