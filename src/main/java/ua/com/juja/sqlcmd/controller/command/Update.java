@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Update extends DataClass implements Command {
-
     private DatabaseManager manager;
     private View view;
+    private CommandSeparator commandSeparator = new CommandSeparator(CommandsList.UPDATE);
 
     public Update(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -31,7 +31,8 @@ public class Update extends DataClass implements Command {
             return;
         }
         String tableName = getTableName(data);
-        DataSet set = getDataSet(data);
+        List<String> tableData = commandSeparator.getSeparationResult(command);
+        DataSet set = getDataSet(tableData);
         String id = data.get(3);
         try {
             manager.update(tableName, id, set);

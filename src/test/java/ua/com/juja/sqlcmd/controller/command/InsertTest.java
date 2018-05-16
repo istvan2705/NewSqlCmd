@@ -24,7 +24,7 @@ public class InsertTest  {
     public void init() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        command = new Insert(manager, view);
+  //      command = new Insert(manager, view);
     }
 
     @Test

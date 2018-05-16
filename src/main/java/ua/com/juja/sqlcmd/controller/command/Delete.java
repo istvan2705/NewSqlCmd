@@ -9,6 +9,7 @@ import java.util.List;
 public class Delete extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
+    private CommandSeparator commandSeparator = new CommandSeparator(CommandsList.DELETE);
 
     public Delete(DatabaseManager manager, View view) {//TODO зробити класс Singleton
         this.manager = manager;
@@ -28,8 +29,9 @@ public class Delete extends DataClass implements Command {
             return;
         }
         String tableName = getTableName(data);
-        String columnName = data.get(2);
-        String rowName = data.get(3);
+        List<String> tableData = commandSeparator.getSeparationResult(command);
+        String columnName = tableData.get(1);
+        String rowName = tableData.get(2);
         try {
             boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
             if (isDeleted) {

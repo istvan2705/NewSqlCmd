@@ -10,6 +10,7 @@ import java.util.List;
 public class Create extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
+    private CommandSeparator commandSeparator = new CommandSeparator(CommandsList.CREATE);
 
     public Create(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -30,7 +31,8 @@ public class Create extends DataClass implements Command {
             return;
         }
         String tableName = getTableName(data);
-        DataSet columns = getColumns(data);
+        List<String> tableData = commandSeparator.getSeparationResult(command);
+        DataSet columns = getColumns(tableData);
         try {
             manager.create(tableName, columns);
             view.write(String.format("The table '%s' has been created", tableName));
