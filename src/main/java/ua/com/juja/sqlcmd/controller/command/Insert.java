@@ -10,7 +10,6 @@ import java.util.*;
 public class Insert extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
-    private CommandSeparator commandSeparator = new CommandSeparator(CommandsList.INSERT);
 
     public Insert(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -24,16 +23,15 @@ public class Insert extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> data = getTableData(command);
-        String tableName = getTableName(data);
-        if (data.size() < 4 || data.size() % 2 == 1) {
+        List<String> name = getName(command);
+        List<String> values = getDataTable(command);
+        if (values.size() < 2 || values.size() % 2 == 1) {
             view.write(String.format("Error entering command '%s'. Should be 'insert|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN", command));
             return;
         }
-
-        List<String> tableData = commandSeparator.getSeparationResult(command);
-        DataSet set = getDataSet(tableData);
+        String tableName = getTableName(name);
+        DataSet set = getDataSet(values);
         try {
             manager.insert(tableName, set);
             view.write(String.format("Statement are added into the table '%s'", tableName));

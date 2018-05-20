@@ -25,13 +25,13 @@ public class Find extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> data = getTableData(command);
+        List<String> name = getNameIfTwoParameters(command);
         try {
-            if (data.size() != 2) {
+            if (name.size() != 1) {
                 view.write(String.format("Error entering command '%s'. Should be " +
                         "'find|tableName'", command));
             }
-            String tableName = getTableName(data);
+            String tableName = getTableName(name);
 
             Set<String> columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);

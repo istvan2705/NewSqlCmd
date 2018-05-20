@@ -10,7 +10,6 @@ import java.util.List;
 public class Create extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
-    private CommandSeparator commandSeparator = new CommandSeparator(CommandsList.CREATE);
 
     public Create(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -24,15 +23,15 @@ public class Create extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> data = getTableData(command);
-        if (data.size() < 4) {
+        List<String> name = getName(command);
+        List<String> values = getDataTable(command);
+        if (values.size() < 2) {
             view.write(String.format("Error entering command '%s'. Should be 'create|tableName|column1|column2|" +
                     "...|columnN", command));
             return;
         }
-        String tableName = getTableName(data);
-        List<String> tableData = commandSeparator.getSeparationResult(command);
-        DataSet columns = getColumns(tableData);
+        String tableName = getTableName(name);
+        DataSet columns = getColumns(values);
         try {
             manager.create(tableName, columns);
             view.write(String.format("The table '%s' has been created", tableName));

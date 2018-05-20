@@ -1,12 +1,12 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-public enum SqlCommands {
+public enum SqlCommand {
     DELETE("delete"), UPDATE("update"), CREATE("create"),
     INSERT("insert");
 
     private final String command;
 
-    SqlCommands(String command) {
+    SqlCommand(String command) {
         this.command = command;
     }
 

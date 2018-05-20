@@ -9,7 +9,6 @@ import java.util.List;
 public class Delete extends DataClass implements Command {
     private DatabaseManager manager;
     private View view;
-    private CommandSeparator commandSeparator = new CommandSeparator(CommandsList.DELETE);
 
     public Delete(DatabaseManager manager, View view) {//TODO зробити класс Singleton
         this.manager = manager;
@@ -23,15 +22,16 @@ public class Delete extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> data = getTableData(command);//TODO зробити класс який парсить комадну ENUM
-        if (data.size() != 4) {
+        List<String> name = getName(command);
+        List<String> values = getDataTable(command);
+        if (values.size() != 4) {
             view.write(String.format("Error entering command '%s'. Should be delete|tableName|column|value", command));
             return;
         }
-        String tableName = getTableName(data);
-        List<String> tableData = commandSeparator.getSeparationResult(command);
-        String columnName = tableData.get(1);
-        String rowName = tableData.get(2);
+        String tableName = getTableName(name);
+
+        String columnName = values.get(0);
+        String rowName = values.get(1);
         try {
             boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
             if (isDeleted) {
