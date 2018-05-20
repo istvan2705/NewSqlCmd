@@ -17,7 +17,6 @@ public class Update extends DataClass implements Command {
         this.view = view;
     }
 
-
     @Override
     public boolean canProcess(String command) {
         return command.startsWith("update|");
@@ -31,7 +30,6 @@ public class Update extends DataClass implements Command {
                     "column2|value2|...|columnN|valueN", command));
             return;
         }
-
         String tableName = getTableName(command);
         DataSet set = getDataSet(values);
         String id = values.get(1);
