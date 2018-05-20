@@ -30,7 +30,7 @@ public class Insert extends DataClass implements Command {
             return;
         }
         String tableName = getTableName(command);
-        DataSet set = getDataSet(values);
+        DataSet set = setValuesToColumns(values);
         try {
             manager.insert(tableName, set);
             view.write(String.format("Statement are added into the table '%s'", tableName));

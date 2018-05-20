@@ -64,14 +64,14 @@ class DataClass {
         return Pattern.compile("(.*?\\|)(.*?\\|)(.*)");
     }
 
-    DataSet getDataSet(List<String> data) {
+    DataSet setValuesToColumns(List<String> data) {
         for (int i = 0; i < data.size(); i++) {
             set.put(data.get(i), data.get(++i));
         }
         return set;
     }
 
-    DataSet getColumns(List<String> data) {
+    DataSet setColumns(List<String> data) {
         for (int i = 0; i < data.size(); i++) {
             set.put(data.get(i), i);
         }

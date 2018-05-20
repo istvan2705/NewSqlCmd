@@ -31,7 +31,7 @@ public class Update extends DataClass implements Command {
             return;
         }
         String tableName = getTableName(command);
-        DataSet set = getDataSet(values);
+        DataSet set = setValuesToColumns(values);
         String id = values.get(1);
         try {
             manager.update(tableName, id, set);

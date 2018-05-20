@@ -30,7 +30,7 @@ public class Create extends DataClass implements Command {
             return;
         }
         String tableName = getTableName(command);
-        DataSet columns = getColumns(values);
+        DataSet columns = setColumns(values);
         try {
             manager.create(tableName, columns);
             view.write(String.format("The table '%s' has been created", tableName));
