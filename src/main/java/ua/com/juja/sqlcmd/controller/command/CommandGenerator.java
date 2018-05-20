@@ -6,7 +6,6 @@ public class CommandGenerator<Command> {
     private List<String> tableName;
     private List<String> values;
 
-
     public CommandGenerator(SqlCommand command, List<String> tableName, List<String> values) {
         this.command = command;
         this.tableName = tableName;
