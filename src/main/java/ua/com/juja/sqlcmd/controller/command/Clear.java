@@ -23,13 +23,13 @@ public class Clear extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-       List<String> parameter = getDataTableIfTwoParameters(command);
+        List<String> parameter = getDataTableIfTwoParameters(command);
         if (parameter.size() != 2) {
             view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
             return;
         }
-       String tableName = getNameIfTwoParameters(command);
-          try {
+        String tableName = getNameIfTwoParameters(command);
+        try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {
                 view.write(String.format("The content of table '%s' has been deleted", tableName));
