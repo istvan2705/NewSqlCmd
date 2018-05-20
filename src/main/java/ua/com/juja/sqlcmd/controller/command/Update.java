@@ -25,14 +25,14 @@ public class Update extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> name = getName(command);
         List<String> values = getDataTable(command);
         if (values.size() < 4 || values.size() % 2 == 1) {
             view.write(String.format("Error entering command '%s'. Should be 'update|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN", command));
             return;
         }
-        String tableName = getTableName(name);
+
+        String tableName = getTableName(command);
         DataSet set = getDataSet(values);
         String id = values.get(1);
         try {

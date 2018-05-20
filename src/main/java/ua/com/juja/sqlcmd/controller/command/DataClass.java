@@ -9,28 +9,45 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class DataClass {
-    List<String> getNameIfTwoParameters(String input) {
-        List<String> tableName = new ArrayList<>();
-        Pattern upd = Pattern.compile("(.*?\\|)(.*)");
+    private DataSet set = new DataSet();
+
+    private static List<String> getParameter(String parameter) {
+        return Arrays.asList(parameter.split("\\|"));
+    }
+
+    String getNameIfTwoParameters(String input) {
+        String tableName = null;
+        Pattern upd = getPatternCompileWithTwoParameters();
         Matcher matcher = upd.matcher(input);
         if (matcher.find()) {
-            tableName = getParameter(matcher.group(2));
+            tableName = matcher.group(2);
         }
         return tableName;
     }
 
-    List<String> getName(String input) {
-        List<String> tableName = new ArrayList<>();
+    List<String> getDataTableIfTwoParameters(String input) {
+        List<String> values = new ArrayList<>();
+        Pattern upd = getPatternCompileWithTwoParameters();
+        Matcher matcher = upd.matcher(input);
+        if (matcher.find()) {
+            values = getParameter(matcher.group(0));
+        }
+        return values;
+    }
+
+    private Pattern getPatternCompileWithTwoParameters() {
+        return Pattern.compile("(.*?\\|)(.*)");
+    }
+
+    String getTableName(String input) {
+        String tableName = null;
         Pattern upd = getPatternCompile();
         Matcher matcher = upd.matcher(input);
         if (matcher.find()) {
-           tableName = getParameter(matcher.group(2));
+            List<String> name = getParameter(matcher.group(2));
+            tableName = name.get(0);
         }
         return tableName;
-     }
-
-    private Pattern getPatternCompile() {
-        return Pattern.compile("(.*?\\|)(.*?\\|)(.*)");
     }
 
     List<String> getDataTable(String input) {
@@ -38,19 +55,13 @@ class DataClass {
         Pattern upd = getPatternCompile();
         Matcher matcher = upd.matcher(input);
         if (matcher.find()) {
-        values = getParameter(matcher.group(3));
+            values = getParameter(matcher.group(3));
         }
         return values;
-
     }
-      private static List<String> getParameter (String parameter){
-       return Arrays.asList(parameter.split("\\|"));
 
-        }
-
-    private DataSet set = new DataSet();
-    String getTableName(List<String> data){
-        return data.get(0);
+    private Pattern getPatternCompile() {
+        return Pattern.compile("(.*?\\|)(.*?\\|)(.*)");
     }
 
     DataSet getDataSet(List<String> data) {
@@ -59,6 +70,7 @@ class DataClass {
         }
         return set;
     }
+
     DataSet getColumns(List<String> data) {
         for (int i = 0; i < data.size(); i++) {
             set.put(data.get(i), i);

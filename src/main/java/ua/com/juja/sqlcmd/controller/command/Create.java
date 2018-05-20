@@ -23,14 +23,13 @@ public class Create extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> name = getName(command);
         List<String> values = getDataTable(command);
         if (values.size() < 2) {
             view.write(String.format("Error entering command '%s'. Should be 'create|tableName|column1|column2|" +
                     "...|columnN", command));
             return;
         }
-        String tableName = getTableName(name);
+        String tableName = getTableName(command);
         DataSet columns = getColumns(values);
         try {
             manager.create(tableName, columns);

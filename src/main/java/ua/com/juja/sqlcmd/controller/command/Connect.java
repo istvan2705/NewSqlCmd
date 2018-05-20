@@ -22,13 +22,12 @@ public class Connect extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> name = getName(command);
         List<String> values = getDataTable(command);
         if (values.size() != 2) {
             view.write("Error entering command, should be 'connect|database|username|password'");
             return;
         }
-        String databaseName = getTableName(name);
+        String databaseName = getTableName(command);
         String userName = values.get(0);
         String password = values.get(1);
         try {

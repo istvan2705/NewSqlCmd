@@ -22,14 +22,12 @@ public class Delete extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> name = getName(command);
         List<String> values = getDataTable(command);
-        if (values.size() != 4) {
+        if (values.size() != 2) {
             view.write(String.format("Error entering command '%s'. Should be delete|tableName|column|value", command));
             return;
         }
-        String tableName = getTableName(name);
-
+        String tableName = getTableName(command);
         String columnName = values.get(0);
         String rowName = values.get(1);
         try {
