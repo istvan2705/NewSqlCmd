@@ -9,10 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class DataClass {
+    private static final String PARSER = "(.*?\\|)(.*?\\|)(.*)";
+    private static final String PARSER_TWO_PARAMETERS = "(.*?\\|)(.*)";
+    private static final String SEPARATOR = "\\|";
     private DataSet set = new DataSet();
 
     private static List<String> getParameter(String parameter) {
-        return Arrays.asList(parameter.split("\\|"));
+        return Arrays.asList(parameter.split(SEPARATOR));
     }
 
     String getNameIfTwoParameters(String input) {
@@ -36,7 +39,7 @@ class DataClass {
     }
 
     private Pattern getPatternCompileWithTwoParameters() {
-        return Pattern.compile("(.*?\\|)(.*)");
+        return Pattern.compile(PARSER_TWO_PARAMETERS);
     }
 
     String getTableName(String input) {
@@ -61,7 +64,7 @@ class DataClass {
     }
 
     private Pattern getPatternCompile() {
-        return Pattern.compile("(.*?\\|)(.*?\\|)(.*)");
+        return Pattern.compile(PARSER);
     }
 
     DataSet setValuesToColumns(List<String> data) {
