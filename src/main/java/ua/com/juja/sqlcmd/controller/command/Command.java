@@ -1,9 +1,5 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DataSet;
-
-import java.util.Arrays;
-import java.util.List;
 
 public interface Command {
 

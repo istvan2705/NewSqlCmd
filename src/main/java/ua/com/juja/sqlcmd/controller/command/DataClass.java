@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class DataClass {
+
     private static final String PARSER = "(.*?\\|)(.*?\\|)(.*)";
     private static final String PARSER_TWO_PARAMETERS = "(.*?\\|)(.*)";
     private static final String SEPARATOR = "\\|";
@@ -18,53 +19,53 @@ class DataClass {
         return Arrays.asList(parameter.split(SEPARATOR));
     }
 
-    String getNameIfTwoParameters(String input) {
-        String tableName = null;
-        Pattern upd = getPatternCompileWithTwoParameters();
-        Matcher matcher = upd.matcher(input);
-        if (matcher.find()) {
-            tableName = matcher.group(2);
-        }
-        return tableName;
-    }
-
-    List<String> getDataTableIfTwoParameters(String input) {
-        List<String> values = new ArrayList<>();
-        Pattern upd = getPatternCompileWithTwoParameters();
-        Matcher matcher = upd.matcher(input);
-        if (matcher.find()) {
-            values = getParameter(matcher.group(0));
-        }
-        return values;
-    }
-
-    private Pattern getPatternCompileWithTwoParameters() {
-        return Pattern.compile(PARSER_TWO_PARAMETERS);
-    }
-
     String getTableName(String input) {
         String tableName = null;
-        Pattern upd = getPatternCompile();
-        Matcher matcher = upd.matcher(input);
-        if (matcher.find()) {
-            List<String> name = getParameter(matcher.group(2));
-            tableName = name.get(0);
+        Pattern upd;
+        Matcher matcher;
+        if (getParameter(input).size() > 2) {
+            upd = getPattern();
+            matcher = upd.matcher(input);
+            if (matcher.find()) {
+                List<String> name = getParameter(matcher.group(2));
+                tableName = name.get(0);
+            }
+        } else {
+            upd = getPatternTwoParameters();
+            matcher = upd.matcher(input);
+            if (matcher.find()) {
+                tableName = matcher.group(2);
+            }
         }
         return tableName;
     }
 
     List<String> getDataTable(String input) {
         List<String> values = new ArrayList<>();
-        Pattern upd = getPatternCompile();
-        Matcher matcher = upd.matcher(input);
-        if (matcher.find()) {
-            values = getParameter(matcher.group(3));
+        Pattern upd;
+        Matcher matcher;
+        if (getParameter(input).size() > 2) {
+            upd = getPattern();
+            matcher = upd.matcher(input);
+            if (matcher.find()) {
+                values = getParameter(matcher.group(3));
+            }
+        } else {
+            upd = getPatternTwoParameters();
+            matcher = upd.matcher(input);
+            if (matcher.find()) {
+                values = getParameter(matcher.group(0));
+            }
         }
         return values;
     }
 
-    private Pattern getPatternCompile() {
+    private Pattern getPattern() {
         return Pattern.compile(PARSER);
+    }
+
+    private Pattern getPatternTwoParameters() {
+        return Pattern.compile(PARSER_TWO_PARAMETERS);
     }
 
     DataSet setValuesToColumns(List<String> data) {

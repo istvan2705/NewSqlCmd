@@ -22,12 +22,12 @@ public class Drop extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> parameter = getDataTableIfTwoParameters(command);
-        if (parameter.size() != 2) {
+        List<String> values = getDataTable(command);
+        if (values.size() != 2) {
             view.write(String.format("Error entering command '%s', it should be'drop|tableName", command));
             return;
         }
-        String tableName = getNameIfTwoParameters(command);
+        String tableName = getTableName(command);
         try {
             manager.deleteTable(tableName);
             view.write(String.format("The table '%s' has been deleted", tableName));
