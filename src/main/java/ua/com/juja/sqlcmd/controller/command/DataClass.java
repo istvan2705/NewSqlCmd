@@ -15,9 +15,6 @@ class DataClass {
     private static final String SEPARATOR = "\\|";
     private DataSet set = new DataSet();
 
-    private static List<String> getParameter(String parameter) {
-        return Arrays.asList(parameter.split(SEPARATOR));
-    }
 
     String getTableName(String input) {
         String tableName = null;
@@ -58,6 +55,10 @@ class DataClass {
             }
         }
         return values;
+    }
+
+    private static List<String> getParameter(String parameter) {
+        return Arrays.asList(parameter.split(SEPARATOR));
     }
 
     private Pattern getPattern() {
