@@ -20,11 +20,11 @@ class DataClass {
         String tableName = null;
         Pattern upd;
         Matcher matcher;
-        if (getParameter(input).size() > 2) {
+        if (getParameters(input).size() > 2) {
             upd = getPattern();
             matcher = upd.matcher(input);
             if (matcher.find()) {
-                List<String> name = getParameter(matcher.group(2));
+                List<String> name = getParameters(matcher.group(2));
                 tableName = name.get(0);
             }
         } else {
@@ -41,24 +41,24 @@ class DataClass {
         List<String> values = new ArrayList<>();
         Pattern upd;
         Matcher matcher;
-        if (getParameter(input).size() > 2) {
+        if (getParameters(input).size() > 2) {
             upd = getPattern();
             matcher = upd.matcher(input);
             if (matcher.find()) {
-                values = getParameter(matcher.group(3));
+                values = getParameters(matcher.group(3));
             }
         } else {
             upd = getPatternTwoParameters();
             matcher = upd.matcher(input);
             if (matcher.find()) {
-                values = getParameter(matcher.group(0));
+                values = getParameters(matcher.group(0));
             }
         }
         return values;
     }
 
-    private static List<String> getParameter(String parameter) {
-        return Arrays.asList(parameter.split(SEPARATOR));
+    private static List<String> getParameters(String input) {
+        return Arrays.asList(input.split(SEPARATOR));
     }
 
     private Pattern getPattern() {
