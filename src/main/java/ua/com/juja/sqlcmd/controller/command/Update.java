@@ -33,7 +33,7 @@ public class Update implements Command {
         }
         String tableName = data.getTableName(command);
         List<String> values = data.getDataTable(command);
-        Map<String, Object> set = data.setValuesToColumns(values);
+        Map<String, String> set = data.setValuesToColumns(values);
         Object firstSet = set.keySet().toArray()[0];
         set.remove(firstSet);
         String updatedColumn = values.get(0);

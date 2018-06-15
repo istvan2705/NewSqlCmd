@@ -31,7 +31,7 @@ public class Insert implements Command {
         }
         String tableName = data.getTableName(command);
         List<String> values = data.getDataTable(command);
-        Map<String, Object> set = data.setValuesToColumns(values);
+        Map<String, String> set = data.setValuesToColumns(values);
         try {
             manager.insert(tableName, set);
             view.write(String.format("Statement are added into the table '%s'", tableName));

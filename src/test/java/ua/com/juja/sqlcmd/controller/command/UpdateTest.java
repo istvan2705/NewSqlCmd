@@ -45,7 +45,7 @@ public class UpdateTest {
         String tableName = "teachers";
         String updatedColumn = "id";
         String updatedValue = "3";
-        Map<String, Object> set = new HashMap<>();
+        Map<String, String> set = new HashMap<>();
         set.put("id", "3");
         set.put("surname", "Bogdanov");
         command.process("update|teachers|id|3|surname|Bogdanov");
@@ -58,7 +58,7 @@ public class UpdateTest {
         String tableName = "teachers";
         String updatedColumn = "surname";
         String updatedValue = "Bogdanov";
-        Map<String, Object> set = new HashMap<>();
+        Map<String, String> set = new HashMap<>();
 
         set.put("surname", "Ivanov");
 

@@ -47,7 +47,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 DataSet dataSet = new DataSet();
                 result.add(dataSet);
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
+                    dataSet.put(rsmd.getColumnName(i), rs.getString(i));
                 }
             }
 
@@ -93,7 +93,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName, Map<String, Object> set) throws SQLException {
+    public void insert(String tableName, Map<String, String> set) throws SQLException {
         String columns = getColumnFormatted(set, "%s,");
         String values = getValuesFormatted(set, "'%s',");
         String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
@@ -112,15 +112,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, String updatedColumn, Object updatedValue, Map<String, Object> set) throws SQLException {
+    public void update(String tableName, String updatedColumn, String updatedValue, Map<String, String> set) throws SQLException {
         String columns = getColumnFormatted(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + updatedColumn + " = ?")) {
             int index = 1;
-            for (Object value : set.values()) {
-                ps.setObject(index, value);
+            for (String value : set.values()) {
+                ps.setString(index, value);
                 index++;
             }
-            ps.setObject(index, updatedValue);
+            ps.setString(index, updatedValue);
             ps.executeUpdate();
         }
     }
@@ -141,7 +141,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
 
     @Override
-    public String getColumnFormatted(Map<String, Object> set, String format) {
+    public String getColumnFormatted(Map<String, String> set, String format) {
         StringBuilder names = new StringBuilder();
         for (String newName : set.keySet()) {
             names = names.append(String.format(format, newName));
@@ -150,9 +150,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String getValuesFormatted(Map<String, Object> set, String format) {
+    public String getValuesFormatted(Map<String, String> set, String format) {
         StringBuilder names = new StringBuilder();
-        for (Object value : set.values()) {
+        for (String value : set.values()) {
             names = names.append(String.format(format, value));
         }
         return names.toString().substring(0, names.length() - 1);

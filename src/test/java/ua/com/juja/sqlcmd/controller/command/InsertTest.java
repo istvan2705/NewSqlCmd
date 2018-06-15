@@ -42,7 +42,7 @@ public class InsertTest {
     @Test
     public void testInsertIfRowNotExists() throws SQLException {
         String tableName = "teachers";
-        Map<String, Object> set = new HashMap<>();
+        Map<String,String> set = new HashMap<>();
         set.put("id", "3");
         set.put("surname", "Ivanov");
         set.put("subject", "History");
@@ -55,7 +55,7 @@ public class InsertTest {
     @Test
     public void testInsertIfRowExists() {
         String tableName = "teachers";
-        Map<String, Object> set = new HashMap<>();
+        Map<String, String> set = new HashMap<>();
         set.put("id", "3");
         set.put("surname", "Ivanov");
         set.put("subject", "History");

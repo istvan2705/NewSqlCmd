@@ -10,15 +10,15 @@ public class DataSet {
     private static final String PARSER = "(.*?\\|)(\\w+)(.*)";
     private static final String SEPARATOR = "\\|";
     private Pattern pattern = Pattern.compile(PARSER);
-    private Map<String, Object> data = new LinkedHashMap<>();
+    private Map<String, String> data = new LinkedHashMap<>();
     private Matcher matcher;
     private List<String> parameters;
 
-    public void put(String name, Object value) {
+    public void put(String name, String value) {
         data.put(name, value);
     }
 
-    public List<Object> getValues() {
+    public List<String> getValues() {
         return new ArrayList<>(data.values());
     }
 
@@ -51,7 +51,7 @@ public class DataSet {
         return parameters;
     }
 
-    public Map<String, Object> setValuesToColumns(List<String> tableData) {
+    public Map<String, String> setValuesToColumns(List<String> tableData) {
         for (int i = 0; i < tableData.size(); i++) {
             data.put(tableData.get(i), tableData.get(++i));
         }

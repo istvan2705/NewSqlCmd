@@ -19,11 +19,11 @@ public interface DatabaseManager {
 
     void create(String tableName, List<String> columns) throws SQLException;
 
-    void update(String tableName, String updatedColumn, Object updatedValue, Map<String, Object> set) throws SQLException;
+    void update(String tableName, String updatedColumn, String updatedValue, Map<String, String> set) throws SQLException;
 
     Set<String> getTableNames() throws SQLException;
 
-    void insert(String tableName, Map<String, Object> set) throws SQLException;
+    void insert(String tableName, Map<String, String> set) throws SQLException;
 
     void deleteTable(String tableName) throws SQLException;
 
@@ -35,7 +35,7 @@ public interface DatabaseManager {
 
     String getColumnsTable(List<String> columns, String format);
 
-    String getColumnFormatted(Map<String, Object> set, String format);
+    String getColumnFormatted(Map<String, String> set, String format);
 
-    String getValuesFormatted(Map<String, Object> set, String format);
+    String getValuesFormatted(Map<String, String> set, String format);
 }
