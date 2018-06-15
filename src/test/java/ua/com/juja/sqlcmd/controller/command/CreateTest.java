@@ -7,6 +7,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -40,23 +42,25 @@ public class CreateTest  {
     @Test
     public void testCreateIfNotExists() throws SQLException {
         String tableName = "students";
-        DataSet columns = new DataSet();
-        columns.put("id", 1);
-        columns.put("surname", 2);
-        columns.put("name", 3);
+       List<String> list = new ArrayList<>();
+       list.add("id");
+       list.add("surname");
+       list.add("name");
+
         command.process("create|students|id|surname|name");
-        verify(manager).create(eq(tableName), any(DataSet.class));
+        verify(manager).create(tableName,list);
         view.write(String.format("The table '%s' has been created", tableName));
     }
 
     @Test
     public void testNotCreateIfExists() throws SQLException {
-        String tableName = "workers";
-        DataSet columns = new DataSet();
-        columns.put("id", 1);
-        columns.put("surname",2 );
-        command.process("create|workers|id|surname");
-        verify(manager).create(eq(tableName), any(DataSet.class));
+        String tableName = "students";
+        List<String> list = new ArrayList<>();
+        list.add("id");
+        list.add("surname");
+        list.add("name");
+        command.process("create|students|id|surname|name");
+        verify(manager).create(tableName, list);
         view.write(String.format("The table '%s' already exist", tableName));
     }
 }

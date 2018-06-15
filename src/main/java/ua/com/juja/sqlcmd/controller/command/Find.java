@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-public class Find extends DataClass implements Command {
+public class Find implements Command {
 
     private DatabaseManager manager;
     private View view;
-
+    private DataSet data = new DataSet();
     public Find(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
@@ -25,12 +25,13 @@ public class Find extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> parameter = getDataTable(command);
-            if (parameter.size() != 2) {
-                view.write(String.format("Error entering command '%s'. Should be " +
-                        "'find|tableName'", command));
-            }
-            String tableName = getTableName(command);
+        List<String> parameter = data.getParameters(command);
+        if (parameter.size() != 2) {
+            view.write(String.format("Error entering command '%s'. Should be " +
+                    "'find|tableName'", command));
+            return;
+        }
+        String tableName = data.getTableName(command);
         try {
             Set<String> columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);

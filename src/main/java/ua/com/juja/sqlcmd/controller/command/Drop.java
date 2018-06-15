@@ -1,15 +1,16 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class Drop extends DataClass implements Command {
+public class Drop  implements Command {
     private DatabaseManager manager;
     private View view;
-
+    private DataSet data = new DataSet();
     public Drop(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
@@ -22,12 +23,13 @@ public class Drop extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> values = getDataTable(command);
-        if (values.size() != 2) {
+        List<String> parameters = data.getParameters(command);
+        if (parameters.size() != 2) {
             view.write(String.format("Error entering command '%s', it should be'drop|tableName", command));
             return;
         }
-        String tableName = getTableName(command);
+        String tableName = data.getTableName(command);
+
         try {
             manager.deleteTable(tableName);
             view.write(String.format("The table '%s' has been deleted", tableName));

@@ -1,14 +1,16 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class Clear extends DataClass implements Command {
+public class Clear  implements Command {
     private DatabaseManager manager;
     private View view;
+    private DataSet data = new DataSet();
 
     public Clear(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -22,12 +24,12 @@ public class Clear extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> parameter = getDataTable(command);
-        if (parameter.size() != 2) {
+        List<String> parameters = data.getParameters(command);
+        if (parameters.size() != 2) {
             view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
             return;
         }
-        String tableName = getTableName(command);
+        String tableName = data.getTableName(command);
         try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {

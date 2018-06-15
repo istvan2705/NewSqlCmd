@@ -1,14 +1,16 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class Connect extends DataClass implements Command {
+public class Connect implements Command {
     private DatabaseManager manager;
     private View view;
+    private DataSet data = new DataSet();
 
     public Connect(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -22,12 +24,13 @@ public class Connect extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> values = getDataTable(command);
-        if (values.size() != 2) {
+        List<String> parameters = data.getParameters(command);
+        if (parameters.size() != 4) {
             view.write("Error entering command, should be 'connect|database|username|password'");
             return;
         }
-        String databaseName = getTableName(command);
+        String databaseName = data.getTableName(command);
+        List<String> values = data.getDataTable(command);
         String userName = values.get(0);
         String password = values.get(1);
         try {

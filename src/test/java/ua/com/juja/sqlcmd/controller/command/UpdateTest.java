@@ -7,6 +7,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -41,24 +43,27 @@ public class UpdateTest {
     @Test
     public void testUpdateIfRowNotExist() throws SQLException {
         String tableName = "teachers";
-        String id = "3";
-        DataSet set = new DataSet();
+        String updatedColumn = "id";
+        String updatedValue = "3";
+        Map<String, Object> set = new HashMap<>();
         set.put("id", "3");
         set.put("surname", "Bogdanov");
         command.process("update|teachers|id|3|surname|Bogdanov");
-        verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
-        view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
+        verify(manager).update(tableName, updatedColumn, updatedValue, set);
+        verify(view).write(String.format("Error entering command. The row with id '%s' does not exist", updatedColumn));
     }
 
     @Test
     public void testUpdateIfRowExist() throws SQLException {
         String tableName = "teachers";
-        String id = "3";
-        DataSet set = new DataSet();
-        set.put("id", "3");
-        set.put("surname", "Bogdanov");
-        command.process("update|teachers|id|3|surname|Bogdanov");
-        verify(manager).update(eq(tableName), eq(id), any(DataSet.class));
-        view.write(String.format("Error entering command. The row with id '%s' does not exist", id));
+        String updatedColumn = "surname";
+        String updatedValue = "Bogdanov";
+        Map<String, Object> set = new HashMap<>();
+
+        set.put("surname", "Ivanov");
+
+        command.process("update|teachers|surname|Bogdanov|surname|Ivanov");
+        verify(manager).update(tableName, updatedColumn, updatedValue, set);
+        view.write(String.format("Error entering command. The row with id '%s' does not exist", updatedColumn));
     }
 }

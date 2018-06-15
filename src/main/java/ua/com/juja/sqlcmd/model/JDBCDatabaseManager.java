@@ -9,8 +9,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
 
     @Override
-    public void create(String tableName, DataSet columns) throws SQLException {
-        String columnNames = getColumnFormatted(columns, "%s text NOT NULL,");
+    public void create(String tableName, List<String> columns) throws SQLException {
+        String columnNames = getColumnsTable(columns, "%s text,");
         String sql = "CREATE TABLE public." + tableName + "(" + columnNames + ")";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.executeUpdate();
@@ -81,7 +81,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             throw new SQLException("Please add jdbc jar to project.", e);
-
         }
         connection = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/" + database, user,
@@ -94,7 +93,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName, DataSet set) throws SQLException {
+    public void insert(String tableName, Map<String, Object> set) throws SQLException {
         String columns = getColumnFormatted(set, "%s,");
         String values = getValuesFormatted(set, "'%s',");
         String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
@@ -113,15 +112,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, String id, DataSet set) throws SQLException {
+    public void update(String tableName, String updatedColumn, Object updatedValue, Map<String, Object> set) throws SQLException {
         String columns = getColumnFormatted(set, "%s = ?,");
-        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE id = ?")) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + updatedColumn + " = ?")) {
             int index = 1;
-            for (Object value : set.getValues()) {
+            for (Object value : set.values()) {
                 ps.setObject(index, value);
                 index++;
             }
-            ps.setString(index, id);
+            ps.setObject(index, updatedValue);
             ps.executeUpdate();
         }
     }
@@ -132,18 +131,28 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String getColumnFormatted(DataSet set, String format) {
+    public String getColumnsTable(List<String> columns, String format) {
         StringBuilder names = new StringBuilder();
-        for (String newName : set.getNames()) {
+        for (String newName : columns) {
+            names = names.append(String.format(format, newName));
+        }
+        return names.toString().substring(0, names.length() - 1);
+    }
+
+
+    @Override
+    public String getColumnFormatted(Map<String, Object> set, String format) {
+        StringBuilder names = new StringBuilder();
+        for (String newName : set.keySet()) {
             names = names.append(String.format(format, newName));
         }
         return names.toString().substring(0, names.length() - 1);
     }
 
     @Override
-    public String getValuesFormatted(DataSet input, String format) {
+    public String getValuesFormatted(Map<String, Object> set, String format) {
         StringBuilder names = new StringBuilder();
-        for (Object value : input.getValues()) {
+        for (Object value : set.values()) {
             names = names.append(String.format(format, value));
         }
         return names.toString().substring(0, names.length() - 1);

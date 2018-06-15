@@ -6,12 +6,13 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
-public class Update extends DataClass implements Command {
+public class Update implements Command {
 
     private DatabaseManager manager;
     private View view;
-
+    private DataSet data = new DataSet();
     public Update(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
@@ -24,17 +25,22 @@ public class Update extends DataClass implements Command {
 
     @Override
     public void process(String command) {
-        List<String> values = getDataTable(command);
-        if (values.size() < 4 || values.size() % 2 == 1) {
+        List<String> parameters = data.getParameters(command);
+        if (parameters.size() < 6 || parameters.size() % 2 == 1) {
             view.write(String.format("Error entering command '%s'. Should be 'update|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN", command));
             return;
         }
-        String tableName = getTableName(command);
-        DataSet set = setValuesToColumns(values);
-        String id = values.get(1);
+        String tableName = data.getTableName(command);
+        List<String> values = data.getDataTable(command);
+        Map<String, Object> set = data.setValuesToColumns(values);
+        Object firstSet = set.keySet().toArray()[0];
+        set.remove(firstSet);
+        String updatedColumn = values.get(0);
+        String updatedValue = values.get(1);
+
         try {
-            manager.update(tableName, id, set);
+            manager.update(tableName, updatedColumn, updatedValue, set);
             view.write("The row has been updated");
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
