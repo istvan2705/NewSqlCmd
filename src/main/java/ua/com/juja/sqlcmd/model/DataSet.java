@@ -58,6 +58,14 @@ public class DataSet {
         return data;
     }
 
+    public Map<String, String> setUpdatedValuesToColumns(List<String> values) {
+        Map<String, String> set = setValuesToColumns(values);
+        Object firstSet = set.keySet().toArray()[0];
+        set.remove(firstSet);
+        return set;
+    }
+
+
     public List<String> getParameters(String input) {
         return Arrays.asList(input.split(SEPARATOR));
     }

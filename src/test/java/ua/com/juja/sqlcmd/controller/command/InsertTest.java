@@ -14,6 +14,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InsertTest {
@@ -42,7 +43,7 @@ public class InsertTest {
     @Test
     public void testInsertIfRowNotExists() throws SQLException {
         String tableName = "teachers";
-        Map<String,String> set = new HashMap<>();
+        Map<String,String> set = new LinkedHashMap<>();
         set.put("id", "3");
         set.put("surname", "Ivanov");
         set.put("subject", "History");

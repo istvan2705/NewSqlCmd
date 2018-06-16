@@ -33,11 +33,9 @@ public class Update implements Command {
         }
         String tableName = data.getTableName(command);
         List<String> values = data.getDataTable(command);
-        Map<String, String> set = data.setValuesToColumns(values);
-        Object firstSet = set.keySet().toArray()[0];
-        set.remove(firstSet);
         String updatedColumn = values.get(0);
         String updatedValue = values.get(1);
+        Map<String, String> set = data.setUpdatedValuesToColumns(values);
 
         try {
             manager.update(tableName, updatedColumn, updatedValue, set);
@@ -46,4 +44,6 @@ public class Update implements Command {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
+
+
 }

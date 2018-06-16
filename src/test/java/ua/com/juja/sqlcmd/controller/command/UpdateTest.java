@@ -8,6 +8,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static junit.framework.TestCase.assertTrue;
@@ -16,6 +17,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static ua.com.juja.sqlcmd.controller.command.Command.SQL_EXCEPTION_MESSAGE;
 
 
 public class UpdateTest {
@@ -30,6 +32,7 @@ public class UpdateTest {
         view = mock(View.class);
         command = new Update(manager, view);
     }
+
     @Test
     public void testUpdateCanProcess() {
         assertTrue(command.canProcess("update|teachers|id|3|surname|Bogdanov"));
@@ -43,14 +46,13 @@ public class UpdateTest {
     @Test
     public void testUpdateIfRowNotExist() throws SQLException {
         String tableName = "teachers";
-        String updatedColumn = "id";
-        String updatedValue = "3";
-        Map<String, String> set = new HashMap<>();
-        set.put("id", "3");
-        set.put("surname", "Bogdanov");
-        command.process("update|teachers|id|3|surname|Bogdanov");
+        String updatedColumn = "surname";
+        String updatedValue = "Bogdanov";
+        Map<String, String> set = new LinkedHashMap<>();
+
+        command.process("update|teachers|surname|Pushkin|subject|Geometry");
         verify(manager).update(tableName, updatedColumn, updatedValue, set);
-        verify(view).write(String.format("Error entering command. The row with id '%s' does not exist", updatedColumn));
+        verify(view).write("The row has been updated");
     }
 
     @Test
@@ -58,12 +60,15 @@ public class UpdateTest {
         String tableName = "teachers";
         String updatedColumn = "surname";
         String updatedValue = "Bogdanov";
-        Map<String, String> set = new HashMap<>();
+        Map<String, String> set = new LinkedHashMap<>();
+        command.process("update|teachers|id|8|surname|Petrov");
 
-        set.put("surname", "Ivanov");
+        try {
+            manager.update(tableName, updatedColumn, updatedValue, set);
 
-        command.process("update|teachers|surname|Bogdanov|surname|Ivanov");
-        verify(manager).update(tableName, updatedColumn, updatedValue, set);
-        view.write(String.format("Error entering command. The row with id '%s' does not exist", updatedColumn));
+            verify(manager).update(tableName, updatedColumn, updatedValue, set);
+        } catch (SQLException e) {
+            verify(view).write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+        }
     }
 }
