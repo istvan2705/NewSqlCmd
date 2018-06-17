@@ -112,7 +112,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, String updatedColumn, String updatedValue, Map<String, String> set) throws SQLException {
+    public boolean update(String tableName, String updatedColumn, String updatedValue, Map<String, String> set) throws SQLException {
         String columns = getColumnFormatted(set, "%s = ?,");
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + updatedColumn + " = ?")) {
             int index = 1;
@@ -121,7 +121,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, updatedValue);
-            ps.executeUpdate();
+           return isUpdateTable(ps);
         }
     }
 

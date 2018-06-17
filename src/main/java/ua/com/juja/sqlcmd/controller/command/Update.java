@@ -13,6 +13,7 @@ public class Update implements Command {
     private DatabaseManager manager;
     private View view;
     private DataSet data = new DataSet();
+
     public Update(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
@@ -38,8 +39,12 @@ public class Update implements Command {
         Map<String, String> set = data.setUpdatedValuesToColumns(values);
 
         try {
-            manager.update(tableName, updatedColumn, updatedValue, set);
-            view.write("The row has been updated");
+            boolean isUpdate = manager.update(tableName, updatedColumn, updatedValue, set);
+            if (isUpdate) {
+                view.write("The row has been updated");
+            } else {
+                view.write("The row has been not updated due to incorrect parameter");
+            }
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
