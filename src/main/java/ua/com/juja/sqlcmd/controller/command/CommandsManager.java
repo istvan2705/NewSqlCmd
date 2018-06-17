@@ -9,11 +9,11 @@ public class CommandsManager {
         this.commands = commands;
     }
 
-    public void result(String command) {
-        for (Command next : commands) {
+    public void doCommand(String input) {
+        for (Command command : commands) {
 
-            if (next.canProcess(command)) {
-                next.process(command);
+            if (command.canProcess(input)) {
+                command.process(input);
                 break;
             }
         }

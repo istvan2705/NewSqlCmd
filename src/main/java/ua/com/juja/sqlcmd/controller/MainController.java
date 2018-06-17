@@ -57,7 +57,7 @@ public class MainController {
                 new Exit(view).process(null);
             }
             commandsManager = new CommandsManager(commandList);
-            commandsManager.result(input);
+            commandsManager.doCommand(input);
             view.write("Please enter command input(or help):");
         }
     }
