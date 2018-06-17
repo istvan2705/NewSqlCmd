@@ -42,23 +42,23 @@ public class FindTest  {
         assertFalse(command.canProcess("find"));
     }
 
-//    @Test
-//    public void testFind() throws SQLException {
-//        when(manager.getColumnsNames("teachers")).thenReturn(new LinkedHashSet<>(Arrays.asList("id", "surname", "subject", "city")));
-//        DataSet set = new DataSet();
-//        set.put("id", "1");
-//        set.put("surname", "Petrov");
-//        set.put("subject", "History");
-//        set.put("city", "Lviv");
-//        when(manager.getTableRows("teachers")).thenReturn(Arrays.asList(set));
-//        command.process("find|teachers");
-//        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-//        verify(view, atLeastOnce()).write(captor.capture());
-//        assertEquals(
-//                "[--------------------------, "+
-//                "|id||surname||subject||city|, "
-//                +"--------------------------, "+
-//                "|1||Petrov||History||Lviv|, "+
-//                "--------------------]", captor.getAllValues().toString());
-//    }
+    @Test
+    public void testFind() throws SQLException {
+        when(manager.getColumnsNames("teachers")).thenReturn(new LinkedHashSet<>(Arrays.asList("id", "surname", "subject", "city")));
+        DataSet set = new DataSet();
+        set.put("id", "1");
+        set.put("surname", "Petrov");
+        set.put("subject", "History");
+        set.put("city", "Lviv");
+        when(manager.getTableRows("teachers")).thenReturn(Arrays.asList(set));
+        command.process("find|teachers");
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(view, atLeastOnce()).write(captor.capture());
+        assertEquals(
+                "[--------------------------, "+
+                        "|id||surname||subject||city|, "+
+                        "--------------------------, "+
+                        "|1||Petrov||History||Lviv|, "+
+                        "--------------------------]", captor.getAllValues().toString());
+    }
 }

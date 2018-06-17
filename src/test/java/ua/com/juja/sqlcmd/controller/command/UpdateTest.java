@@ -44,31 +44,44 @@ public class UpdateTest {
     }
 
     @Test
-    public void testUpdateIfRowNotExist() throws SQLException {
+    public void testUpdateIfRowExist() {
         String tableName = "teachers";
         String updatedColumn = "surname";
-        String updatedValue = "Bogdanov";
+        String updatedValue = "Pavlov";
         Map<String, String> set = new LinkedHashMap<>();
-
-        command.process("update|teachers|surname|Pushkin|subject|Geometry");
-        verify(manager).update(tableName, updatedColumn, updatedValue, set);
-        verify(view).write("The row has been updated");
-    }
-
-    @Test
-    public void testUpdateIfRowExist() throws SQLException {
-        String tableName = "teachers";
-        String updatedColumn = "surname";
-        String updatedValue = "Bogdanov";
-        Map<String, String> set = new LinkedHashMap<>();
-        command.process("update|teachers|id|8|surname|Petrov");
-
+        set.put(updatedColumn, updatedValue);
+        set.put("subject", "Geometry");
+        command.process("update|teachers|surname|Pavlov|subject|Geometry");
         try {
-            manager.update(tableName, updatedColumn, updatedValue, set);
-
-            verify(manager).update(tableName, updatedColumn, updatedValue, set);
+            boolean isUpdate = manager.update(tableName, updatedColumn, updatedValue, set);
+            if (isUpdate) {
+                verify(view).write("The row has been updated");
+            }
         } catch (SQLException e) {
             verify(view).write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
+
     }
+
+    @Test
+    public void testUpdateIfRowNotExist() {
+        String tableName = "teachers";
+        String updatedColumn = "id";
+        String updatedValue = "8";
+        Map<String, String> set = new LinkedHashMap<>();
+        set.put(updatedColumn, updatedValue);
+        set.put("subject", "Geometry");
+
+        command.process("update|teachers|id|8|subject|Geometry");
+        try {
+            boolean isUpdate = manager.update(tableName, updatedColumn, updatedValue, set);
+            if (isUpdate) {
+                verify(view).write("The row has been not updated due to incorrect parameter");
+            }
+        } catch (SQLException e) {
+            verify(view).write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+        }
+
+    }
+
 }
