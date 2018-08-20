@@ -2,50 +2,22 @@ package ua.com.juja.sqlcmd.controller;
 
 import ua.com.juja.sqlcmd.controller.command.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
 import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class MainController {
+    private Command commandInstance;
+    private View view;
+    private DatabaseManager manager;
+    private DataSet data = new DataSet();
 
-    private static MainController instance;
-    private CommandsManager commandsManager;
-    private List<Command> commandList;
-    private View view = new Console();
-    private DatabaseManager manager = new JDBCDatabaseManager();
-
-    private MainController() {
-        loadCommands();
-    }
-
-    public static synchronized MainController getInstance() {
-        if (instance == null) {
-            instance = new MainController();
-        }
-        return instance;
-    }
-
-    private void loadCommands() {
-        commandList = new ArrayList<>();
-        commandList.add(new Connect(manager, view));
-        commandList.add(new Exit(view));
-        commandList.add(new Help(view));
-        commandList.add(new isConnected(manager, view));
-        commandList.add(new Create(manager, view));
-        commandList.add(new Clear(manager, view));
-        commandList.add(new Delete(manager, view));
-        commandList.add(new Drop(manager, view));
-        commandList.add(new Find(manager, view));
-        commandList.add(new Insert(manager, view));
-        commandList.add(new Tables(manager, view));
-        commandList.add(new Update(manager, view));
-        commandList.add(new Unsupported(view));
-
+    public MainController(DatabaseManager manager, View view) {
+        this.view = view;
+        this.manager = manager;
     }
 
     public void run() {
@@ -53,14 +25,73 @@ public class MainController {
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {
             String input = view.read();
-            if (input == null) {
-                new Exit(view).process(null);
+            String comm = data.getCommand(input);
+            try {
+                SqlCommand command = SqlCommand.valueOf(comm.toUpperCase());
+                switch (command) {
+                    case CONNECT:
+                        commandInstance = new Connect(manager, view) {
+                        };
+                        break;
+
+                    case INSERT:
+                        commandInstance = new Insert(manager, view);
+                        break;
+
+                    case TABLES:
+                        commandInstance = new Tables(manager, view);
+                        break;
+
+                    case DROP:
+                        commandInstance = new Drop(manager, view);
+                        break;
+
+                    case CREATE:
+                        commandInstance = new Create(manager, view);
+                        break;
+
+                    case CLEAR:
+                        commandInstance = new Clear(manager, view);
+                        break;
+
+                    case DELETE:
+                        commandInstance = new Delete(manager, view);
+                        break;
+
+                    case FIND:
+                        commandInstance = new Find(manager, view);
+                        break;
+
+                    case UPDATE:
+                        commandInstance = new Update(manager, view);
+                        break;
+
+                    case EXIT:
+                        commandInstance = new Exit(view);
+                        break;
+
+                    case HELP:
+                        commandInstance = new Help(view);
+                        break;
+                }
+                commandInstance.process(input);
+
+            } catch (IllegalArgumentException e) {
+                new Unsupported(view).process(input);
+
+            } catch (NullPointerException e) {
+                new IsConnected(manager, view).process(input);
             }
-            commandsManager = new CommandsManager(commandList);
-            commandsManager.doCommand(input);
-            view.write("Please enter command input(or help):");
+              catch (ExitException e) {
+                e.getMessage();
+            }
+
+            view.write("Please enter existing command or help");
         }
     }
 }
+
+
+
 
 

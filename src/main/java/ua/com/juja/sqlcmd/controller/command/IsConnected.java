@@ -3,11 +3,11 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class isConnected implements Command {
+public class IsConnected implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public isConnected(DatabaseManager manager, View view) {
+    public IsConnected(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -19,7 +19,7 @@ public class isConnected implements Command {
 
     @Override
     public void process(String command) {
-        view.write(String.format("You can not use command '%s' until " + " you will not connect with command " +
+        view.write(String.format("You can not use command '%s' until " + "you have established connection to the database "+
                 "connect|databaseName|userName|password", command));
     }
 }

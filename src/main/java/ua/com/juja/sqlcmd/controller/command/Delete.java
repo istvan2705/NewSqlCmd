@@ -11,7 +11,7 @@ public class Delete implements Command {
     private DatabaseManager manager;
     private View view;
     private DataSet data = new DataSet();
-    public Delete(DatabaseManager manager, View view) {//TODO зробити класс Singleton
+    public Delete(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -24,7 +24,7 @@ public class Delete implements Command {
     @Override
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
-        if (parameters.size() < 4 ||parameters.size() % 2 == 1 ) {//TODO if row does not exist throw exception
+        if (parameters.size() < 4 ||parameters.size() % 2 == 1 ) {
             view.write(String.format("Error entering command '%s'. Should be delete|tableName|column|value", command));
             return;
         }

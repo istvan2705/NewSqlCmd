@@ -19,7 +19,7 @@ public class isConnectedTest {
     public void init() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        command = new isConnected(manager, view);
+        command = new IsConnected(manager, view);
     }
 
     @Test
