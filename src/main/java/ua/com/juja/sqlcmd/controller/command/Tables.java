@@ -27,8 +27,7 @@ public class Tables implements Command {
         try {
             view.write(format(manager.getTableNames()));
         } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE,
-                    e.getMessage()));
+            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
 

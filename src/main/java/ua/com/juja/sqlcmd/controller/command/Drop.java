@@ -25,7 +25,7 @@ public class Drop  implements Command {
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() != 2) {
-            view.write(String.format("Error entering command '%s', it should be'drop|tableName", command));
+            view.write(String.format(ERROR_ENTERING_MESSAGE + "'drop|tableName'", command));
             return;
         }
         String tableName = data.getTableName(command);

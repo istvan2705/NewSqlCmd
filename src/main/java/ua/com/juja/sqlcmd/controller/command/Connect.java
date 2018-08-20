@@ -26,11 +26,11 @@ public class Connect implements Command {
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() != 4) {
-            view.write("Error entering command, should be 'connect|database|username|password'");
+            view.write(ERROR_ENTERING_MESSAGE + "'connect|database|username|password'");
             return;
         }
         String databaseName = data.getTableName(command);
-        List<String> values = data.getDataTable(command);
+        List<String> values = data.getTableData(command);
         String userName = values.get(0);
         String password = values.get(1);
         try {

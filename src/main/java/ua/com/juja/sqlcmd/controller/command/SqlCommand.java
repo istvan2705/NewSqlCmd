@@ -11,8 +11,5 @@ public enum SqlCommand {
         this.command = command;
     }
 
-    public String getSqlCommand() {
-        return command;
-    }
 
 }

@@ -7,7 +7,9 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.List;
 
+
 public class Clear  implements Command {
+
     private DatabaseManager manager;
     private View view;
     private DataSet data = new DataSet();
@@ -26,7 +28,7 @@ public class Clear  implements Command {
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() != 2) {
-            view.write(String.format("Error entering command '%s', it should be'clear|tableName", command));
+            view.write(String.format(ERROR_ENTERING_MESSAGE + "'clear|tableName'", command));
             return;
         }
         String tableName = data.getTableName(command);
@@ -38,7 +40,7 @@ public class Clear  implements Command {
                 view.write("You are trying to clear the contents of an empty table");
             }
         } catch (SQLException e) {
-            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
+            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
 
         }
     }

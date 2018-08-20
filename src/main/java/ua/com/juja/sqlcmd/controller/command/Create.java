@@ -26,12 +26,12 @@ public class Create implements Command {
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() < 4) {
-            view.write(String.format("Error entering command '%s'. Should be 'create|tableName|column1|column2|" +
-                    "...|columnN", command));
+            view.write(String.format(ERROR_ENTERING_MESSAGE + "'create|tableName|column1|column2|" +
+                    "...|columnN'", command));
             return;
         }
         String tableName = data.getTableName(command);
-        List<String>values = data.getDataTable(command);
+        List<String>values = data.getTableData(command);
 
         try {
             manager.create(tableName, values);

@@ -27,8 +27,7 @@ public class Find implements Command {
     public void process(String command) {
         List<String> parameter = data.getParameters(command);
         if (parameter.size() != 2) {
-            view.write(String.format("Error entering command '%s'. Should be " +
-                    "'find|tableName'", command));
+            view.write(String.format(ERROR_ENTERING_MESSAGE + "'find|tableName'", command));
             return;
         }
         String tableName = data.getTableName(command);

@@ -10,8 +10,8 @@ public class DataSet {
     private static final String PARSER = "(.*?\\|)(\\w+)(.*)";
     private static final String SEPARATOR = "\\|";
     private Pattern pattern = Pattern.compile(PARSER);
-    private Map<String, String> data = new LinkedHashMap<>();
     private Matcher matcher;
+    private Map<String, String> data = new LinkedHashMap<>();
     private List<String> parameters;
 
     public void put(String name, String value) {
@@ -43,7 +43,7 @@ public class DataSet {
         return tableName;
     }
 
-    public List<String> getDataTable(String input) {
+    public List<String> getTableData(String input) {
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
             parameters = getParameters(matcher.group(3).substring(1));
@@ -51,6 +51,13 @@ public class DataSet {
         return parameters;
     }
 
+    private Matcher getMatcher(String str, Pattern pattern) {
+        matcher = pattern.matcher(str);
+        return matcher;
+    }
+    public List<String> getParameters(String matcherGroup) {
+        return Arrays.asList(matcherGroup.split(SEPARATOR));
+    }
     public Map<String, String> setValuesToColumns(List<String> tableData) {
         for (int i = 0; i < tableData.size(); i++) {
             data.put(tableData.get(i), tableData.get(++i));
@@ -66,12 +73,4 @@ public class DataSet {
     }
 
 
-    public List<String> getParameters(String input) {
-        return Arrays.asList(input.split(SEPARATOR));
-    }
-
-    private Matcher getMatcher(String str, Pattern pattern) {
-        matcher = pattern.matcher(str);
-        return matcher;
-    }
 }
