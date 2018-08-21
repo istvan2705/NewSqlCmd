@@ -49,7 +49,7 @@ public class CreateTest  {
 
         command.process("create|students|id|surname|name");
         verify(manager).create(tableName,list);
-        view.write(String.format("The table '%s' has been created", tableName));
+        verify(view).write(String.format("The table '%s' has been created", tableName));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class CreateTest  {
         list.add("name");
         command.process("create|students|id|surname|name");
         verify(manager).create(tableName, list);
-        view.write(String.format("The table '%s' already exist", tableName));
+        verify(view).write(String.format("The table '%s' has been created", tableName));
     }
 }
 

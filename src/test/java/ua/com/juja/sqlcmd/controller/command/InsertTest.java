@@ -50,7 +50,7 @@ public class InsertTest {
         set.put("city", "Lviv");
         command.process("insert|teachers|id|3|surname|Ivanov|subject|History|city|Lviv");
         verify(manager).insert(tableName, set);
-        view.write(String.format("Statement are added into the table '%s'", tableName));
+        verify(view).write(String.format("Statement are added into the table '%s'", tableName));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class InsertTest {
             command.process("insert|teachers|id|3|surname|Ivanov|subject|History|city|Lviv");
             verify(manager).insert(tableName, set);
         } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+            verify(view).write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
 }

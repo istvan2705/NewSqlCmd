@@ -49,7 +49,7 @@ public class ClearTest {
             command.process("clear|" + tableName);
             verify(manager).clear(tableName);
         } catch (SQLException e) {
-            view.write(String.format("Can not execute command  due to: %s", e.getMessage()));
+            verify(view).write(String.format("Can not execute command  due to: %s", e.getMessage()));
         }
     }
 }
