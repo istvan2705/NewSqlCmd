@@ -38,13 +38,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<DataSet> getTableRows(String tableName) throws SQLException {
-        List<DataSet> result = new LinkedList<>();
+    public List<DataSetImpl> getTableRows(String tableName) throws SQLException {
+        List<DataSetImpl> result = new LinkedList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
             ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
-                DataSet dataSet = new DataSet();
+                DataSetImpl dataSet = new DataSetImpl();
                 result.add(dataSet);
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                     dataSet.put(rsmd.getColumnName(i), rs.getString(i));
@@ -134,7 +134,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public String getColumnsTable(List<String> columns, String format) {
         StringBuilder names = new StringBuilder();
         for (String newName : columns) {
-            names = names.append(String.format(format, newName));
+          names.append(String.format(format, newName));
         }
         return names.toString().substring(0, names.length() - 1);
     }
@@ -144,7 +144,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public String getColumnFormatted(Map<String, String> set, String format) {
         StringBuilder names = new StringBuilder();
         for (String newName : set.keySet()) {
-            names = names.append(String.format(format, newName));
+           names.append(String.format(format, newName));
         }
         return names.toString().substring(0, names.length() - 1);
     }
@@ -153,7 +153,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public String getValuesFormatted(Map<String, String> set, String format) {
         StringBuilder names = new StringBuilder();
         for (String value : set.values()) {
-            names = names.append(String.format(format, value));
+            names.append(String.format(format, value));
         }
         return names.toString().substring(0, names.length() - 1);
     }

@@ -3,22 +3,23 @@ package ua.com.juja.sqlcmd.controller;
 import ua.com.juja.sqlcmd.controller.command.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class MainController {
+    class MainController {
     private Command commandInstance;
     private View view;
     private DatabaseManager manager;
-    private DataSet data = new DataSet();
+    private DataSet data = new DataSetImpl();
 
-    public MainController(DatabaseManager manager, View view) {
+    MainController(DatabaseManager manager, View view) {
         this.view = view;
         this.manager = manager;
     }
 
-    public void run() {
+    void run() {
         view.write("Hello user!");
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {

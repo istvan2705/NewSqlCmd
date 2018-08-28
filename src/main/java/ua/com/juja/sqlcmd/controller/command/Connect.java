@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -10,9 +11,9 @@ import java.util.List;
 public class Connect implements Command {
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSet();
+    private DataSet data = new DataSetImpl();
 
-    public Connect(DatabaseManager manager, View view) {
+    protected Connect(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }

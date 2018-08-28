@@ -1,6 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -12,7 +12,7 @@ public class Clear  implements Command {
 
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSet();
+    private DataSetImpl data = new DataSetImpl();
 
     public Clear(DatabaseManager manager, View view) {
         this.manager = manager;

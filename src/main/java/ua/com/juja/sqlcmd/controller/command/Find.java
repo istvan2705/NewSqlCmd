@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -12,7 +13,7 @@ public class Find implements Command {
 
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSet();
+    private DataSet data = new DataSetImpl();
     public Find(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
@@ -34,7 +35,7 @@ public class Find implements Command {
         try {
             Set<String> columns = manager.getColumnsNames(tableName);
             printColumnsNames(columns);
-            List<DataSet> rows = manager.getTableRows(tableName);
+            List<DataSetImpl> rows = manager.getTableRows(tableName);
             printTable(rows);
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
@@ -51,14 +52,14 @@ public class Find implements Command {
         view.write("--------------------------");
     }
 
-    private void printTable(List<DataSet> tableData) {
-        for (DataSet row : tableData) {
+    private void printTable(List<DataSetImpl> tableData) {
+        for (DataSetImpl row : tableData) {
             printRow(row);
         }
         view.write("--------------------------");
     }
 
-    private void printRow(DataSet row) {
+    private void printRow(DataSetImpl row) {
     StringBuilder result = new StringBuilder();
         List<String> values = row.getValues();
         for (Object value : values) {
