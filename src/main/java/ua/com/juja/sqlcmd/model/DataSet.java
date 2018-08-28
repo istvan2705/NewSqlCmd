@@ -10,7 +10,6 @@ public interface DataSet {
     String PARSER = "(.*?\\|)(\\w+)(.*)";
     String SEPARATOR = "\\|";
 
-
     void put(String name, String value);
 
     List<String> getValues();
