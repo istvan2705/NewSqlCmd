@@ -7,8 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public interface DataSet {
+      String PARSER = "(.*?\\|)(\\w+)(.*)";
+      String SEPARATOR = "\\|";
 
-    void put(String name, String value);
+
+     void put(String name, String value);
 
      List<String> getValues();
 

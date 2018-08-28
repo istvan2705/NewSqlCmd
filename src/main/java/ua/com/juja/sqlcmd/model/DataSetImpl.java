@@ -7,8 +7,6 @@ import java.util.regex.Pattern;
 
 public class DataSetImpl implements DataSet{
 
-    private static final String PARSER = "(.*?\\|)(\\w+)(.*)";
-    private static final String SEPARATOR = "\\|";
     private Pattern pattern = Pattern.compile(PARSER);
     private Matcher matcher;
     private Map<String, String> data = new LinkedHashMap<>();
