@@ -29,7 +29,6 @@ public class DataSetImpl implements DataSet {
         if (matcher.find()) {
             parameters = getParameters(matcher.group(1));
             command = parameters.get(0);
-
         } else {
             command = input;
         }
