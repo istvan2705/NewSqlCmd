@@ -9,17 +9,17 @@ public class DataSetImpl implements DataSet {
 
     private Pattern pattern = Pattern.compile(PARSER);
     private Matcher matcher;
-    private Map<String, String> data = new LinkedHashMap<>();
+    private Map<String, String> map = new LinkedHashMap<>();
     private List<String> parameters;
 
     @Override
     public void put(String name, String value) {
-        data.put(name, value);
+        map.put(name, value);
     }
 
     @Override
     public List<String> getValues() {
-        return new ArrayList<>(data.values());
+        return new ArrayList<>(map.values());
     }
 
     @Override
@@ -68,9 +68,9 @@ public class DataSetImpl implements DataSet {
     @Override
     public Map<String, String> setValuesToColumns(List<String> tableData) {
         for (int i = 0; i < tableData.size(); i++) {
-            data.put(tableData.get(i), tableData.get(++i));
+            map.put(tableData.get(i), tableData.get(++i));
         }
-        return data;
+        return map;
     }
 
     @Override
