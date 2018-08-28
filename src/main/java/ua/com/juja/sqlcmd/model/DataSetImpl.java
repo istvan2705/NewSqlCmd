@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DataSetImpl implements DataSet{
+public class DataSetImpl implements DataSet {
 
     private Pattern pattern = Pattern.compile(PARSER);
     private Matcher matcher;
@@ -28,7 +28,7 @@ public class DataSetImpl implements DataSet{
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
             parameters = getParameters(matcher.group(1));
-          command = parameters.get(0);
+            command = parameters.get(0);
 
         } else {
             command = input;
@@ -56,7 +56,7 @@ public class DataSetImpl implements DataSet{
     }
 
     @Override
-   public Matcher getMatcher(String str, Pattern pattern) {
+    public Matcher getMatcher(String str, Pattern pattern) {
         matcher = pattern.matcher(str);
         return matcher;
     }
@@ -81,6 +81,4 @@ public class DataSetImpl implements DataSet{
         set.remove(firstSet);
         return set;
     }
-
-
 }
