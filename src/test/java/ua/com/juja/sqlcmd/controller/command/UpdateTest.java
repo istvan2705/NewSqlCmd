@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -17,16 +18,17 @@ import static ua.com.juja.sqlcmd.controller.command.Command.SQL_EXCEPTION_MESSAG
 
 
 public class UpdateTest {
-
+    public DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
 
     @Before
     public void init() {
+        data = mock(DataSet.class);
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        command = new Update(manager, view);
+        command = new Update(data, manager, view);
     }
 
     @Test

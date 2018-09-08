@@ -9,10 +9,12 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class Insert implements Command {
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
-    public Insert(DatabaseManager manager, View view) {
+
+    public Insert(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }
@@ -32,9 +34,9 @@ public class Insert implements Command {
         }
         String tableName = data.getTableName(command);
         List<String> values = data.getTableData(command);
-        Map<String, String> set = data.setValuesToColumns(values);
+        Map<String, String> map = data.setValuesToColumns(values);
         try {
-            manager.insert(tableName, set);
+            manager.insert(tableName, map);
             view.write(String.format("Statement are added into the table '%s'", tableName));
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));

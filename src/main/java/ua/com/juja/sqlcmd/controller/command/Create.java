@@ -9,11 +9,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Create implements Command {
+
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
 
-    public Create(DatabaseManager manager, View view) {
+
+    public Create(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }

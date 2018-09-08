@@ -11,11 +11,12 @@ import java.util.Map;
 
 public class Update implements Command {
 
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
 
-    public Update(DatabaseManager manager, View view) {
+    public Update(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }

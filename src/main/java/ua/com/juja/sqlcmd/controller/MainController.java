@@ -12,9 +12,10 @@ import ua.com.juja.sqlcmd.view.View;
     private Command commandInstance;
     private View view;
     private DatabaseManager manager;
-    private DataSet data = new DataSetImpl();
+    private DataSet data;
 
-    MainController(DatabaseManager manager, View view) {
+    MainController(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.view = view;
         this.manager = manager;
     }
@@ -29,12 +30,12 @@ import ua.com.juja.sqlcmd.view.View;
                 SqlCommand command = SqlCommand.valueOf(comm.toUpperCase());
                 switch (command) {
                     case CONNECT:
-                        commandInstance = new Connect(manager, view) {
+                        commandInstance = new Connect(data, manager, view) {
                         };
                         break;
 
                     case INSERT:
-                        commandInstance = new Insert(manager, view);
+                        commandInstance = new Insert(data, manager, view);
                         break;
 
                     case TABLES:
@@ -42,27 +43,27 @@ import ua.com.juja.sqlcmd.view.View;
                         break;
 
                     case DROP:
-                        commandInstance = new Drop(manager, view);
+                        commandInstance = new Drop(data, manager, view);
                         break;
 
                     case CREATE:
-                        commandInstance = new Create(manager, view);
+                        commandInstance = new Create(data, manager, view);
                         break;
 
                     case CLEAR:
-                        commandInstance = new Clear(manager, view);
+                        commandInstance = new Clear(data, manager, view);
                         break;
 
                     case DELETE:
-                        commandInstance = new Delete(manager, view);
+                        commandInstance = new Delete(data, manager, view);
                         break;
 
                     case FIND:
-                        commandInstance = new Find(manager, view);
+                        commandInstance = new Find(data, manager, view);
                         break;
 
                     case UPDATE:
-                        commandInstance = new Update(manager, view);
+                        commandInstance = new Update(data, manager, view);
                         break;
 
                     case EXIT:

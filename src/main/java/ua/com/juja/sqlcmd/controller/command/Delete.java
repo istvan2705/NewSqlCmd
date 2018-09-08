@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Delete implements Command {
+
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
-    public Delete(DatabaseManager manager, View view) {
+
+    public Delete(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }

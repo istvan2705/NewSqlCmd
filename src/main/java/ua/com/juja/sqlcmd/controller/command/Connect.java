@@ -9,11 +9,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Connect implements Command {
+
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
 
-    protected Connect(DatabaseManager manager, View view) {
+    public Connect(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }

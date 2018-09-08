@@ -11,10 +11,12 @@ import java.util.Set;
 
 public class Find implements Command {
 
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
-    public Find(DatabaseManager manager, View view) {
+
+    public Find(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }

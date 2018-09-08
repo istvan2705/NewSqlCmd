@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Drop  implements Command {
+
+    private DataSet data;
     private DatabaseManager manager;
     private View view;
-    private DataSet data = new DataSetImpl();
-    public Drop(DatabaseManager manager, View view) {
+
+    public Drop(DataSet data, DatabaseManager manager, View view) {
+        this.data = data;
         this.manager = manager;
         this.view = view;
     }
