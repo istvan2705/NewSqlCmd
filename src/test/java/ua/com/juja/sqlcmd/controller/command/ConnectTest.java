@@ -49,7 +49,7 @@ public class ConnectTest {
         when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("connect", "Academy", "postgres", "1401198n")));
         when(data.getTableName(input)).thenReturn("Academy");
         when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("postgres", "1401198n")));
-        command.process("connect|Academy|postgres|1401198n");
+        command.process(input);
         verify(data).getParameters(input);
         verify(data).getTableName(input);
         verify(data).getTableData(input);
@@ -67,7 +67,7 @@ public class ConnectTest {
         when(data.getTableName(input)).thenReturn("Academy");
         when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("postgres", "1401198n")));
         try {
-            command.process("connect|Academy|postgres|1401198n");
+            command.process(input);
 
             verify(data).getParameters(input);
             verify(data).getTableName(input);
