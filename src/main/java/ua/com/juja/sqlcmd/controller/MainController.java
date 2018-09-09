@@ -3,13 +3,12 @@ package ua.com.juja.sqlcmd.controller;
 import ua.com.juja.sqlcmd.controller.command.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DataSet;
-import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
     class MainController {
-    private Command commandInstance;
+    private Command command;
     private View view;
     private DatabaseManager manager;
     private DataSet data;
@@ -25,56 +24,56 @@ import ua.com.juja.sqlcmd.view.View;
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {
             String input = view.read();
-            String comm = data.getCommand(input);
+            String commandName = data.getCommand(input);
             try {
-                SqlCommand command = SqlCommand.valueOf(comm.toUpperCase());
-                switch (command) {
+                SqlCommand sqlCommand = SqlCommand.valueOf(commandName.toUpperCase());
+                switch (sqlCommand) {
                     case CONNECT:
-                        commandInstance = new Connect(data, manager, view) {
+                        command = new Connect(data, manager, view) {
                         };
                         break;
 
                     case INSERT:
-                        commandInstance = new Insert(data, manager, view);
+                        command = new Insert(data, manager, view);
                         break;
 
                     case TABLES:
-                        commandInstance = new Tables(manager, view);
+                        command = new Tables(manager, view);
                         break;
 
                     case DROP:
-                        commandInstance = new Drop(data, manager, view);
+                        command = new Drop(data, manager, view);
                         break;
 
                     case CREATE:
-                        commandInstance = new Create(data, manager, view);
+                        command = new Create(data, manager, view);
                         break;
 
                     case CLEAR:
-                        commandInstance = new Clear(data, manager, view);
+                        command = new Clear(data, manager, view);
                         break;
 
                     case DELETE:
-                        commandInstance = new Delete(data, manager, view);
+                        command = new Delete(data, manager, view);
                         break;
 
                     case FIND:
-                        commandInstance = new Find(data, manager, view);
+                        command = new Find(data, manager, view);
                         break;
 
                     case UPDATE:
-                        commandInstance = new Update(data, manager, view);
+                        command = new Update(data, manager, view);
                         break;
 
                     case EXIT:
-                        commandInstance = new Exit(view);
+                        command = new Exit(view);
                         break;
 
                     case HELP:
-                        commandInstance = new Help(view);
+                        command = new Help(view);
                         break;
                 }
-                commandInstance.process(input);
+                command.process(input);
 
             } catch (IllegalArgumentException e) {
                 new Unsupported(view).process(input);
