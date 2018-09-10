@@ -73,7 +73,7 @@ class MainController {
                         command = new Help(view);
                         break;
                 }
-                view.write(command.process(input));
+                command.process(input);
 
             } catch (IllegalArgumentException e) {
                 new Unsupported(view).process(input);
