@@ -57,25 +57,17 @@ public class ConnectTest {
         view.write(String.format("You have login to database '%s' successfully!", tableName));
     }
 
-    @Test
+    @Test(expected = SQLException.class)
     public void testConnectFailed() throws SQLException {
         String tableName = "Academy";
         String column1 = "postgres";
         String column2 = "1401198n";
         String input = "connect|" + tableName + "|" + column1 + "|" + column2;
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("connect", "Academy", "postgres", "1401198n")));
-        when(data.getTableName(input)).thenReturn("Academy");
-        when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("postgres", "1401198n")));
-        try {
-            command.process(input);
 
-            verify(data).getParameters(input);
-            verify(data).getTableName(input);
-            verify(data).getTableData(input);
-            verify(manager).connect(tableName, column1, column2);
-        } catch (ExitException e) {
-            verify(view).write(String.format("The connection to database '%s' for user '%s' is failed due to'%s'",
-                    tableName, column1, e.getMessage()));
-        }
+        command.process(input);
+
+        doThrow(new SQLException()).when(manager).connect(tableName, column1, column2);
+        manager.connect(tableName, column1, column2);
     }
 }
+

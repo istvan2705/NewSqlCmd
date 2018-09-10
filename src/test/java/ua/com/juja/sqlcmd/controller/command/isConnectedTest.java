@@ -7,6 +7,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class isConnectedTest {
@@ -29,8 +30,19 @@ public class isConnectedTest {
 
     @Test
     public void isConnectTest() {
-        when(!manager.isConnected()).thenReturn(false);
-        view.write(String.format("You can not use command '%s' until " + " you will not connect with command " +
-                "connect|databaseName|userName|password", command));
-    }
-} 
+        when(manager.isConnected()).thenReturn(true);
+
+        manager.isConnected();
+
+        verify(manager).isConnected();
+      }
+    @Test
+    public void testProcessConnect(){
+        String input = "connect|Academy|postgres|1401198n";
+
+       command.process(input);
+
+       verify(view).write(String.format("You can not use command '%s' until you have established connection to the "
+               + "database connect|databaseName|userName|password", input));
+          }
+}

@@ -8,6 +8,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class ExitTest {
 
@@ -36,11 +37,10 @@ public class ExitTest {
         assertFalse(canProcess);
     }
 
-//    @Test
-//    public void testProcessExit() {
-//        command.process("exit");
-//        Mockito.verify(view).write("See you soon!");
-//        System.exit(0);
-//    }
+    @Test
+    public void testProcessExit() {
+        command.process("exit");
+        verify(view).write("See you soon!");
+    }
 }
 

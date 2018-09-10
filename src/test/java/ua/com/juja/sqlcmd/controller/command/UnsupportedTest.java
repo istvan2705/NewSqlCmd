@@ -7,6 +7,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class UnsupportedTest  {
 
@@ -23,4 +24,11 @@ public class UnsupportedTest  {
     public void testUnsupportedCanProcessError() {
         assertTrue(command.canProcess("insert|"));
     }
+
+    @Test
+    public void testUnsupportedProcess(){
+        command.process("table-");
+        verify(view).write("Not existing command " +"table-");
+    }
 }
+

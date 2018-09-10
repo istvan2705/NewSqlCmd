@@ -57,19 +57,15 @@ public class ClearTest {
         verify(view).write("You are trying to clear the contents of an empty table");
     }
 
-    @Test
-    public void testNotClearTableIfContentNotExists() {
+    @Test(expected = SQLException.class)
+    public void testNotClearTableIfContentNotExists() throws SQLException{
         String tableName = "teachers";
-        when(data.getParameters("clear|" + tableName)).thenReturn(new ArrayList(Arrays.asList("clear", "teachers")));
-        when(data.getTableName("clear|" + tableName)).thenReturn("teachers");
-        try {
-            command.process("clear|" + tableName);
-            verify(data).getParameters("clear|" + tableName);
-            verify(data).getTableName("clear|" + tableName);
-            verify(manager).clear(tableName);
-        } catch (SQLException e) {
-            verify(view).write(String.format("Can not execute command  due to: %s", e.getMessage()));
-        }
+        String input = "clear|" + tableName;
+
+        command.process(input);
+
+       doThrow(new SQLException()).when(manager).clear(tableName);
+       manager.clear(tableName);
     }
 }
 

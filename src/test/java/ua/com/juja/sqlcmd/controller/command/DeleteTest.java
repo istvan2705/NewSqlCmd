@@ -69,6 +69,5 @@ public class DeleteTest {
         command.process(input);
         doThrow(new SQLException()).when(manager).deleteRows(tableName, column1, column2);
         manager.deleteRows(tableName, column1, column2);
-        view.write(String.format("Error entering command. The row with rowName  '%s' does not exist", column2));
     }
 }

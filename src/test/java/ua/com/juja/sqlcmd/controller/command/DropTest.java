@@ -47,7 +47,6 @@ public class DropTest {
 
         when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("drop", "students")));
         when(data.getTableName(input)).thenReturn("students");
-
         command.process(input);
 
         verify(data).getParameters(input);
