@@ -37,7 +37,7 @@ public class Connect implements Command {
         String password = values.get(1);
         try {
             manager.connect(databaseName, userName, password);
-            view.write(String.format("You have сonnected to database '%s' successfully!", databaseName));
+            view.write(String.format("You have connected to database '%s' successfully!", databaseName));
         } catch (SQLException e) {
             view.write(String.format("The connection to database '%s' for user '%s' is failed due to'%s'", databaseName, userName, e.getMessage()));
         }
