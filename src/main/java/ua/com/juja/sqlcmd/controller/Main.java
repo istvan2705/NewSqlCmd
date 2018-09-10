@@ -11,12 +11,12 @@ import ua.com.juja.sqlcmd.view.View;
 public class Main {
 
     public static void main(String[] args) {
-    DataSet data = new DataSetImpl();
-    DatabaseManager manager = new JDBCDatabaseManager();
-    View view = new Console();
+        DataSet data = new DataSetImpl();
+        DatabaseManager manager = new JDBCDatabaseManager();
+        View view = new Console();
 
         MainController controller = new MainController(data, manager, view);
         controller.run();
     }
-    }
+}
 

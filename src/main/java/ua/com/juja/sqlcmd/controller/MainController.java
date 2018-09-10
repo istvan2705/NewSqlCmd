@@ -7,7 +7,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-    class MainController {
+class MainController {
     private Command command;
     private View view;
     private DatabaseManager manager;
@@ -80,8 +80,7 @@ import ua.com.juja.sqlcmd.view.View;
 
             } catch (NullPointerException e) {
                 new IsConnected(manager, view).process(input);
-            }
-              catch (ExitException e) {
+            } catch (ExitException e) {
                 e.getMessage();
             }
 
