@@ -13,18 +13,13 @@ public class Connect implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public Connect(DataSet data, DatabaseManager manager, View view) {
+    protected Connect(DataSet data, DatabaseManager manager, View view) {
         this.data = data;
         this.manager = manager;
         this.view = view;
     }
 
-    @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("connect|");
-    }
-
-    @Override
+     @Override
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() != 4) {

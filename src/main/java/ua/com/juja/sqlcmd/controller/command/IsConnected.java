@@ -12,12 +12,7 @@ public class IsConnected implements Command {
         this.view = view;
     }
 
-    @Override
-    public boolean canProcess(String command) {
-        return !manager.isConnected();
-    }
-
-    @Override
+       @Override
     public void process(String command) {
         view.write(String.format("You can not use command '%s' until " + "you have established connection to the database "+
                 "connect|databaseName|userName|password", command));

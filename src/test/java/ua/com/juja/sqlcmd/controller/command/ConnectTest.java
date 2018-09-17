@@ -29,26 +29,15 @@ public class ConnectTest {
     }
 
     @Test
-    public void testConnectCanProcess() {
-        assertTrue(command.canProcess("connect|Academy|postgres|1401198n"));
-    }
-
-    @Test
-    public void testConnectCanProcessError() {
-        assertFalse(command.canProcess("connect"));
-    }
-
-    @Test
-
     public void testConnectSuccessful() throws SQLException {
         String tableName = "Academy";
         String column1 = "postgres";
         String column2 = "1401198n";
         String input = "connect|" + tableName + "|" + column1 + "|" + column2;
 
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("connect", "Academy", "postgres", "1401198n")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("connect", "Academy", "postgres", "1401198n")));
         when(data.getTableName(input)).thenReturn("Academy");
-        when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("postgres", "1401198n")));
+        when(data.getTableData(input)).thenReturn(new ArrayList<>(Arrays.asList("postgres", "1401198n")));
         command.process(input);
         verify(data).getParameters(input);
         verify(data).getTableName(input);

@@ -24,20 +24,6 @@ public class ExitTest {
     }
 
     @Test
-    public void testCanProcessExit() {
-        //when
-        boolean canProcess = command.canProcess("exit");
-        //then
-        assertTrue(canProcess);
-    }
-
-    @Test
-    public void testCantProcessExit() {
-        boolean canProcess = command.canProcess("tree");
-        assertFalse(canProcess);
-    }
-
-    @Test
     public void testProcessExit() {
         command.process("exit");
         verify(view).write("See you soon!");

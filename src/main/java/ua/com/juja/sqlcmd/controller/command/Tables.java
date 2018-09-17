@@ -17,12 +17,7 @@ public class Tables implements Command {
         this.view = view;
     }
 
-    @Override
-    public boolean canProcess(String command) {
-        return command.equals("tables");
-    }
-
-    @Override
+   @Override
     public void process(String command) {
         try {
             view.write(format(manager.getTableNames()));

@@ -19,12 +19,7 @@ public class HelpTest {
         command = new Help(view);
     }
 
-    @Test
-    public void testCreateCanProcess() {
-        assertTrue(command.canProcess("help"));
-    }
-
-    @Test
+     @Test
     public void testHelp() {
         command.process("help");
         verify(view).write("Existing commands:");

@@ -9,8 +9,6 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -18,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 
 public class ClearTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -32,21 +30,11 @@ public class ClearTest {
     }
 
     @Test
-    public void testClearCanProcess() {
-        assertTrue(command.canProcess("clear|teachers"));
-    }
-
-    @Test
-    public void testClearCanProcessError() {
-        assertFalse(command.canProcess("clear"));
-    }
-
-    @Test
     public void testClearTableIfContentExists() throws SQLException {
         String tableName = "teachers";
         String input = "clear|" + tableName;
 
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("clear", "teachers")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("clear", "teachers")));
         when(data.getTableName(input)).thenReturn("teachers");
 
         command.process("clear|" + tableName);

@@ -21,11 +21,6 @@ public class Clear  implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("clear|");
-    }
-
-    @Override
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() != 2) {

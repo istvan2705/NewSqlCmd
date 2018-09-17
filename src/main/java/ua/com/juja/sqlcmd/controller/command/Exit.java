@@ -10,11 +10,6 @@ public class Exit implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.equals("exit");
-    }
-
-    @Override
     public void process(String command) {
 
             view.write("See you soon!");

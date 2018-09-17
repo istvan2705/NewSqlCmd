@@ -21,11 +21,6 @@ public class UnsupportedTest  {
     }
 
     @Test
-    public void testUnsupportedCanProcessError() {
-        assertTrue(command.canProcess("insert|"));
-    }
-
-    @Test
     public void testUnsupportedProcess(){
         command.process("table-");
         verify(view).write("Not existing command " +"table-");

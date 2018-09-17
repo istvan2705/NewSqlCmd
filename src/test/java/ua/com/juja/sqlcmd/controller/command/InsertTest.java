@@ -6,22 +6,18 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
-import static ua.com.juja.sqlcmd.controller.command.Command.SQL_EXCEPTION_MESSAGE;
 
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DataSet;
-import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.awt.List;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
 public class InsertTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -32,16 +28,6 @@ public class InsertTest {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
         command = new Insert(data, manager, view);
-    }
-
-    @Test
-    public void testInsertCanProcess() {
-        assertTrue(command.canProcess("insert|teachers|id|3|surname|Ivanov"));
-    }
-
-    @Test
-    public void testInsertCanProcessError() {
-        assertFalse(command.canProcess("insert"));
     }
 
     @Test
@@ -64,9 +50,9 @@ public class InsertTest {
         map.put(column1, value1);
         map.put(column2, value2);
 
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("insert", "teachers", "id", "3", "surname", "Ivanov")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("insert", "teachers", "id", "3", "surname", "Ivanov")));
         when(data.getTableName(input)).thenReturn("teachers");
-        when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("id", "3", "surname", "Ivanov")));
+        when(data.getTableData(input)).thenReturn(new ArrayList<>(Arrays.asList("id", "3", "surname", "Ivanov")));
         when(data.setValuesToColumns(list)).thenReturn(map);
 
         command.process(input);

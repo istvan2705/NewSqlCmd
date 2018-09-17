@@ -31,16 +31,6 @@ public class TablesTest  {
     }
 
     @Test
-    public void testTablesCanProcess() {
-        assertTrue(command.canProcess("tables"));
-    }
-
-    @Test
-    public void testTablesCanProcessError() {
-        assertFalse(command.canProcess("table"));
-    }
-
-    @Test
     public void testTables() throws SQLException {
         when(manager.getTableNames()).thenReturn(new LinkedHashSet<>(Arrays.asList("teachers", "students")));
         command.process("tables");

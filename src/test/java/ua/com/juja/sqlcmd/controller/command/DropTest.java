@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DropTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -31,21 +31,11 @@ public class DropTest {
     }
 
     @Test
-    public void testDropCanProcess() {
-        assertTrue(command.canProcess("drop|students"));
-    }
-
-    @Test
-    public void testDropCanProcessError() {
-        assertFalse(command.canProcess("drop"));
-    }
-
-    @Test
     public void testDropTableProcess() throws SQLException {
         String tableName = "students";
         String input = "drop|"+ tableName;
 
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("drop", "students")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("drop", "students")));
         when(data.getTableName(input)).thenReturn("students");
         command.process(input);
 

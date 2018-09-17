@@ -18,7 +18,7 @@ import static ua.com.juja.sqlcmd.controller.command.Command.SQL_EXCEPTION_MESSAG
 
 
 public class UpdateTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -29,16 +29,6 @@ public class UpdateTest {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
         command = new Update(data, manager, view);
-    }
-
-    @Test
-    public void testUpdateCanProcess() {
-        assertTrue(command.canProcess("update|teachers|id|3|surname|Bogdanov"));
-    }
-
-    @Test
-    public void testUpdateCanProcessError() {
-        assertFalse(command.canProcess("update"));
     }
 
     @Test

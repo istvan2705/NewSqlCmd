@@ -11,11 +11,6 @@ public class Unsupported implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return true;
-    }
-
-    @Override
     public void process(String command) {
         view.write("Not existing command " + command);
     }

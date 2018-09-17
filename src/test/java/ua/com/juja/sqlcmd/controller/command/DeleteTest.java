@@ -16,7 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class DeleteTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -30,24 +30,14 @@ public class DeleteTest {
     }
 
     @Test
-    public void testDeleteCanProcess() {
-        assertTrue(command.canProcess("delete|teachers|subject|Math"));
-    }
-
-    @Test
-    public void testDeleteCanProcessError() {
-        assertFalse(command.canProcess("delete"));
-    }
-
-    @Test
     public void testDeleteIfRowExists() throws SQLException {
         String tableName = "teachers";
         String column1 = "subject";
         String column2 = "Math";
         String input = "delete|" + tableName + "|" + column1 + "|" + column2;
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("delete", "teachers", "subject", "Math")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("delete", "teachers", "subject", "Math")));
         when(data.getTableName(input)).thenReturn("teachers");
-        when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("subject", "Math")));
+        when(data.getTableData(input)).thenReturn(new ArrayList<>(Arrays.asList("subject", "Math")));
         when(manager.deleteRows(tableName, column1, column2)).thenReturn(true);
 
         command.process(input);

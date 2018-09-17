@@ -16,7 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class CreateTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -30,17 +30,6 @@ public class CreateTest {
     }
 
     @Test
-    public void testCreateCanProcess() {
-        assertTrue(command.canProcess("create|workers|id|surname"));
-    }
-
-    @Test
-    public void testCreateCanProcessError() {
-        assertFalse(command.canProcess("create"));
-    }
-
-
-    @Test
     public void testCreateIfNotExists() throws SQLException {
         String tableName = "students";
         String column1 = "id";
@@ -52,9 +41,9 @@ public class CreateTest {
         list.add("surname");
         list.add("name");
 
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("create", "students", "id", "surname", "name")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("create", "students", "id", "surname", "name")));
         when(data.getTableName(input)).thenReturn("students");
-        when(data.getTableData(input)).thenReturn(new ArrayList(Arrays.asList("id", "surname", "name")));
+        when(data.getTableData(input)).thenReturn(new ArrayList<>(Arrays.asList("id", "surname", "name")));
 
         command.process("create|students|id|surname|name");
 

@@ -16,12 +16,13 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 
 import static org.junit.Assert.assertEquals;
 
 public class FindTest {
-    public DataSet data;
+    private DataSet data;
     public View view;
     public DatabaseManager manager;
     public Command command;
@@ -34,22 +35,12 @@ public class FindTest {
         command = new Find(data, manager, view);
     }
 
-    @Test
-    public void testFindCanProcess() {
-        assertTrue(command.canProcess("find|students"));
-    }
-
-    @Test
-    public void testFindCanProcessError() {
-        assertFalse(command.canProcess("find"));
-    }
-
-    @Test
+     @Test
     public void testFind() throws SQLException {
         String tableName = "students";
         String input = "find|" + tableName;
 
-        when(data.getParameters(input)).thenReturn(new ArrayList(Arrays.asList("find", "students")));
+        when(data.getParameters(input)).thenReturn(new ArrayList<>(Arrays.asList("find", "students")));
         when(data.getTableName(input)).thenReturn("students");
         when(manager.getColumnsNames("students")).thenReturn(new LinkedHashSet<>(Arrays.asList("id", "surname", "subject", "city")));
         DataSetImpl set = new DataSetImpl();
@@ -57,7 +48,7 @@ public class FindTest {
         set.put("surname", "Petrov");
         set.put("subject", "History");
         set.put("city", "Lviv");
-        when(manager.getTableRows("students")).thenReturn(Arrays.asList(set));
+        when(manager.getTableRows("students")).thenReturn(Collections.singletonList(set));
 
         command.process(input);
         verify(data).getParameters(input);

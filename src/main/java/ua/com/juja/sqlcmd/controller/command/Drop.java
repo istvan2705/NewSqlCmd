@@ -20,11 +20,6 @@ public class Drop  implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("drop|");
-    }
-
-    @Override
     public void process(String command) {
         List<String> parameters = data.getParameters(command);
         if (parameters.size() != 2) {

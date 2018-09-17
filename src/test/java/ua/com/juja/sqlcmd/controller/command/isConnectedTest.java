@@ -24,11 +24,6 @@ public class isConnectedTest {
     }
 
     @Test
-    public void testIsConnectCanProcess() {
-        assertTrue(command.canProcess("connect|Academy|postgres|1401198n"));
-    }
-
-    @Test
     public void isConnectTest() {
         when(manager.isConnected()).thenReturn(true);
 
