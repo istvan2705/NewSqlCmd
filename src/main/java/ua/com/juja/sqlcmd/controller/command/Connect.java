@@ -13,7 +13,7 @@ public class Connect implements Command {
     private DatabaseManager manager;
     private View view;
 
-    protected Connect(DataSet data, DatabaseManager manager, View view) {
+    public Connect(DataSet data, DatabaseManager manager, View view) {
         this.data = data;
         this.manager = manager;
         this.view = view;

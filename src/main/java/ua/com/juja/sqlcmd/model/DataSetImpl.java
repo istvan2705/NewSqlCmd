@@ -32,7 +32,7 @@ public class DataSetImpl implements DataSet {
         } else {
             command = input;
         }
-        return command;
+         return command;
     }
 
     @Override
@@ -56,9 +56,10 @@ public class DataSetImpl implements DataSet {
 
     @Override
     public Matcher getMatcher(String str, Pattern pattern) {
-        matcher = pattern.matcher(str);
-        return matcher;
-    }
+            matcher = pattern.matcher(str);
+            return matcher;
+        }
+
 
     @Override
     public List<String> getParameters(String matcherGroup) {

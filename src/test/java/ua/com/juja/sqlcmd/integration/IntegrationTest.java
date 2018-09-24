@@ -30,8 +30,11 @@ public class IntegrationTest {
     @Test
     public void testHelp() {
         // given
+     //   in.add("connect|Academy|postgres|1401198n");
         in.add("help");
         in.add("exit");
+
+
         // when
         Main.main(new String[0]);
         // then
@@ -78,7 +81,7 @@ public class IntegrationTest {
         "See you soon!\n" , getData());
     }
 
-    public String getData() {
+    private String getData() {
         try {
             String result = new String(out.toByteArray(), "UTF-8").replaceAll("\n", "\n");
             out.reset();
@@ -91,6 +94,7 @@ public class IntegrationTest {
     @Test
     public void testExit() {
         // given
+    //    in.add("connect|Academy|postgres|1401198n");
         in.add("exit");
         // when
         Main.main(new String[0]);
@@ -100,10 +104,11 @@ public class IntegrationTest {
                   "Please enter database, username and password in a format: connect|database|userName|password\n" +
                   "See you soon!\n", getData());
     }
-//
+
     @Test
     public void testTablesWithoutConnect() {
         // given
+        in.add("connect|Academy|postgres|1401198n");
         in.add("tables");
         in.add("exit");
         // when
@@ -122,7 +127,8 @@ public class IntegrationTest {
     @Test
     public void testFindWithoutConnect() {
         // given
-        in.add("find|user");
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("find|teachers");
         in.add("exit");
         // when
         Main.main(new String[0]);
@@ -136,284 +142,238 @@ public class IntegrationTest {
                         // exit
                         "See you soon!\n", getData());
     }
-//
-//    @Test
-//    public void testUnsupported() {
-//        // given
-//        in.add("unsupported");
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(
-//                // unsupported
-//                "Вы не можете пользоваться командами, пока не подключитесь с помощью комманды connect|databaseName|userName|password\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testUnsupportedAfterConnect() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("unsupported");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // unsupported
-//                "Несуществующая команда: unsupported\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testTablesAfterConnect() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("tables");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // tables
-//                "Существующие таблицы: users, test1, users2\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testFindAfterConnect() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("find|users");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "+-----+--------+--+\n" +
-//                "|name |password|id|\n" +
-//                "+-----+--------+--+\n" +
-//                "|Vasia|****    |22|\n" +
-//                "+-----+--------+--+\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testConnectAfterConnect() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("tables");
-//        in.add("connect|test|" + USER + "|" + PASSWORD);
-//        in.add("tables");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // tables
-//                "Существующие таблицы: users, test1, users2\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // connect test
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // tables
-//                "Существующие таблицы: qwe\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testConnectWithError() {
-//        // given
-//        in.add("connect|" + DATABASE);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Неудача! по причине: Формат команды 'connect|databaseName|userName|password', а ты ввел: connect|sqlcmd5hope5never5exist\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testFindAfterConnect_withData() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("clear|users");
-//        in.add("insert|users|id|13|name|Stiven|password|*****");
-//        in.add("insert|users|id|14|name|Eva|password|+++++");
-//        in.add("find|users");
-//        in.add("clear|users");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // clear|users
-//                "Таблица users была успешно очищена.\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // insert|users|id|13|name|Stiven|password|*****
-//                "В таблице 'users' была успешно добавлена запись:\n" +
-//                "+--+------+--------+\n" +
-//                "|id|name  |password|\n" +
-//                "+--+------+--------+\n" +
-//                "|13|Stiven|*****   |\n" +
-//                "+--+------+--------+\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // insert|users|id|14|name|Eva|password|+++++
-//                "В таблице 'users' была успешно добавлена запись:\n" +
-//                "+--+----+--------+\n" +
-//                "|id|name|password|\n" +
-//                "+--+----+--------+\n" +
-//                "|14|Eva |+++++   |\n" +
-//                "+--+----+--------+\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // find|users
-//                "+------+--------+--+\n" +
-//                "|name  |password|id|\n" +
-//                "+------+--------+--+\n" +
-//                "|Stiven|*****   |13|\n" +
-//                "+------+--------+--+\n" +
-//                "|Eva   |+++++   |14|\n" +
-//                "+------+--------+--+\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Таблица users была успешно очищена.\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testClearWithError() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("clear|sadfasd|fsf|fdsf");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // clear|sadfasd|fsf|fdsf
-//                "Неудача! по причине: Формат команды 'clear|tableName', а ты ввел: clear|sadfasd|fsf|fdsf\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testCreateWithErrors() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("insert|user|error");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // insert|user|error
-//                "Неудача! по причине: Должно быть четное количество параметров в формате 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'insert|user|error'\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                // exit
-//                "До скорой встречи!\n", getData());
-//    }
-//
-//    @Test
-//    public void testCreateTableSimple() {
-//        // given
-//        in.add(commandConnect);
-//        in.add("createTable");
-//        in.add("users5");
-//        in.add("id");
-//        in.add("name");
-//        in.add("password");
-//        in.add("5");
-//        in.add("dropTable|users5");
-//        in.add("Y");
-//        in.add(commandDisconnect);
-//        in.add("exit");
-//        // when
-//        Main.main(new String[0]);
-//        // then
-//        assertEquals(pleaseConnect +
-//                // connect
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Введите имя для создаваемой таблицы(имя должно начинаться с буквы) или '0' для выхода в основное меню\n" +
-//                "Имя новой базы: users5\n" +
-//                "Введите имя для колонки PRIMARY KEY(имя должно начинаться с буквы) или '0' для выхода в основное меню\n" +
-//                "Имя колонки PRIMARY KEY: id\n" +
-//                "Введите имя для еще одной колонки(имя должно начинаться с буквы) или '5' для создания базы с введенными колонками или '0' для выхода в основное меню\n" +
-//                "Имя еще одной колонки: name\n" +
-//                "Введите имя для еще одной колонки(имя должно начинаться с буквы) или '5' для создания базы с введенными колонками или '0' для выхода в основное меню\n" +
-//                "Имя еще одной колонки: password\n" +
-//                "Введите имя для еще одной колонки(имя должно начинаться с буквы) или '5' для создания базы с введенными колонками или '0' для выхода в основное меню\n" +
-//                "Таблица users5 была успешно создана.\n" +
-//                "+--+----+--------+\n" +
-//                "|id|name|password|\n" +
-//                "+--+----+--------+\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Вы уверены, что хотите удалить users5? Y/N\n" +
-//                "Таблица users5 была успешно удалена.\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "Успех!\n" +
-//                "Введи команду (или help для помощи):\n" +
-//                "До скорой встречи!\n", getData());
-//    }
-//
+
+    @Test
+    public void testUnsupported() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("unsupported");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                // unsupported
+                "Вы не можете пользоваться командами, пока не подключитесь с помощью комманды connect|databaseName|userName|password\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testUnsupportedAfterConnect() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("finds|teachers");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                // connect
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // unsupported
+                "Несуществующая команда: unsupported\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testTablesAfterConnect() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("tables");
+       in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                // connect
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // tables
+                "Существующие таблицы: users, test1, users2\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testFindAfterConnect() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("find|users");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                "+-----+--------+--+\n" +
+                "|name |password|id|\n" +
+                "+-----+--------+--+\n" +
+                "|Vasia|****    |22|\n" +
+                "+-----+--------+--+\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testConnectWithError() {
+        // given
+        in.add("connect|Academys|postgres|1401198n");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                // connect
+                "Неудача! по причине: Формат команды 'connect|databaseName|userName|password', а ты ввел: connect|sqlcmd5hope5never5exist\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testFindAfterConnect_withData() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("clear|teachers");
+        in.add("insert|teachers|id|3|surname|Ivanec|name|Ivan|subject|Physics");
+        in.add("find|users");
+        in.add("clear|users");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                // connect
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // clear|users
+                "Таблица users была успешно очищена.\n" +
+                "Введи команду (или help для помощи):\n" +
+                // insert|users|id|13|name|Stiven|password|*****
+                "В таблице 'users' была успешно добавлена запись:\n" +
+                "+--+------+--------+\n" +
+                "|id|name  |password|\n" +
+                "+--+------+--------+\n" +
+                "|13|Stiven|*****   |\n" +
+                "+--+------+--------+\n" +
+                "Введи команду (или help для помощи):\n" +
+                // insert|users|id|14|name|Eva|password|+++++
+                "В таблице 'users' была успешно добавлена запись:\n" +
+                "+--+----+--------+\n" +
+                "|id|name|password|\n" +
+                "+--+----+--------+\n" +
+                "|14|Eva |+++++   |\n" +
+                "+--+----+--------+\n" +
+                "Введи команду (или help для помощи):\n" +
+                // find|users
+                "+------+--------+--+\n" +
+                "|name  |password|id|\n" +
+                "+------+--------+--+\n" +
+                "|Stiven|*****   |13|\n" +
+                "+------+--------+--+\n" +
+                "|Eva   |+++++   |14|\n" +
+                "+------+--------+--+\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Таблица users была успешно очищена.\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testClearWithError() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("clear|sadfasd|fsf|fdsf");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+
+        assertEquals(
+                // connect
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // clear|sadfasd|fsf|fdsf
+                "Неудача! по причине: Формат команды 'clear|tableName', а ты ввел: clear|sadfasd|fsf|fdsf\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testCreateWithErrors() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("insert|user|error");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                // connect
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // insert|user|error
+                "Неудача! по причине: Должно быть четное количество параметров в формате 'insert|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'insert|user|error'\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                // exit
+                "До скорой встречи!\n", getData());
+    }
+
+    @Test
+    public void testCreateTableSimple() {
+        // given
+        in.add("connect|Academy|postgres|1401198n");
+        in.add("create|students|id|1|surname|Pushkin");
+        in.add("exit");
+        // when
+        Main.main(new String[0]);
+        // then
+        assertEquals(
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Введите имя для создаваемой таблицы(имя должно начинаться с буквы) или '0' для выхода в основное меню\n" +
+                "Имя новой базы: users5\n" +
+                "Введите имя для колонки PRIMARY KEY(имя должно начинаться с буквы) или '0' для выхода в основное меню\n" +
+                "Имя колонки PRIMARY KEY: id\n" +
+                "Введите имя для еще одной колонки(имя должно начинаться с буквы) или '5' для создания базы с введенными колонками или '0' для выхода в основное меню\n" +
+                "Имя еще одной колонки: name\n" +
+                "Введите имя для еще одной колонки(имя должно начинаться с буквы) или '5' для создания базы с введенными колонками или '0' для выхода в основное меню\n" +
+                "Имя еще одной колонки: password\n" +
+                "Введите имя для еще одной колонки(имя должно начинаться с буквы) или '5' для создания базы с введенными колонками или '0' для выхода в основное меню\n" +
+                "Таблица users5 была успешно создана.\n" +
+                "+--+----+--------+\n" +
+                "|id|name|password|\n" +
+                "+--+----+--------+\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Вы уверены, что хотите удалить users5? Y/N\n" +
+                "Таблица users5 была успешно удалена.\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Успех!\n" +
+                "Введи команду (или help для помощи):\n" +
+                "До скорой встречи!\n", getData());
+    }
+
 //    @Test
 //    public void testTableSimpleExit() {
 //        // given
