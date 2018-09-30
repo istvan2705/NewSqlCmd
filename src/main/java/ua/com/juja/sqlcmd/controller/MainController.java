@@ -79,7 +79,6 @@ class MainController {
 
                } catch (IllegalArgumentException e) {
                    new Unsupported(view).process(input);
-
                } catch (NullPointerException e) {
                    new IsConnected(manager, view).process(input);
                } catch (ExitException e) {
