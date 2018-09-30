@@ -21,7 +21,7 @@ class MainController {
         this.manager = manager;
     }
 
-    void run()  {
+    void run()   {
         view.write("Hello user!");
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true)  {
