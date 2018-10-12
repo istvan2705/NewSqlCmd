@@ -93,9 +93,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName, Map<String, String> set) throws SQLException {
-        String columns = getColumnFormatted(set, "%s,");
-        String values = getValuesFormatted(set, "'%s',");
+    public void insert(String tableName, List<String> column, List<String> row) throws SQLException {
+        String columns = getColumnFormatted(column, "%s,");
+        String values = getValuesFormatted(row, "'%s',");
         String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
                 "VALUES (" + values + ")";
         try (PreparedStatement ps = connection.prepareStatement(insertData)) {
@@ -112,15 +112,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public boolean update(String tableName, String updatedColumn, String updatedValue, Map<String, String> set) throws SQLException {
-        String columns = getColumnFormatted(set, "%s = ?,");
-        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + updatedColumn + " = ?")) {
+    public boolean update(String tableName, List<String> column, List<String> row, String keyColumn, String keyValue) throws SQLException {
+        String columns = getColumnFormatted(column, "%s = ?,");
+
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE "+keyColumn+" = ?")) {
             int index = 1;
-            for (String value : set.values()) {
+            for (String value : row) {
                 ps.setString(index, value);
                 index++;
             }
-            ps.setString(index, updatedValue);
+            ps.setString(index, keyValue);
            return isUpdateTable(ps);
         }
     }
@@ -141,18 +142,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
 
     @Override
-    public String getColumnFormatted(Map<String, String> set, String format) {
+    public String getColumnFormatted(List<String> columns, String format) {
         StringBuilder names = new StringBuilder();
-        for (String newName : set.keySet()) {
+        for (String newName : columns) {
            names.append(String.format(format, newName));
         }
         return names.toString().substring(0, names.length() - 1);
     }
 
     @Override
-    public String getValuesFormatted(Map<String, String> set, String format) {
+    public String getValuesFormatted(List<String>values, String format) {
         StringBuilder names = new StringBuilder();
-        for (String value : set.values()) {
+        for (String value : values) {
             names.append(String.format(format, value));
         }
         return names.toString().substring(0, names.length() - 1);

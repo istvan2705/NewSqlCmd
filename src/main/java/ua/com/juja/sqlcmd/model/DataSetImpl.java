@@ -12,7 +12,7 @@ public class DataSetImpl implements DataSet {
     public String input;
     private Pattern pattern = Pattern.compile(PARSER);
     private Matcher matcher;
-    private Map<String, String> map = new LinkedHashMap<>();
+    private HashMap<String, String> map = new LinkedHashMap<>();
     private List<String> parameters;
     @Override
     public void setInput(String input){
@@ -79,18 +79,31 @@ public class DataSetImpl implements DataSet {
             }
 
             @Override
-            public Map<String, String> getValuesForColumns(List <String> tableData) {
-                for (int i = 0; i < tableData.size(); i++) {
-                    map.put(tableData.get(i), tableData.get(++i));
+            public List<String> getColumns() {
+               int i = 0;
+               List<String> columns = new ArrayList<>();
+                List<String> list = getTableData();
+                for (String column: list ) {
+                  if( i % 2 == 0){
+                    columns.add(column);
+                  }
+                  i++;
                 }
-                return map;
+                return columns;
             }
 
             @Override
-            public Map<String, String> getUpdatedValuesForColumns(List <String> values) {
-                Map<String, String> set = getValuesForColumns(values);
-                Object firstSet = set.keySet().toArray()[0];
-                set.remove(firstSet);
-                return set;
+          public List<String> getRows() {
+                int i = 0;
+                List<String> values = new ArrayList<>();
+                List<String> list = getTableData();
+                  for (String value: list) {
+                    if( i % 2 != 0){
+                        values.add(value);
+                    }
+                    i++;
+                }
+                return values;
             }
+
         }

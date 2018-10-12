@@ -28,8 +28,10 @@ public interface DataSet {
 
     List<String> getParameters();
 
-    Map<String, String> getValuesForColumns(List<String> tableData);
+    List<String> getColumns();
 
-    Map<String, String> getUpdatedValuesForColumns(List<String> values);
+    List<String> getRows();
+
+
 
 }

@@ -27,9 +27,10 @@ public class Insert implements Command {
                    }
         String tableName = data.getTableName();
         List<String> values = data.getTableData();
-        Map<String, String> map = data.getValuesForColumns(values);
+        List<String> columns = data.getColumns();
+        List<String> rows = data.getRows();
         try {
-            manager.insert(tableName, map);
+            manager.insert(tableName, columns, rows);
             return String.format("Statement are added into the table '%s'", tableName);
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());

@@ -29,12 +29,13 @@ public class Update implements Command {
              }
         String tableName = data.getTableName();
         List<String> values = data.getTableData();
-        String updatedColumn = values.get(0);
-        String updatedValue = values.get(1);
-        Map<String, String> set = data.getUpdatedValuesForColumns(values);
+        List<String> columns = data.getColumns();
+        List<String> rows = data.getRows();
+        String keyColumn = values.get(0);
+        String keyValue = values.get(1);
 
         try {
-            boolean isUpdate = manager.update(tableName, updatedColumn, updatedValue, set);
+            boolean isUpdate = manager.update(tableName, columns, rows, keyColumn, keyValue);
             if (isUpdate) {
                 return "The row has been updated";
             } else {

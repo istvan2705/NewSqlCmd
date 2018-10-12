@@ -28,6 +28,11 @@ public class InputSet {
         }
         return command;
     }
+
+    public List<String> getParameters(String matcherGroup) {
+        return Arrays.asList(matcherGroup.split(SEPARATOR));
+    }
+
     public String getTableName(String input) {
         String tableName = null;
         matcher = getMatcher(input, pattern);
@@ -51,9 +56,6 @@ public class InputSet {
         return matcher;
     }
 
-    public List<String> getParameters(String matcherGroup) {
-        return Arrays.asList(matcherGroup.split(SEPARATOR));
-    }
 
 
 
