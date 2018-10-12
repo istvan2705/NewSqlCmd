@@ -20,19 +20,19 @@ public class Drop  implements Command {
     }
 
     @Override
-    public void process(String command) {
-        List<String> parameters = data.getParameters(command);
+    public String getStatusProcess() {
+        List<String> parameters = data.getParameters();
         if (parameters.size() != 2) {
-            view.write(String.format(ERROR_ENTERING_MESSAGE + "'drop|tableName'", command));
-            return;
+            return String.format(ERROR_ENTERING_MESSAGE + "'drop|tableName'");
+
         }
-        String tableName = data.getTableName(command);
+        String tableName = data.getTableName();
 
         try {
             manager.deleteTable(tableName);
-            view.write(String.format("The table '%s' has been deleted", tableName));
+            return String.format("The table '%s' has been deleted", tableName);
         } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+            return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
     }
 }

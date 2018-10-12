@@ -3,20 +3,20 @@ package ua.com.juja.sqlcmd.controller;
 import ua.com.juja.sqlcmd.controller.command.Command;
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
+import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
 
 class MainController {
     private Command command;
-    private View view;
-    private DatabaseManager manager;
-    private DataSet data;
+    private View view = new Console();
+    private DatabaseManager manager = new JDBCDatabaseManager();
+    private DataSet data = new DataSetImpl();
 
-    MainController(DataSet data, DatabaseManager manager, View view) {
-        this.data = data;
-        this.view = view;
-        this.manager = manager;
+    MainController() {
     }
 
     void run() {
@@ -24,61 +24,61 @@ class MainController {
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {
             String input = view.read();
-            String commandName = data.getCommand(input);
-                   try {
-                    SqlCommand sqlCommand = SqlCommand.valueOf(commandName.toUpperCase());
+            data.setInput(input);
+          try{
+                  SqlCommand sqlCommand = data.getCommand();
                     switch (sqlCommand) {
-                        case CONNECT:
+                        case connect:
                             command = new Connect(data, manager, view);
                             break;
 
-                        case INSERT:
+                        case insert:
                             command = new Insert(data, manager, view);
                             break;
 
-                        case TABLES:
+                        case tables:
                             command = new Tables(manager, view);
                             break;
 
-                        case DROP:
+                        case drop:
                             command = new Drop(data, manager, view);
                             break;
 
-                        case CREATE:
+                        case create:
                             command = new Create(data, manager, view);
                             break;
 
-                        case CLEAR:
+                        case clear:
                             command = new Clear(data, manager, view);
                             break;
 
-                        case DELETE:
+                        case delete:
                             command = new Delete(data, manager, view);
                             break;
 
-                        case FIND:
+                        case find:
                             command = new Find(data, manager, view);
                             break;
 
-                        case UPDATE:
+                        case update:
                             command = new Update(data, manager, view);
                             break;
 
-                        case EXIT:
+                        case exit:
                             command = new Exit(view);
                             break;
 
-                        case HELP:
+                        case help:
                             command = new Help(view);
                             break;
                     }
 
-                    command.process(input);
+                    view.write(command.getStatusProcess());
 
                 } catch (IllegalArgumentException e) {
-                    new Unsupported(view).process(input);
+                   view.write("Not existing command "+ input);
                 } catch (NullPointerException e) {
-                    new IsConnected(manager, view).process(input);
+                    new IsConnected(manager, view).getStatusProcess();
                 } catch (ExitException e) {
                     e.getMessage();
                 }

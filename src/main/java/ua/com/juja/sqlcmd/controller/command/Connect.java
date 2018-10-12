@@ -20,21 +20,20 @@ public class Connect implements Command {
     }
 
      @Override
-    public void process(String command) {
-        List<String> parameters = data.getParameters(command);
+     public String getStatusProcess() {
+        List<String> parameters = data.getParameters();
         if (parameters.size() != 4) {
-            view.write(ERROR_ENTERING_MESSAGE + "'connect|database|username|password'");
-            return;
-        }
-        String databaseName = data.getTableName(command);
-        List<String> values = data.getTableData(command);
+            return ERROR_ENTERING_MESSAGE + "'connect|database|username|password'";
+           }
+        String databaseName = data.getTableName();
+        List<String> values = data.getTableData();
         String userName = values.get(0);
         String password = values.get(1);
         try {
             manager.connect(databaseName, userName, password);
-            view.write(String.format("You have connected to database '%s' successfully!", databaseName));
+            return String.format("You have connected to database '%s' successfully!", databaseName);
         } catch (SQLException e) {
-            view.write(String.format("The connection to database '%s' for user '%s' is failed due to'%s'", databaseName, userName, e.getMessage()));
+            return String.format("The connection to database '%s' for user '%s' is failed due to'%s'", databaseName, userName, e.getMessage());
         }
     }
 }

@@ -18,11 +18,11 @@ public class Tables implements Command {
     }
 
    @Override
-    public void process(String command) {
+   public String getStatusProcess() {
         try {
-            view.write(format(manager.getTableNames()));
+            return (format(manager.getTableNames()));
         } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+            return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
     }
 

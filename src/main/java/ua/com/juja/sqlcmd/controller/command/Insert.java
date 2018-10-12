@@ -19,21 +19,20 @@ public class Insert implements Command {
     }
 
     @Override
-    public void process(String command) {
-        List<String> parameters = data.getParameters(command);
+    public String getStatusProcess() {
+        List<String> parameters = data.getParameters();
         if (parameters.size() < 6 || parameters.size() % 2 == 1) {
-            view.write(String.format(ERROR_ENTERING_MESSAGE + "'insert|tableName|column1|value1|" +
-                    "column2|value2|...|columnN|valueN", command));
-            return;
-        }
-        String tableName = data.getTableName(command);
-        List<String> values = data.getTableData(command);
-        Map<String, String> map = data.setValuesToColumns(values);
+            return String.format(ERROR_ENTERING_MESSAGE + "'insert|tableName|column1|value1|" +
+                    "column2|value2|...|columnN|valueN");
+                   }
+        String tableName = data.getTableName();
+        List<String> values = data.getTableData();
+        Map<String, String> map = data.getValuesForColumns(values);
         try {
             manager.insert(tableName, map);
-            view.write(String.format("Statement are added into the table '%s'", tableName));
+            return String.format("Statement are added into the table '%s'", tableName);
         } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+            return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
     }
 }

@@ -1,6 +1,8 @@
 package ua.com.juja.sqlcmd.model;
 
 
+import ua.com.juja.sqlcmd.controller.command.SqlCommand;
+
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -14,18 +16,20 @@ public interface DataSet {
 
     List<String> getValues();
 
-    String getCommand(String input);
+    void setInput(String input);
 
-    String getTableName(String input);
+    SqlCommand getCommand();
 
-    List<String> getTableData(String input);
+    String getTableName();
+
+    List<String> getTableData();
 
     Matcher getMatcher(String str, Pattern pattern);
 
-    List<String> getParameters(String matcherGroup);
+    List<String> getParameters();
 
-    Map<String, String> setValuesToColumns(List<String> tableData);
+    Map<String, String> getValuesForColumns(List<String> tableData);
 
-    Map<String, String> setUpdatedValuesToColumns(List<String> values);
+    Map<String, String> getUpdatedValuesForColumns(List<String> values);
 
 }

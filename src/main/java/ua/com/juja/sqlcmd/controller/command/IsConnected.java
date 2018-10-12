@@ -13,8 +13,8 @@ public class IsConnected implements Command {
     }
 
        @Override
-    public void process(String command) {
-        view.write(String.format("You can not use command '%s' until " + "you have established connection to the database "+
-                "connect|databaseName|userName|password", command));
+       public String getStatusProcess(){
+        return String.format("You can not use command '%s' until " + "you have established connection to the database "+
+                "connect|databaseName|userName|password" );
     }
 }

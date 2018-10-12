@@ -10,9 +10,9 @@ public class Exit implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public String getStatusProcess() {
 
-            view.write("See you soon!");
+            return "See you soon!";
 
         }
     }

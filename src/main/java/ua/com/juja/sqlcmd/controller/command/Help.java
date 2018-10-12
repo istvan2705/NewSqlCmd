@@ -10,41 +10,41 @@ public class Help implements Command {
     }
 
      @Override
-    public void process(String command) {
-        view.write("Existing commands:");
+     public String getStatusProcess(){
+       return "Existing commands:"+"\n"+
 
-        view.write("\tconnect|databaseName|username|password");
-        view.write("\t\tto connect to database");
+        "\tconnect|databaseName|username|password"+"\n"+
+       "\t\tto connect to database"+"\n"+
 
-        view.write("\tcreate|tableName|column1|column2|...|columnN");
-        view.write("\t\tto create table with columns");
+        "\tcreate|tableName|column1|column2|...|columnN"+"\n"+
+        "\t\tto create table with columns"+"\n"+
 
-        view.write("\tclear|tableName");
-        view.write("\t\tto clear of table's content");
+        "\tclear|tableName"+"\n"+
+        "\t\tto clear of table's content"+"\n"+
 
-        view.write("\tdrop|tableName");
-        view.write("\t\tto delete table");
+        "\tdrop|tableName"+"\n"+
+        "\t\tto delete table"+"\n"+
 
-        view.write("\tdelete|tableName|column|value");
-        view.write("\t\tcommand deletes records for which the condition is satisfied column = value");
+        "\tdelete|tableName|column|value"+"\n"+
+       "\t\tcommand deletes records for which the condition is satisfied column = value"+"\n"+
 
-        view.write("\tinsert|tableName|column1|value1|column2|value2|columnN|valueN");
-        view.write("\t\tto insert row into the table");
+        "\tinsert|tableName|column1|value1|column2|value2|columnN|valueN"+"\n"+
+        "\t\tto insert row into the table"+"\n"+
 
-        view.write("\tupdate|tableName|column1|value1|column2|value2|columnN|valueN");
-        view.write("\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" +
-                " is satisfied column1 = value1");
+        "\tupdate|tableName|column1|value1|column2|value2|columnN|valueN"+"\n"+
+        "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition"+"\n"+
+                " is satisfied column1 = value1"+"\n"+
 
-        view.write("\tlist");
-        view.write("\t\tto get list of tables");
+       "\tlist"+"\n"+
+        "\t\tto get list of tables"+"\n"+
 
-        view.write("\tfind|tableName");
-        view.write("\t\tto get content of table 'tableName'");
+        "\tfind|tableName"+"\n"+
+        "\t\tto get content of table 'tableName'"+"\n"+
 
-        view.write("\thelp");
-        view.write("\t\tto display list of command");
+        "\thelp"+"\n"+
+        "\t\tto display list of command"+"\n"+
 
-        view.write("\texit");
-        view.write("\t\tto exit the program");
+        "\texit"+"\n"+
+        "\t\tto exit the program";
     }
 }

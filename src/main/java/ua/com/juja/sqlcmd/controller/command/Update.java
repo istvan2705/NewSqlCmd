@@ -21,30 +21,28 @@ public class Update implements Command {
     }
 
     @Override
-    public void process(String command) {
-        List<String> parameters = data.getParameters(command);
+    public String getStatusProcess() {
+        List<String> parameters = data.getParameters();
         if (parameters.size() < 6 || parameters.size() % 2 == 1) {
-            view.write(String.format(ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
-                    "column2|value2|...|columnN|valueN'", command));
-            return;
-        }
-        String tableName = data.getTableName(command);
-        List<String> values = data.getTableData(command);
+            return String.format(ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
+                    "column2|value2|...|columnN|valueN'");
+             }
+        String tableName = data.getTableName();
+        List<String> values = data.getTableData();
         String updatedColumn = values.get(0);
         String updatedValue = values.get(1);
-        Map<String, String> set = data.setUpdatedValuesToColumns(values);
+        Map<String, String> set = data.getUpdatedValuesForColumns(values);
 
         try {
             boolean isUpdate = manager.update(tableName, updatedColumn, updatedValue, set);
             if (isUpdate) {
-                view.write("The row has been updated");
+                return "The row has been updated";
             } else {
-                view.write("The row has been not updated due to incorrect parameter");
+                return "The row has been not updated due to incorrect parameter";
             }
         } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
+            return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
     }
-
 
 }
