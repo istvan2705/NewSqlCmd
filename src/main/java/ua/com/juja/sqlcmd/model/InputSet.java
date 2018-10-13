@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 public class InputSet {
 
     public String input;
-    String PARSER = "(.*?\\|)(\\w+)(.*)";
-    String SEPARATOR = "\\|";
+    private String PARSER = "(.*?\\|)(\\w+)(.*)";
+    private String SEPARATOR = "\\|";
     private Pattern pattern = Pattern.compile(PARSER);
     private Matcher matcher;
     private List<String> parameters;
 
-    public SqlCommand getCommand(String input){
+    public SqlCommand getCommand(String input) {
         SqlCommand command;
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
@@ -55,8 +55,6 @@ public class InputSet {
         matcher = pattern.matcher(str);
         return matcher;
     }
-
-
 
 
 }

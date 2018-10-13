@@ -26,7 +26,6 @@ public class Find implements Command {
         List<String> parameter = data.getParameters();
         if (parameter.size() != 2) {
             return ERROR_ENTERING_MESSAGE + "'find|tableName'";
-
         }
         String tableName = data.getTableName();
         try {
@@ -35,7 +34,6 @@ public class Find implements Command {
             List<DataSetImpl> rows = manager.getTableRows(tableName);
             String row = printAllRows(rows);
             return column + "\n" + row;
-
 
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
@@ -49,18 +47,18 @@ public class Find implements Command {
         }
         return
                 "--------------------------" + "\n" +
-                        result.toString() + "\n" +
-                        "--------------------------";
+                result.toString() + "\n" +
+                "--------------------------";
     }
 
     private String printAllRows(List<DataSetImpl> tableRows) {
         StringBuilder allRows = new StringBuilder();
         for (DataSetImpl row : tableRows) {
-             allRows.append("\n").append(printRow(row));
-               }
-        return allRows +"\n"+
+            allRows.append("\n").append(printRow(row));
+        }
+        return allRows + "\n" +
                 "--------------------------";
-             }
+    }
 
     private String printRow(DataSetImpl row) {
         StringBuilder result = new StringBuilder();
