@@ -26,7 +26,6 @@ public class Insert implements Command {
                     "column2|value2|...|columnN|valueN");
                    }
         String tableName = data.getTableName();
-        List<String> values = data.getTableData();
         List<String> columns = data.getColumns();
         List<String> rows = data.getRows();
         try {
