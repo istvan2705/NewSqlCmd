@@ -25,7 +25,7 @@ public class Find implements Command {
     public String getStatusProcess() {
         List<String> parameter = data.getParameters();
         if (parameter.size() != 2) {
-            return String.format(ERROR_ENTERING_MESSAGE + "'find|tableName'");
+            return ERROR_ENTERING_MESSAGE + "'find|tableName'";
 
         }
         String tableName = data.getTableName();
@@ -54,13 +54,13 @@ public class Find implements Command {
     }
 
     private String printAllRows(List<DataSetImpl> tableRows) {
-        String allRows = null;
+        StringBuilder allRows = new StringBuilder();
         for (DataSetImpl row : tableRows) {
-            allRows = printRow(row);
-        }
-        return allRows;
-
-    }
+             allRows.append("\n").append(printRow(row));
+               }
+        return allRows +"\n"+
+                "--------------------------";
+             }
 
     private String printRow(DataSetImpl row) {
         StringBuilder result = new StringBuilder();
@@ -68,8 +68,7 @@ public class Find implements Command {
         for (Object value : values) {
             result.append("|").append(value).append("|");
         }
-        return result.toString() + "\n" +
-                "--------------------------";
+        return result.toString();
     }
 
 }
