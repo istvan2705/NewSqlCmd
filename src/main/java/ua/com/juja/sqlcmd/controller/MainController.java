@@ -6,13 +6,15 @@ import ua.com.juja.sqlcmd.model.*;
 import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.net.ConnectException;
+
 
 class MainController {
     private Command command;
     private View view = new Console();
     private DatabaseManager manager = new JDBCDatabaseManager();
     private InputSet inputSet = new InputSet();
-    private DataSet data = new DataSetImpl();
+
 
     MainController() {
     }
@@ -31,7 +33,7 @@ class MainController {
                             break;
 
                         case insert:
-                            command = new Insert(inputSet, data, manager);
+                            command = new Insert(inputSet, manager);
                             break;
 
                         case tables:
@@ -59,7 +61,7 @@ class MainController {
                             break;
 
                         case update:
-                            command = new Update(inputSet, data, manager);
+                            command = new Update(inputSet, manager);
                             break;
 
                         case exit:
@@ -75,12 +77,10 @@ class MainController {
 
                 } catch (IllegalArgumentException e) {
                    view.write("Not existing command "+ input);
-                } catch (NullPointerException e) {
-                    new IsConnected().getStatusProcess();
-                } catch (ExitException e) {
-                    e.getMessage();
                 }
-
+                catch (RuntimeException e){
+                 view.write("You can not use this command until you have established connection to the database");
+                }
 
                 view.write("Please enter existing command or help");
             }

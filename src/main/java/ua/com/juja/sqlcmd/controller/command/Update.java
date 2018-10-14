@@ -14,20 +14,20 @@ import java.util.Map;
 public class Update implements Command {
 
     private InputSet inputSet;
-    private DataSet data;
     private DatabaseManager manager;
+    private DataSet data = new DataSetImpl();
 
-    public Update (InputSet inputSet, DataSet data, DatabaseManager manager) {
+    public Update(InputSet inputSet, DatabaseManager manager) {
         this.inputSet = inputSet;
-        this.data = data;
         this.manager = manager;
     }
+
     @Override
     public String getStatusProcess() {
         int numberOfParameters  = inputSet.getNumberOfParameters();
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
-            return String.format(ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
-                    "column2|value2|...|columnN|valueN'");
+            return ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
+                    "column2|value2|...|columnN|valueN'";
              }
         String tableName = inputSet.getTableName();
         List<String> values = inputSet.getTableData();

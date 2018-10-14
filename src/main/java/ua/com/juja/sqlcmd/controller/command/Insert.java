@@ -10,21 +10,20 @@ import java.util.*;
 
 public class Insert implements Command {
     private InputSet inputSet;
-    private DataSet data;
     private DatabaseManager manager;
+    private DataSet data = new DataSetImpl();
 
-    public Insert(InputSet inputSet, DataSet data, DatabaseManager manager) {
+    public Insert(InputSet inputSet, DatabaseManager manager) {
         this.inputSet = inputSet;
-        this.data = data;
         this.manager = manager;
     }
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters  =inputSet.getNumberOfParameters();
-        if (numberOfParameters < 6 || numberOfParameters == 1) {
-            return String.format(ERROR_ENTERING_MESSAGE + "'insert|tableName|column1|value1|" +
-                    "column2|value2|...|columnN|valueN");
+        int numberOfParameters  = inputSet.getNumberOfParameters();
+        if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
+            return "ERROR_ENTERING_MESSAGE" + "'insert|tableName|column1|value1|" +
+                    "column2|value2|...|columnN|valueN";
                    }
         String tableName = inputSet.getTableName();
         List<String> columns = data.getColumns();
