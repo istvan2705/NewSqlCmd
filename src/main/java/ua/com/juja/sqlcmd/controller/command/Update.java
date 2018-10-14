@@ -1,34 +1,35 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.InputSet;
 import ua.com.juja.sqlcmd.view.View;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public class Update implements Command {
 
-    private DataSet data;
+    private InputSet inputSet;
     private DatabaseManager manager;
-    private View view;
+    DataSet data = new DataSetImpl();
 
-    public Update(DataSet data, DatabaseManager manager, View view) {
-        this.data = data;
+    public Update(InputSet inputSet, DatabaseManager manager) {
+        this.inputSet = inputSet;
         this.manager = manager;
-        this.view = view;
     }
-
     @Override
     public String getStatusProcess() {
-        List<String> parameters = data.getParameters();
-        if (parameters.size() < 6 || parameters.size() % 2 == 1) {
+        int numberOfParameters  = inputSet.getNumberOfParameters();
+        if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
             return String.format(ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN'");
              }
-        String tableName = data.getTableName();
-        List<String> values = data.getTableData();
+        String tableName = inputSet.getTableName();
+        List<String> values = inputSet.getTableData();
         List<String> columns = data.getColumns();
         List<String> rows = data.getRows();
         String keyColumn = values.get(0);

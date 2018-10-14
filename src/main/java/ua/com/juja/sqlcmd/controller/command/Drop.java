@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.InputSet;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
@@ -9,24 +10,23 @@ import java.util.List;
 
 public class Drop  implements Command {
 
-    private DataSet data;
+    private InputSet inputSet;
     private DatabaseManager manager;
-    private View view;
 
-    public Drop(DataSet data, DatabaseManager manager, View view) {
-        this.data = data;
+
+    public Drop(InputSet inputSet, DatabaseManager manager) {
+        this.inputSet = inputSet;
         this.manager = manager;
-        this.view = view;
     }
 
     @Override
     public String getStatusProcess() {
-        List<String> parameters = data.getParameters();
-        if (parameters.size() != 2) {
+        int numberOfParameters  = inputSet.getNumberOfParameters();
+        if (numberOfParameters != 2) {
             return String.format(ERROR_ENTERING_MESSAGE + "'drop|tableName'");
 
         }
-        String tableName = data.getTableName();
+        String tableName = inputSet.getTableName();
 
         try {
             manager.deleteTable(tableName);

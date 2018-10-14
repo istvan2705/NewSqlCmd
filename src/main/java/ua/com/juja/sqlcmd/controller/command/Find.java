@@ -1,9 +1,8 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.view.View;
+import ua.com.juja.sqlcmd.model.InputSet;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,23 +10,21 @@ import java.util.Set;
 
 public class Find implements Command {
 
-    private DataSet data;
+    private InputSet inputSet;
     private DatabaseManager manager;
-    private View view;
 
-    public Find(DataSet data, DatabaseManager manager, View view) {
-        this.data = data;
+    public Find(InputSet inputSet, DatabaseManager manager) {
+        this.inputSet = inputSet;
         this.manager = manager;
-        this.view = view;
     }
 
     @Override
     public String getStatusProcess() {
-        List<String> parameter = data.getParameters();
-        if (parameter.size() != 2) {
+        int numberOfParameters  = inputSet.getNumberOfParameters();
+        if (numberOfParameters != 2) {
             return ERROR_ENTERING_MESSAGE + "'find|tableName'";
         }
-        String tableName = data.getTableName();
+        String tableName = inputSet.getTableName();
         try {
             Set<String> columns = manager.getColumnsNames(tableName);
             String column = printColumnsNames(columns);

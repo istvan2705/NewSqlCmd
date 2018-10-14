@@ -16,11 +16,16 @@ public class InputSet {
     private Matcher matcher;
     private List<String> parameters;
 
-    public SqlCommand getCommand(String input) {
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public SqlCommand getCommand() {
         SqlCommand command;
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
-            parameters = getParameters(matcher.group(1));
+            String groupFirst = matcher.group(1);
+            parameters = Arrays.asList(groupFirst.split(SEPARATOR));
             command = SqlCommand.valueOf(parameters.get(0));
 
         } else {
@@ -29,11 +34,8 @@ public class InputSet {
         return command;
     }
 
-    public List<String> getParameters(String matcherGroup) {
-        return Arrays.asList(matcherGroup.split(SEPARATOR));
-    }
 
-    public String getTableName(String input) {
+     public String getTableName() {
         String tableName = null;
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
@@ -42,18 +44,22 @@ public class InputSet {
         return tableName;
     }
 
-    public List<String> getTableData(String input) {
+    public List<String> getTableData() {
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
-            parameters = getParameters(matcher.group(3).substring(1));
+            String groupSecond = matcher.group(3).substring(1);
+            parameters = Arrays.asList(groupSecond.split(SEPARATOR));
         }
         return parameters;
     }
-
-
-    public Matcher getMatcher(String str, Pattern pattern) {
-        matcher = pattern.matcher(str);
+    public Matcher getMatcher(String input, Pattern pattern) {
+        matcher = pattern.matcher(input);
         return matcher;
+    }
+
+    public int getNumberOfParameters() {
+        List<String> parameters = Arrays.asList(input.split(SEPARATOR));
+        return parameters.size();
     }
 
 
