@@ -12,6 +12,7 @@ class MainController {
     private View view = new Console();
     private DatabaseManager manager = new JDBCDatabaseManager();
     private InputSet inputSet = new InputSet();
+    private DataSet data = new DataSetImpl();
 
     MainController() {
     }
@@ -30,7 +31,7 @@ class MainController {
                             break;
 
                         case insert:
-                            command = new Insert(inputSet, manager);
+                            command = new Insert(inputSet, data, manager);
                             break;
 
                         case tables:
@@ -58,7 +59,7 @@ class MainController {
                             break;
 
                         case update:
-                            command = new Update(inputSet, manager);
+                            command = new Update(inputSet, data, manager);
                             break;
 
                         case exit:

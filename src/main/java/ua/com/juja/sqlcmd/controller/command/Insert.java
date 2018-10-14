@@ -10,11 +10,12 @@ import java.util.*;
 
 public class Insert implements Command {
     private InputSet inputSet;
+    private DataSet data;
     private DatabaseManager manager;
-    DataSet data = new DataSetImpl();
 
-    public Insert(InputSet inputSet, DatabaseManager manager) {
+    public Insert(InputSet inputSet, DataSet data, DatabaseManager manager) {
         this.inputSet = inputSet;
+        this.data = data;
         this.manager = manager;
     }
 

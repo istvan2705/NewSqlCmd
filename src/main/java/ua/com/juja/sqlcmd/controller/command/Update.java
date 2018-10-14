@@ -14,11 +14,12 @@ import java.util.Map;
 public class Update implements Command {
 
     private InputSet inputSet;
+    private DataSet data;
     private DatabaseManager manager;
-    DataSet data = new DataSetImpl();
 
-    public Update(InputSet inputSet, DatabaseManager manager) {
+    public Update (InputSet inputSet, DataSet data, DatabaseManager manager) {
         this.inputSet = inputSet;
+        this.data = data;
         this.manager = manager;
     }
     @Override

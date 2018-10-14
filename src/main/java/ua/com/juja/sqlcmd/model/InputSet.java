@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class InputSet {
 
-    public String input;
+    public static String input;
     private String PARSER = "(.*?\\|)(\\w+)(.*)";
     private String SEPARATOR = "\\|";
     private Pattern pattern = Pattern.compile(PARSER);
