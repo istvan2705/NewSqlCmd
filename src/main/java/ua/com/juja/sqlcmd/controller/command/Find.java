@@ -20,7 +20,7 @@ public class Find implements Command {
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters  = inputSet.getNumberOfParameters();
+        int numberOfParameters = inputSet.getNumberOfParameters();
         if (numberOfParameters != 2) {
             return ERROR_ENTERING_MESSAGE + "'find|tableName'";
         }
@@ -44,8 +44,8 @@ public class Find implements Command {
         }
         return
                 "--------------------------" + "\n" +
-                result.toString() + "\n" +
-                "--------------------------";
+                        result.toString() + "\n" +
+                        "--------------------------";
     }
 
     private String printAllRows(List<DataSetImpl> tableRows) {

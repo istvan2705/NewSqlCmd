@@ -20,11 +20,11 @@ public class Insert implements Command {
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters  = inputSet.getNumberOfParameters();
+        int numberOfParameters = inputSet.getNumberOfParameters();
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
             return "ERROR_ENTERING_MESSAGE" + "'insert|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN";
-                   }
+        }
         String tableName = inputSet.getTableName();
         List<String> columns = data.getColumns();
         List<String> rows = data.getRows();

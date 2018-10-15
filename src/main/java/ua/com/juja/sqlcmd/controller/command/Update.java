@@ -4,12 +4,10 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputSet;
-import ua.com.juja.sqlcmd.view.View;
 
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
+
 
 public class Update implements Command {
 
@@ -24,11 +22,11 @@ public class Update implements Command {
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters  = inputSet.getNumberOfParameters();
+        int numberOfParameters = inputSet.getNumberOfParameters();
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
             return ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN'";
-             }
+        }
         String tableName = inputSet.getTableName();
         List<String> values = inputSet.getTableData();
         List<String> columns = data.getColumns();

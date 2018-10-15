@@ -1,14 +1,11 @@
 package ua.com.juja.sqlcmd.model;
 
-
 import java.util.*;
 
 public class DataSetImpl implements DataSet {
 
-
     private InputSet inputSet = new InputSet();
     private HashMap<String, String> map = new LinkedHashMap<>();
-
 
     @Override
     public void put(String name, String value) {

@@ -1,6 +1,5 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputSet;
 
@@ -12,17 +11,16 @@ public class Delete implements Command {
     private InputSet inputSet;
     private DatabaseManager manager;
 
-
     public Delete(InputSet inputSet, DatabaseManager manager) {
         this.inputSet = inputSet;
         this.manager = manager;
-        }
+    }
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters  = inputSet.getNumberOfParameters();
+        int numberOfParameters = inputSet.getNumberOfParameters();
         if (numberOfParameters < 4 || numberOfParameters % 2 == 1) {
-            return String.format(ERROR_ENTERING_MESSAGE + "'delete|tableName|column|value'");
+            return ERROR_ENTERING_MESSAGE + "'delete|tableName|column|value'";
         }
         String tableName = inputSet.getTableName();
         List<String> values = inputSet.getTableData();

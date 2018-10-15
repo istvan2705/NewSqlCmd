@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class InputSet {
 
-    public static String input;
+    private static String input;
     private String PARSER = "(.*?\\|)(\\w+)(.*)";
     private String SEPARATOR = "\\|";
     private Pattern pattern = Pattern.compile(PARSER);
@@ -34,8 +34,7 @@ public class InputSet {
         return command;
     }
 
-
-     public String getTableName() {
+    public String getTableName() {
         String tableName = null;
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
@@ -52,7 +51,8 @@ public class InputSet {
         }
         return parameters;
     }
-    public Matcher getMatcher(String input, Pattern pattern) {
+
+    private Matcher getMatcher(String input, Pattern pattern) {
         matcher = pattern.matcher(input);
         return matcher;
     }

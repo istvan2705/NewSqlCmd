@@ -115,14 +115,14 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public boolean update(String tableName, List<String> column, List<String> row, String keyColumn, String keyValue) throws SQLException {
         String columns = getColumnFormatted(column, "%s = ?,");
 
-        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE "+keyColumn+" = ?")) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + keyColumn + " = ?")) {
             int index = 1;
             for (String value : row) {
                 ps.setString(index, value);
                 index++;
             }
             ps.setString(index, keyValue);
-           return isUpdateTable(ps);
+            return isUpdateTable(ps);
         }
     }
 
@@ -135,23 +135,22 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public String getColumnsTable(List<String> columns, String format) {
         StringBuilder names = new StringBuilder();
         for (String newName : columns) {
-          names.append(String.format(format, newName));
+            names.append(String.format(format, newName));
         }
         return names.toString().substring(0, names.length() - 1);
     }
-
 
     @Override
     public String getColumnFormatted(List<String> columns, String format) {
         StringBuilder names = new StringBuilder();
         for (String newName : columns) {
-           names.append(String.format(format, newName));
+            names.append(String.format(format, newName));
         }
         return names.toString().substring(0, names.length() - 1);
     }
 
     @Override
-    public String getValuesFormatted(List<String>values, String format) {
+    public String getValuesFormatted(List<String> values, String format) {
         StringBuilder names = new StringBuilder();
         for (String value : values) {
             names.append(String.format(format, value));
