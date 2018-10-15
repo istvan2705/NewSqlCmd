@@ -46,8 +46,8 @@ public class InputSet {
     public List<String> getTableData() {
         matcher = getMatcher(input, pattern);
         if (matcher.find()) {
-            String groupSecond = matcher.group(3).substring(1);
-            parameters = Arrays.asList(groupSecond.split(SEPARATOR));
+            String groupThird = matcher.group(3).substring(1);
+            parameters = Arrays.asList(groupThird.split(SEPARATOR));
         }
         return parameters;
     }
