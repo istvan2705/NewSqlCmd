@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface DatabaseManager {
 
-    List<DataSetImpl> getTableRows(String tableName) throws SQLException;
+  //  List<DataSetImpl> getTableRows(String tableName) throws SQLException;
 
     Set<String> getColumnsNames(String tableName) throws SQLException;
 

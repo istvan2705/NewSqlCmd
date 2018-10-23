@@ -1,29 +1,27 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.InputSet;
+import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class Delete implements Command {
 
-    private InputSet inputSet;
     private DatabaseManager manager;
 
-    public Delete(InputSet inputSet, DatabaseManager manager) {
-        this.inputSet = inputSet;
-        this.manager = manager;
+    public Delete(DatabaseManager manager) {
+         this.manager = manager;
     }
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters = inputSet.getNumberOfParameters();
+        int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters < 4 || numberOfParameters % 2 == 1) {
             return ERROR_ENTERING_MESSAGE + "'delete|tableName|column|value'";
         }
-        String tableName = inputSet.getTableName();
-        List<String> values = inputSet.getTableData();
+        String tableName = InputWrapper.getTableName();
+        List<String> values = InputWrapper.getTableData();
         String columnName = values.get(0);
         String rowName = values.get(1);
         try {

@@ -1,9 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DataSet;
-import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.InputSet;
+import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,26 +9,24 @@ import java.util.List;
 
 public class Update implements Command {
 
-    private InputSet inputSet;
-    private DatabaseManager manager;
-    private DataSet data = new DataSetImpl();
 
-    public Update(InputSet inputSet, DatabaseManager manager) {
-        this.inputSet = inputSet;
+    private DatabaseManager manager;
+
+    public Update(DatabaseManager manager) {
         this.manager = manager;
     }
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters = inputSet.getNumberOfParameters();
+        int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
             return ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN'";
         }
-        String tableName = inputSet.getTableName();
-        List<String> values = inputSet.getTableData();
-        List<String> columns = data.getColumns();
-        List<String> rows = data.getRows();
+        String tableName = InputWrapper.getTableName();
+        List<String> values = InputWrapper.getTableData();
+        List<String> columns = InputWrapper.getColumns();
+        List<String> rows = InputWrapper.getRows();
         String keyColumn = values.get(0);
         String keyValue = values.get(1);
 

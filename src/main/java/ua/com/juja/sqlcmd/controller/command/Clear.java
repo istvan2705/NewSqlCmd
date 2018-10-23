@@ -2,27 +2,25 @@ package ua.com.juja.sqlcmd.controller.command;
 
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.InputSet;
+import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
 
 public class Clear implements Command {
 
-    private InputSet inputSet;
     private DatabaseManager manager;
 
-    public Clear(InputSet inputSet, DatabaseManager manager) {
-        this.inputSet = inputSet;
-        this.manager = manager;
+    public Clear(DatabaseManager manager) {
+           this.manager = manager;
     }
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters = inputSet.getNumberOfParameters();
+        int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters != 2) {
             return ERROR_ENTERING_MESSAGE + "'clear|tableName'";
         }
-        String tableName = inputSet.getTableName();
+        String tableName = InputWrapper.getTableName();
         try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {

@@ -1,28 +1,28 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import com.sun.corba.se.spi.orbutil.fsm.Input;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.InputSet;
+import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
 
 public class Drop implements Command {
 
-    private InputSet inputSet;
+
     private DatabaseManager manager;
 
-    public Drop(InputSet inputSet, DatabaseManager manager) {
-        this.inputSet = inputSet;
-        this.manager = manager;
+    public Drop(DatabaseManager manager) {
+         this.manager = manager;
     }
 
     @Override
     public String getStatusProcess() {
-        int numberOfParameters = inputSet.getNumberOfParameters();
+        int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters != 2) {
             return ERROR_ENTERING_MESSAGE + "'drop|tableName'";
 
         }
-        String tableName = inputSet.getTableName();
+        String tableName = InputWrapper.getTableName();
 
         try {
             manager.deleteTable(tableName);
