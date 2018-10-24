@@ -78,7 +78,7 @@ class MainController {
 
             } catch (IllegalArgumentException e) {
                 view.write("Not existing command " + input);
-            } catch (RuntimeException e) {
+            } catch (DBConnectionException e) {
                 view.write("You can not use this command until you have established connection to the database");
             }
 

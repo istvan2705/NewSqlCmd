@@ -10,8 +10,12 @@ public class Delete implements Command {
 
     private DatabaseManager manager;
 
-    public Delete(DatabaseManager manager) {
+    public Delete(DatabaseManager manager) throws DBConnectionException {
          this.manager = manager;
+        this.manager.isConnected();
+        if (!manager.isConnected()){
+            throw new DBConnectionException();
+        }
     }
 
     @Override

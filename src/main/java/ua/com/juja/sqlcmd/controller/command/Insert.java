@@ -9,8 +9,12 @@ import java.util.*;
 public class Insert implements Command {
     private DatabaseManager manager;
 
-     public Insert( DatabaseManager manager) {
+     public Insert( DatabaseManager manager) throws DBConnectionException {
         this.manager = manager;
+         this.manager.isConnected();
+         if (!manager.isConnected()){
+             throw new DBConnectionException();
+         }
     }
 
     @Override

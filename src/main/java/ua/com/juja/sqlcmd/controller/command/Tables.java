@@ -9,8 +9,12 @@ public class Tables implements Command {
 
     private DatabaseManager manager;
 
-    public Tables(DatabaseManager manager) {
+    public Tables(DatabaseManager manager) throws DBConnectionException {
         this.manager = manager;
+        this.manager.isConnected();
+        if (!manager.isConnected()){
+            throw new DBConnectionException();
+        }
     }
 
     @Override
