@@ -13,8 +13,7 @@ public class Create implements Command {
 
     public Create(DatabaseManager manager) throws DBConnectionException {
         this.manager = manager;
-        this.manager.isConnected();
-        if (!manager.isConnected()){
+        if (!manager.isConnected()) {
             throw new DBConnectionException();
         }
     }

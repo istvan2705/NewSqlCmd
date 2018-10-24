@@ -11,7 +11,6 @@ public class Insert implements Command {
 
      public Insert( DatabaseManager manager) throws DBConnectionException {
         this.manager = manager;
-         this.manager.isConnected();
          if (!manager.isConnected()){
              throw new DBConnectionException();
          }

@@ -11,11 +11,10 @@ public class Clear implements Command {
     private DatabaseManager manager;
 
     public Clear(DatabaseManager manager) throws DBConnectionException {
-           this.manager = manager;
-           this.manager.isConnected();
-           if (!manager.isConnected()){
-               throw new DBConnectionException();
-           }
+        this.manager = manager;
+        if (!manager.isConnected()) {
+            throw new DBConnectionException();
+        }
     }
 
     @Override

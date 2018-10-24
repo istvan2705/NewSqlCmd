@@ -11,8 +11,7 @@ public class Tables implements Command {
 
     public Tables(DatabaseManager manager) throws DBConnectionException {
         this.manager = manager;
-        this.manager.isConnected();
-        if (!manager.isConnected()){
+        if (!manager.isConnected()) {
             throw new DBConnectionException();
         }
     }
