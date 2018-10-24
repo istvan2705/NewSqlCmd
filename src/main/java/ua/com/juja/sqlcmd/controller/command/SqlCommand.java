@@ -23,13 +23,12 @@ public enum SqlCommand {
         return command;
     }
 
-    public static SqlCommand getSqlCommand(String text){
-        for (SqlCommand com: SqlCommand.values()){
-            if(com.command.equalsIgnoreCase(text)){
+    public static SqlCommand getSqlCommand(String text) {
+        for (SqlCommand com : SqlCommand.values()) {
+            if (com.command.equalsIgnoreCase(text)) {
                 return com;
             }
         }
         return null;
     }
-
 }
