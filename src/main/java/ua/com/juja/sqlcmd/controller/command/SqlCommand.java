@@ -1,13 +1,35 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 public enum SqlCommand {
-    connect("connect"), create("create"), clear("clear"), delete("delete"),
-    drop("drop"), exit("exit"), find("find"), help("help"),
-    insert("insert"), tables("tables"), update("update");
+    CONNECT("connect"),
+    CREATE("create"),
+    CLEAR("clear"),
+    DELETE("delete"),
+    DROP("drop"),
+    EXIT("exit"),
+    FIND("find"),
+    HELP("help"),
+    INSERT("insert"),
+    TABLES("tables"),
+    UPDATE("update");
 
-    private final String command;
+    private String command;
 
     SqlCommand(String command) {
         this.command = command;
     }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public static SqlCommand getSqlCommand(String text){
+        for (SqlCommand com: SqlCommand.values()){
+            if(com.command.equalsIgnoreCase(text)){
+                return com;
+            }
+        }
+        return null;
+    }
+
 }

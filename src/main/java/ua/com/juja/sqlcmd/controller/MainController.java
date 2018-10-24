@@ -26,50 +26,50 @@ class MainController {
             InputWrapper.setInput(input);
 
           try{
-                  String comm = InputWrapper.getCommand();
-                  SqlCommand sqlCommand = SqlCommand.valueOf(comm);
-                    switch (sqlCommand) {
-                        case connect:
+                  String commandName = InputWrapper.getCommand();
+                  SqlCommand sqlCommand = SqlCommand.getSqlCommand(commandName);
+                        switch (sqlCommand) {
+                        case CONNECT:
                             command = new Connect(manager);
                             break;
 
-                        case insert:
+                        case INSERT:
                             command = new Insert(manager);
                             break;
 
-                        case tables:
+                        case TABLES:
                             command = new Tables(manager);
                             break;
 
-                        case drop:
+                        case DROP:
                             command = new Drop(manager);
                             break;
 
-                        case create:
+                        case CREATE:
                             command = new Create(manager);
                             break;
 
-                        case clear:
+                        case CLEAR:
                             command = new Clear(manager);
                             break;
 
-                        case delete:
+                        case DELETE:
                             command = new Delete(manager);
                             break;
 //
-//                        case find:
+//                        case FIND:
 //                            command = new Find(manager);
 //                            break;
 
-                        case update:
+                        case UPDATE:
                             command = new Update(manager);
                             break;
 
-                        case exit:
+                        case EXIT:
                             command = new Exit();
                             break;
 
-                        case help:
+                        case HELP:
                             command = new Help();
                             break;
                     }
