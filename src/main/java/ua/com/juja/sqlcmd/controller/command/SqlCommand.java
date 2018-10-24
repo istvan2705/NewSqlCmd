@@ -24,11 +24,14 @@ public enum SqlCommand {
     }
 
     public static SqlCommand getSqlCommand(String text) {
+        SqlCommand command;
         for (SqlCommand com : SqlCommand.values()) {
             if (com.command.equalsIgnoreCase(text)) {
-                return com;
+                command = com;
+
+                return command;
             }
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 }
