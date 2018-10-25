@@ -10,7 +10,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void create(String tableName, List<String> columns) throws SQLException {
-        String columnNames = getColumnsTable(columns, "%s text,");
+        String columnNames = getColumnFormatted(columns, "%s text,");
         String sql = "CREATE TABLE public." + tableName + "(" + columnNames + ")";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.executeUpdate();
@@ -50,6 +50,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
         }
     }
+
     @Override
     public boolean clear(String tableName) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
@@ -127,19 +128,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String getColumnsTable(List<String> columns, String format) {
-        StringBuilder names = new StringBuilder();
-        for (String newName : columns) {
-            names.append(String.format(format, newName));
-        }
-        return names.toString().substring(0, names.length() - 1);
-    }
-
-    @Override
     public String getColumnFormatted(List<String> columns, String format) {
         StringBuilder names = new StringBuilder();
-        for (String newName : columns) {
-            names.append(String.format(format, newName));
+        for (String columnName : columns) {
+            names.append(String.format(format, columnName));
         }
         return names.toString().substring(0, names.length() - 1);
     }

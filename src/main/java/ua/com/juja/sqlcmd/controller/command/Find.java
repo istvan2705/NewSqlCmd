@@ -4,7 +4,6 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Set;
 
 public class Find implements Command {
@@ -44,8 +43,6 @@ public class Find implements Command {
                 result.toString() + "\n" +
                 "--------------------------" +"\n";
     }
-
-
 }
 
 

@@ -3,9 +3,7 @@ package ua.com.juja.sqlcmd.model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public interface DatabaseManager {
@@ -33,8 +31,6 @@ public interface DatabaseManager {
     boolean isConnected();
 
     boolean isUpdateTable(PreparedStatement ps) throws SQLException;
-
-    String getColumnsTable(List<String> columns, String format);
 
     String getColumnFormatted(List<String> columns, String format);
 

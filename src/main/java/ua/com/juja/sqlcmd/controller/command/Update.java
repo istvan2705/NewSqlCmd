@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Update implements Command {
 
-
     private DatabaseManager manager;
 
     public Update(DatabaseManager manager) throws DBConnectionException {
@@ -44,5 +43,4 @@ public class Update implements Command {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
     }
-
 }
