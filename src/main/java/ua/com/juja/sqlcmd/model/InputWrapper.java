@@ -17,7 +17,7 @@ public class InputWrapper {
         InputWrapper.input = input;
     }
 
-    public static List<String> getParametersFromInput() {
+    private static List<String> getParametersFromInput() {
         parameters = Arrays.asList(input.split(SEPARATOR));
         return parameters;
     }
@@ -45,14 +45,6 @@ public class InputWrapper {
     public static int getNumberOfParameters() {
         List<String> parameters = Arrays.asList(input.split(SEPARATOR));
         return parameters.size();
-    }
-
-    public static void put(String name, String value) {
-        map.put(name, value);
-    }
-
-    public static List<String> getValues() {
-        return new ArrayList<>(map.values());
     }
 
     public static List<String> getColumns() {

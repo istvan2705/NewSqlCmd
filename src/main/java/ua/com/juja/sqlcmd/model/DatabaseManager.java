@@ -3,13 +3,14 @@ package ua.com.juja.sqlcmd.model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public interface DatabaseManager {
 
-  //  List<DataSetImpl> getTableRows(String tableName) throws SQLException;
+    HashMap<String, String> getTableRows(String tableName) throws SQLException;
 
     Set<String> getColumnsNames(String tableName) throws SQLException;
 

@@ -37,23 +37,20 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-//    @Override
-//    public List<DataSetImpl> getTableRows(String tableName) throws SQLException {
-//        List<DataSetImpl> result = new LinkedList<>();
-//        try (Statement stmt = connection.createStatement();
-//             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
-//            ResultSetMetaData rsmd = rs.getMetaData();
-//            while (rs.next()) {
-//                DataSetImpl dataSet = new DataSetImpl();
-//                result.add(dataSet);
-//                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-//                    dataSet.put(rsmd.getColumnName(i), rs.getString(i));
-//                }
-//            }
-//
-//            return result;
-//        }
-//    }
+    @Override
+    public HashMap<String, String> getTableRows(String tableName) throws SQLException {
+        HashMap<String, String> result = new LinkedHashMap<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            while (rs.next()) {
+                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    result.put(rsmd.getColumnName(i), rs.getString(i));
+                }
+            }
+
+            return result;
+        } }
 
     @Override
     public boolean clear(String tableName) throws SQLException {

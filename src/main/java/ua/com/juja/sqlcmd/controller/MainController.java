@@ -12,8 +12,6 @@ class MainController {
     private Command command;
     private View view = new Console();
     private DatabaseManager manager = new JDBCDatabaseManager();
-    private InputWrapper inputSet = new InputWrapper();
-
 
     MainController() {
     }
@@ -56,10 +54,10 @@ class MainController {
                     case DELETE:
                         command = new Delete(manager);
                         break;
-//
-//                        case FIND:
-//                            command = new Find(manager);
-//                            break;
+
+                    case FIND:
+                        command = new Find(manager);
+                        break;
 
                     case UPDATE:
                         command = new Update(manager);
@@ -81,12 +79,12 @@ class MainController {
 
             } catch (DBConnectionException e) {
                 view.write("You can not use this command until you have established connection to the database");
-
-                view.write("Please enter existing command or help");
             }
+            view.write("Please enter existing command or help");
         }
     }
 }
+
 
 
 
