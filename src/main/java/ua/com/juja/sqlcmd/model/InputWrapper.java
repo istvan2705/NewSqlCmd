@@ -10,8 +10,6 @@ public class InputWrapper {
     private static String PARSER = "(.*?\\|)(\\w+)(.*)";
     private static String SEPARATOR = "\\|";
     private static List<String> parameters;
-    private static HashMap<String, String> map = new LinkedHashMap<>();
-
 
     public static void setInput(String input) {
         InputWrapper.input = input;

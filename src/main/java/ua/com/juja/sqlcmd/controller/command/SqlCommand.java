@@ -28,7 +28,6 @@ public enum SqlCommand {
         for (SqlCommand com : SqlCommand.values()) {
             if (com.command.equalsIgnoreCase(text)) {
                 command = com;
-
                 return command;
             }
         }
