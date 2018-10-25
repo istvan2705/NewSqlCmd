@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface DatabaseManager {
 
-    HashMap<String, String> getTableRows(String tableName) throws SQLException;
+    void getTableRows(String tableName) throws SQLException;
 
     Set<String> getColumnsNames(String tableName) throws SQLException;
 

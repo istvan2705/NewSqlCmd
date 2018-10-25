@@ -27,10 +27,9 @@ public class Find implements Command {
         String tableName = InputWrapper.getTableName();
         try {
             Set<String> columns = manager.getColumnsNames(tableName);
-            String tableFooter = printColumnsNames(columns);
-            HashMap<String, String> rows = manager.getTableRows(tableName);
-            String tableContent = printTableContent(rows);
-            return tableFooter + tableContent;
+            String tableHeader = printColumnsNames(columns);
+            manager.getTableRows(tableName);
+              return tableHeader;
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
@@ -46,14 +45,7 @@ public class Find implements Command {
                 "--------------------------" +"\n";
     }
 
-    private String printTableContent(HashMap<String, String> tableData) {
-        StringBuilder result = new StringBuilder();
-        for (HashMap.Entry<String, String> rows : tableData.entrySet()) {
-            result.append("|").append(rows.getValue()).append("|");
-        }
-        return  result.toString() + "\n" +
-                "--------------------------";
-    }
+
 }
 
 

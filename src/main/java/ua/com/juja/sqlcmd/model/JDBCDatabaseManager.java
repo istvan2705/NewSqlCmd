@@ -38,20 +38,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public HashMap<String, String> getTableRows(String tableName) throws SQLException {
-        HashMap<String, String> result = new LinkedHashMap<>();
+    public void getTableRows(String tableName) throws SQLException {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
             ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    result.put(rsmd.getColumnName(i), rs.getString(i));
+                    System.out.print("|" + rs.getString(i) + "|");
                 }
+                System.out.println();
             }
-
-            return result;
-        } }
-
+        }
+    }
     @Override
     public boolean clear(String tableName) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
