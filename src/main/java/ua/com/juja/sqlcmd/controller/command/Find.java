@@ -43,7 +43,7 @@ public class Find implements Command {
         }
         return "--------------------------" + "\n" +
                 result.toString() + "\n" +
-                "--------------------------" +"\n";
+               "--------------------------" +"\n";
     }
 
     private String printTableRows(List<String> rows){
