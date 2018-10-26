@@ -28,8 +28,9 @@ public class Help implements Command {
                 "\t\tto insert row into the table" + "\n" +
 
                 "\tupdate|tableName|column1|value1|column2|value2|columnN|valueN" + "\n" +
+
                 "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
-                " is satisfied column1 = value1" + "\n" +
+                "\t\tis satisfied column1 = value1" + "\n" +
 
                 "\tlist" + "\n" +
                 "\t\tto get list of tables" + "\n" +

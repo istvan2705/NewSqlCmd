@@ -62,16 +62,15 @@ class MainController {
                         command = new Update(manager);
                         break;
 
-                    case EXIT:
-                        command = new Exit();
-                        break;
-
                     case HELP:
                         command = new Help();
                         break;
-                }
 
-                view.write(command.getStatusProcess());
+                    case EXIT:
+                        command = new Exit();
+                        break;
+                }
+                    view.write(command.getStatusProcess());
 
             } catch (IllegalArgumentException e) {
                 view.write("Not existing command " + input);

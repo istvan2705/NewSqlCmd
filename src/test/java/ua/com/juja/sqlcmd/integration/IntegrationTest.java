@@ -30,7 +30,7 @@ public class IntegrationTest {
     @Test
     public void testHelp() {
         // given
-     //   in.add("connect|Academy|postgres|1401198n");
+        in.add("connect|Academy|postgres|1401198n");
         in.add("help");
         in.add("exit");
 
@@ -41,8 +41,9 @@ public class IntegrationTest {
         assertEquals("Hello user!\n" +
                 "Please enter database, username and password in a format: connect|database|userName|password\n" +
                 // help
-               "Existing commands:\n"+
-
+                "You have connected to database 'Academy' successfully!\n"+
+                "Please enter existing command or help\n"+
+                "Existing commands:\n"+
         "\tconnect|databaseName|username|password\n"+
         "\t\tto connect to database\n"+
 
@@ -62,8 +63,8 @@ public class IntegrationTest {
         "\t\tto insert row into the table\n"+
 
        "\tupdate|tableName|column1|value1|column2|value2|columnN|valueN\n"+
-        "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" +
-                " is satisfied column1 = value1\n"+
+         "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
+          "\t\tis satisfied column1 = value1" + "\n" +
 
         "\tlist\n"+
         "\t\tto get list of tables\n"+
@@ -75,10 +76,9 @@ public class IntegrationTest {
         "\t\tto display list of command\n"+
 
        "\texit\n"+
-        "\t\tto exit the program\n"+
+        "\t\tto exit the program\n"
                 //exit
-        "Please enter command input(or help):\n" +
-        "See you soon!\n" , getData());
+                , getData());
     }
 
     private String getData() {
