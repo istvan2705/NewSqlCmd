@@ -4,6 +4,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 public class Find implements Command {
@@ -27,8 +28,9 @@ public class Find implements Command {
         try {
             Set<String> columns = manager.getColumnsNames(tableName);
             String tableHeader = printColumnsNames(columns);
-            manager.getTableRows(tableName);
-              return tableHeader;
+            List<String> rows = manager.getTableRows(tableName);
+             String tableContent = printTableRows(rows);
+             return tableHeader + tableContent;
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
@@ -42,6 +44,14 @@ public class Find implements Command {
         return "--------------------------" + "\n" +
                 result.toString() + "\n" +
                 "--------------------------" +"\n";
+    }
+
+    private String printTableRows(List<String> rows){
+        StringBuilder result = new StringBuilder();
+        for (String row: rows){
+            result.append("|").append(row).append("|");
+        }
+        return result.toString();
     }
 }
 

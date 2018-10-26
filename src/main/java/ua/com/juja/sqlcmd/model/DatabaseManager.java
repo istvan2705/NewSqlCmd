@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface DatabaseManager {
 
-    void getTableRows(String tableName) throws SQLException;
+    List<String> getTableRows(String tableName) throws SQLException;
 
     Set<String> getColumnsNames(String tableName) throws SQLException;
 

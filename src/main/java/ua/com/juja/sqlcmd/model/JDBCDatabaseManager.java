@@ -38,18 +38,22 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void getTableRows(String tableName) throws SQLException {
+    public List<String> getTableRows(String tableName) throws SQLException {
+        List<String> rows = new LinkedList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
             ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    System.out.print("|" + rs.getString(i) + "|");
+                    rows.add(rs.getString(i));
                 }
-                System.out.println();
+                rows.add("\n");
             }
+            return rows;
         }
     }
+
+
 
     @Override
     public boolean clear(String tableName) throws SQLException {
