@@ -94,7 +94,7 @@ public class IntegrationTest {
     @Test
     public void testExit() {
         // given
-    //    in.add("connect|Academy|postgres|1401198n");
+        in.add("connect|Academy|postgres|1401198n");
         in.add("exit");
         // when
         Main.main(new String[0]);
@@ -102,13 +102,15 @@ public class IntegrationTest {
         assertEquals(
          "Hello user!\n" +
                   "Please enter database, username and password in a format: connect|database|userName|password\n" +
-                  "See you soon!\n", getData());
+                 "You have connected to database 'Academy' successfully!\n" +
+                "Please enter existing command or help\n", getData());
+
     }
 
     @Test
     public void testTablesWithoutConnect() {
         // given
-        in.add("connect|Academy|postgres|1401198n");
+
         in.add("tables");
         in.add("exit");
         // when
@@ -118,16 +120,15 @@ public class IntegrationTest {
                 // tables
                 "Hello user!\n" +
                 "Please enter database, username and password in a format: connect|database|userName|password\n"+
-                "You can not use command 'tables' until  you will not connect with command connect|databaseName|userName|password\n" +
-                "Please enter command input(or help):\n" +
+                "You can not use this command until you have established connection to the database\n" +
+                 "Please enter existing command or help\n", getData());
                 // exit
-                "See you soon!\n", getData());
+
     }
 
     @Test
     public void testFindWithoutConnect() {
         // given
-        in.add("connect|Academy|postgres|1401198n");
         in.add("find|teachers");
         in.add("exit");
         // when
@@ -137,50 +138,12 @@ public class IntegrationTest {
                 // find|user
                 "Hello user!\n" +
                         "Please enter database, username and password in a format: connect|database|userName|password\n"+
-                        "You can not use command 'tables' until  you will not connect with command connect|databaseName|userName|password\n" +
-                        "Please enter command input(or help):\n" +
+                        "You can not use this command until you have established connection to the database\n" +
+                        "Please enter existing command or help\n", getData());
                         // exit
-                        "See you soon!\n", getData());
+
     }
 
-    @Test
-    public void testUnsupported() {
-        // given
-        in.add("connect|Academy|postgres|1401198n");
-        in.add("unsupported");
-        in.add("exit");
-        // when
-        Main.main(new String[0]);
-        // then
-        assertEquals(
-                // unsupported
-                "Вы не можете пользоваться командами, пока не подключитесь с помощью комманды connect|databaseName|userName|password\n" +
-                "Введи команду (или help для помощи):\n" +
-                // exit
-                "До скорой встречи!\n", getData());
-    }
-
-    @Test
-    public void testUnsupportedAfterConnect() {
-        // given
-        in.add("connect|Academy|postgres|1401198n");
-        in.add("finds|teachers");
-        in.add("exit");
-        // when
-        Main.main(new String[0]);
-        // then
-        assertEquals(
-                // connect
-                "Успех!\n" +
-                "Введи команду (или help для помощи):\n" +
-                // unsupported
-                "Несуществующая команда: unsupported\n" +
-                "Введи команду (или help для помощи):\n" +
-                "Успех!\n" +
-                "Введи команду (или help для помощи):\n" +
-                // exit
-                "До скорой встречи!\n", getData());
-    }
 
     @Test
     public void testTablesAfterConnect() {
@@ -193,22 +156,23 @@ public class IntegrationTest {
         // then
         assertEquals(
                 // connect
-                "Успех!\n" +
-                "Введи команду (или help для помощи):\n" +
+                "Hello user!\n" +
+                "Please enter database, username and password in a format: connect|database|userName|password\n" +
+                 "You have connected to database 'Academy' successfully!\n" +
+                 "Please enter existing command or help\n" +
                 // tables
-                "Существующие таблицы: users, test1, users2\n" +
-                "Введи команду (или help для помощи):\n" +
-                "Успех!\n" +
-                "Введи команду (или help для помощи):\n" +
+                "[teachers, tvboxes, tv, tvset]\n" +
+                "Please enter existing command or help\n", getData());
+
                 // exit
-                "До скорой встречи!\n", getData());
+
     }
 
     @Test
     public void testFindAfterConnect() {
         // given
         in.add("connect|Academy|postgres|1401198n");
-        in.add("find|users");
+        in.add("find|teachers");
         in.add("exit");
         // when
         Main.main(new String[0]);

@@ -67,10 +67,10 @@ class MainController {
                         break;
 
                     case EXIT:
-                        command = new Exit();
-                        break;
+                        view.write(new Exit().getStatusProcess());
+                        return;
                 }
-                    view.write(command.getStatusProcess());
+                view.write(command.getStatusProcess());
 
             } catch (IllegalArgumentException e) {
                 view.write("Not existing command " + input);
@@ -78,7 +78,7 @@ class MainController {
             } catch (DBConnectionException e) {
                 view.write("You can not use this command until you have established connection to the database");
             }
-            view.write("Please enter existing command or help");
+        view.write("Please enter existing command or help");
         }
     }
 }
