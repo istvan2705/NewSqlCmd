@@ -29,8 +29,10 @@ public class Find implements Command {
             Set<String> columns = manager.getColumnsNames(tableName);
             String tableHeader = printColumnsNames(columns);
             List<String> rows = manager.getTableRows(tableName);
-             String tableContent = printTableRows(rows);
-             return tableHeader + tableContent;
+            String tableContent = printTableRows(rows);
+            StringBuilder table = new StringBuilder();
+            table.append(tableHeader).append(tableContent);
+            return table.toString();
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
@@ -43,12 +45,12 @@ public class Find implements Command {
         }
         return "--------------------------" + "\n" +
                 result.toString() + "\n" +
-               "--------------------------" +"\n";
+               "--------------------------" + "\n";
     }
 
-    private String printTableRows(List<String> rows){
+    private String printTableRows(List<String> rows) {
         StringBuilder result = new StringBuilder();
-        for (String row: rows){
+        for (String row : rows) {
             result.append("|").append(row).append("|");
         }
         return result.toString();
