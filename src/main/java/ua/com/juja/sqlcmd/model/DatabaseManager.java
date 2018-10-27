@@ -18,11 +18,11 @@ public interface DatabaseManager {
 
     void create(String tableName, List<String> columns) throws SQLException;
 
-    boolean update(String tableName, List<String> column, List<String> row, String keyColumn, String keyValue) throws SQLException;
+    boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException;
 
     Set<String> getTableNames() throws SQLException;
 
-    void insert(String tableName, List<String> columns, List<String> rows) throws SQLException;
+    void insert(String tableName, List<String> columns, List<Object> rows) throws SQLException;
 
     void deleteTable(String tableName) throws SQLException;
 
@@ -34,5 +34,5 @@ public interface DatabaseManager {
 
     String getColumnFormatted(List<String> columns, String format);
 
-    String getValuesFormatted(List<String> values, String format);
+    String getValuesFormatted(List<Object> values, String format);
 }

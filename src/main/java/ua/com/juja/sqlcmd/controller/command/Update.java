@@ -28,7 +28,7 @@ public class Update implements Command {
         String tableName = InputWrapper.getTableName();
         List<String> values = InputWrapper.getTableData();
         List<String> columns = InputWrapper.getColumns();
-        List<String> rows = InputWrapper.getRows();
+        List<Object> rows = InputWrapper.getRows();
         String keyColumn = values.get(0);
         String keyValue = values.get(1);
 

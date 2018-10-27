@@ -93,7 +93,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName, List<String> column, List<String> row) throws SQLException {
+    public void insert(String tableName, List<String> column, List<Object> row) throws SQLException {
         String columns = getColumnFormatted(column, "%s,");
         String values = getValuesFormatted(row, "'%s',");
         String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
@@ -112,13 +112,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public boolean update(String tableName, List<String> column, List<String> row, String keyColumn, String keyValue) throws SQLException {
+    public boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException {
         String columns = getColumnFormatted(column, "%s = ?,");
 
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + keyColumn + " = ?")) {
             int index = 1;
-            for (String value : row) {
-                ps.setString(index, value);
+            for (Object value : row) {
+                ps.setObject(index, value);
                 index++;
             }
             ps.setString(index, keyValue);
@@ -141,9 +141,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String getValuesFormatted(List<String> values, String format) {
+    public String getValuesFormatted(List<Object> values, String format) {
         StringBuilder names = new StringBuilder();
-        for (String value : values) {
+        for (Object value : values) {
             names.append(String.format(format, value));
         }
         return names.toString().substring(0, names.length() - 1);

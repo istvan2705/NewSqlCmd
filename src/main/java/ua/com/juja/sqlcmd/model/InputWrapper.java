@@ -58,11 +58,11 @@ public class InputWrapper {
         return columns;
     }
 
-    public static List<String> getRows() {
+    public static List<Object> getRows() {
         int i = 0;
         List<String> list = InputWrapper.getTableData();
-        List<String> values = new ArrayList<>();
-        for (String value : list) {
+        List<Object> values = new ArrayList<>();
+        for (Object value : list) {
             if (i % 2 != 0) {
                 values.add(value);
             }
