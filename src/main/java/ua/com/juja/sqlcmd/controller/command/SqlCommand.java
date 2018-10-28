@@ -13,22 +13,22 @@ public enum SqlCommand {
     TABLES("tables"),
     UPDATE("update");
 
-    private String command;
+    private String value;
 
-    SqlCommand(String command) {
-        this.command = command;
+    SqlCommand(String value) {
+        this.value = value;
     }
 
     public String getCommand() {
-        return command;
+        return value;
     }
 
-    public static SqlCommand getSqlCommand(String text) {
-        SqlCommand command;
-        for (SqlCommand com : SqlCommand.values()) {
-            if (com.command.equalsIgnoreCase(text)) {
-                command = com;
-                return command;
+    public static SqlCommand getSqlCommand(String value) {
+        if (value != null) {
+            for (SqlCommand command : SqlCommand.values()) {
+                if (value.equalsIgnoreCase(command.value)) {
+                    return command;
+                }
             }
         }
         throw new IllegalArgumentException();
