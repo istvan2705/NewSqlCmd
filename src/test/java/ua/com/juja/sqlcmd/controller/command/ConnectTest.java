@@ -16,7 +16,6 @@ public class ConnectTest {
     @Before
     public void init() {
         manager = mock(DatabaseManager.class);
-
         command = new Connect(manager);
     }
 

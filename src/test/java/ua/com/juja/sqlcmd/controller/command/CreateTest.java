@@ -18,9 +18,10 @@ public class CreateTest {
     public void init() throws DBConnectionException {
         manager = mock(DatabaseManager.class);
         if (manager.isConnected()) {
-           command = new Create(manager);
+            command = new Create(manager);
         }
     }
+
     @Test
     public void testCreateIfNotExists() throws SQLException {
         String tableName = "students";

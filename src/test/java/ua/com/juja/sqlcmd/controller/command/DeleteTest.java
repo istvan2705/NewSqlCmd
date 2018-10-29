@@ -7,7 +7,6 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
@@ -32,7 +31,6 @@ public class DeleteTest {
         when(manager.deleteRows(tableName, columnName, rowName)).thenReturn(true);
         assertTrue(manager.deleteRows(tableName, columnName, rowName));
         verify(manager).deleteRows(tableName, columnName, rowName);
-
     }
 
     @Test
@@ -53,6 +51,4 @@ public class DeleteTest {
         doThrow(new SQLException()).when(manager).deleteRows(tableName, columnName, rowName);
         manager.deleteRows(tableName, columnName, rowName);
     }
-
-
 }

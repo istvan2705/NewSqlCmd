@@ -24,7 +24,6 @@ public class ClearTest {
         }
     }
 
-
     @Test
     public void testClearTableIfContentExists() throws SQLException {
         String tableName = "teachers";

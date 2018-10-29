@@ -22,7 +22,8 @@ public class DropTest {
             command = new Drop(manager);
         }
     }
-     @Test
+
+    @Test
     public void testDropTableIfExists() throws SQLException {
         String tableName = "students";
         manager.deleteTable(tableName);

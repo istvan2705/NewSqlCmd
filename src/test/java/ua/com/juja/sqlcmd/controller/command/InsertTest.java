@@ -25,6 +25,7 @@ public class InsertTest {
             command = new Insert(manager);
         }
     }
+
     @Test
     public void testInsertIfRowNotExists() throws SQLException {
         String tableName = "teachers";
@@ -40,7 +41,6 @@ public class InsertTest {
         rows.add(row2);
         manager.insert(tableName, columns, rows);
         verify(manager).insert(tableName, columns, rows);
-
     }
 
     @Test(expected = SQLException.class)
