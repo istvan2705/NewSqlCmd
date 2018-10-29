@@ -32,6 +32,5 @@ public class FindTest {
 
         when(manager.getTableRows("teachers")).thenReturn(Arrays.asList("2", "Petrov", "Math", "Lviv"));
         assertEquals((Arrays.asList("2", "Petrov", "Math", "Lviv")), manager.getColumnsNames("teachers"));
-
     }
 }
