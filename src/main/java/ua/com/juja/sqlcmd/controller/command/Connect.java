@@ -12,7 +12,7 @@ public class Connect implements Command {
     private DatabaseManager manager;
 
     public Connect(DatabaseManager manager) {
-          this.manager = manager;
+        this.manager = manager;
     }
 
     @Override

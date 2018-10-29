@@ -53,8 +53,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-
-
     @Override
     public boolean clear(String tableName) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
