@@ -26,13 +26,13 @@ public class Delete implements Command {
         String tableName = InputWrapper.getTableName();
         List<String> values = InputWrapper.getTableData();
         String columnName = values.get(0);
-        String rowName = values.get(1);
+        String rowValue = values.get(1);
         try {
-            boolean isDeleted = manager.deleteRows(tableName, columnName, rowName);
+            boolean isDeleted = manager.deleteRows(tableName, columnName, rowValue);
             if (isDeleted) {
                 return "The row has been deleted";
             } else
-                return String.format("Error entering command. The column name '%s' does not exist", rowName);
+                return String.format("Error entering command. The row value '%s' does not exist", rowValue);
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }
