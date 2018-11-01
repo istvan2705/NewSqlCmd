@@ -18,7 +18,7 @@ public interface DatabaseManager {
 
     void create(String tableName, List<String> columns) throws SQLException;
 
-    boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException;
+    void update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException;
 
     Set<String> getTableNames() throws SQLException;
 

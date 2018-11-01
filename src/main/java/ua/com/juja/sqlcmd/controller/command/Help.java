@@ -1,5 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.model.InputWrapper;
+
 public class Help implements Command {
 
     public Help() {
@@ -7,6 +9,11 @@ public class Help implements Command {
 
     @Override
     public String getStatusProcess() {
+        int numberOfParameters = InputWrapper.getNumberOfParameters();
+        if (numberOfParameters > 1) {
+            return ERROR_ENTERING_MESSAGE + "'tables'";
+        }
+
         return "Existing commands:" + "\n" +
 
                 "\tconnect|databaseName|username|password" + "\n" +

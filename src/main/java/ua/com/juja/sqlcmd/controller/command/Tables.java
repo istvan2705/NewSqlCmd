@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.InputWrapper;
 
 import java.sql.SQLException;
 import java.util.Set;
@@ -18,6 +19,11 @@ public class Tables implements Command {
 
     @Override
     public String getStatusProcess() {
+        int numberOfParameters = InputWrapper.getNumberOfParameters();
+        if (numberOfParameters != 1) {
+            return ERROR_ENTERING_MESSAGE + "'tables'";
+        }
+
         try {
             return (format(manager.getTableNames()));
         } catch (SQLException e) {

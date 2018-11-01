@@ -62,6 +62,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
+        return ps.executeUpdate() > 0;
+    }
+
+    @Override
     public Set<String> getTableNames() throws SQLException {
         Set<String> columns = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
@@ -110,7 +115,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException {
+    public void update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException {
         String columns = getColumnFormatted(column, "%s = ?,");
 
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + keyColumn + " = ?")) {
@@ -120,14 +125,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, keyValue);
-            return isUpdateTable(ps);
+            ps.executeUpdate();
         }
     }
 
-    @Override
-    public boolean isUpdateTable(PreparedStatement ps) throws SQLException {
-        return ps.executeUpdate() > 0;
-    }
 
     @Override
     public String getColumnFormatted(List<String> columns, String format) {

@@ -33,12 +33,8 @@ public class Update implements Command {
         String keyValue = values.get(1);
 
         try {
-            boolean isUpdate = manager.update(tableName, columns, rows, keyColumn, keyValue);
-            if (isUpdate) {
-                return "The row has been updated";
-            } else {
-                return "The row has been not updated due to incorrect parameter";
-            }
+            manager.update(tableName, columns, rows, keyColumn, keyValue);
+            return "The row has been updated";
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }

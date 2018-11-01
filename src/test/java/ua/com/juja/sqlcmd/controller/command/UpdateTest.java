@@ -24,25 +24,6 @@ public class UpdateTest {
             command = new Update(manager);
         }
     }
-      @Test
-    public void testUpdateIfRowExist() throws SQLException {
-        String tableName = "teachers";
-        String keyColumn = "id";
-        String keyValue = "2";
-        String column1 = "surname";
-        String column2 = "name";
-        String row1 = "Pavlov";
-        String row2 = "Ivan";
-        List<String> columns = new ArrayList<>();
-        columns.add(column1);
-        columns.add(column2);
-        List<Object> rows = new ArrayList<>();
-        rows.add(row1);
-        rows.add(row2);
-        when(manager.update(tableName, columns, rows, keyColumn, keyValue)).thenReturn(true);
-        assertTrue(manager.update(tableName, columns, rows, keyColumn, keyValue));
-        verify(manager).update(tableName, columns, rows, keyColumn, keyValue);
-            }
 
     @Test
     public void testUpdateIfRowNotExist() throws SQLException {
@@ -59,9 +40,8 @@ public class UpdateTest {
         List<Object> rows = new ArrayList<>();
         rows.add(row1);
         rows.add(row2);
-        when(manager.update(tableName, columns, rows, keyColumn, keyValue)).thenReturn(false);
-        assertFalse(manager.update(tableName, columns, rows, keyColumn, keyValue));
-        verify(manager).update(tableName, columns, rows, keyColumn, keyValue);
+       manager.update(tableName, columns, rows, keyColumn, keyValue);
+       verify(manager).update(tableName, columns, rows, keyColumn, keyValue);
     }
 
 
