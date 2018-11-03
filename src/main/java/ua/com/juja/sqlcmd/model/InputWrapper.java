@@ -23,12 +23,7 @@ public class InputWrapper {
     }
 
     private static List<String> getParametersFromInput() {
-        parameters = getListFromArray(input);
-        return parameters;
-    }
-
-    private static List<String> getListFromArray(String input) {
-        return Arrays.asList(input.split(SEPARATOR));
+         return Arrays.asList(input.split(SEPARATOR));
     }
 
     public static String getTableName() {
@@ -40,14 +35,14 @@ public class InputWrapper {
         Pattern pattern = Pattern.compile(PARSER);
         Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
-            String groupThird = matcher.group(3).substring(1);
-            parameters = getListFromArray(groupThird);
+            String tableData = matcher.group(3).substring(1);
+            parameters = Arrays.asList(tableData.split(SEPARATOR));
         }
         return parameters;
     }
 
     public static int getNumberOfParameters() {
-        List<String> parameters = getListFromArray(input);
+        List<String> parameters = Arrays.asList(input.split(SEPARATOR));
         return parameters.size();
     }
 
