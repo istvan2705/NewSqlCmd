@@ -32,7 +32,7 @@ public class Delete implements Command {
             if (isDeleted) {
                 return "The row has been deleted";
             } else
-                return String.format("Error entering command. The row value '%s' does not exist", rowValue);
+                return String.format("Error entering DatabaseManagerMockitoTest. The row value '%s' does not exist", rowValue);
         } catch (SQLException e) {
             return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
         }

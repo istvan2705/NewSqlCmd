@@ -8,6 +8,8 @@ import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -42,7 +44,7 @@ public class IntegrationTest {
                 "Please enter database, username and password in a format: connect|database|userName|password\n" +
                 // help
                 "You have connected to database 'Academy' successfully!\n"+
-                "Please enter existing command or help\n"+
+                "Please enter existing DatabaseManagerMockitoTest or help\n"+
                 "Existing commands:\n"+
         "\tconnect|databaseName|username|password\n"+
         "\t\tto connect to database\n"+
@@ -57,13 +59,13 @@ public class IntegrationTest {
         "\t\tto delete table\n"+
 
         "\tdelete|tableName|column|value\n"+
-        "\t\tcommand deletes records for which the condition is satisfied column = value\n"+
+        "\t\tDatabaseManagerMockitoTest deletes records for which the condition is satisfied column = value\n"+
 
        "\tinsert|tableName|column1|value1|column2|value2|columnN|valueN\n"+
         "\t\tto insert row into the table\n"+
 
        "\tupdate|tableName|column1|value1|column2|value2|columnN|valueN\n"+
-         "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
+         "\t\tDatabaseManagerMockitoTest updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
           "\t\tis satisfied column1 = value1" + "\n" +
 
         "\tlist\n"+
@@ -73,7 +75,7 @@ public class IntegrationTest {
         "\t\tto get content of table 'tableName'\n"+
 
         "\thelp\n"+
-        "\t\tto display list of command\n"+
+        "\t\tto display list of DatabaseManagerMockitoTest\n"+
 
        "\texit\n"+
         "\t\tto exit the program\n"
@@ -82,13 +84,9 @@ public class IntegrationTest {
     }
 
     private String getData() {
-        try {
-            String result = new String(out.toByteArray(), "UTF-8").replaceAll("\n", "\n");
-            out.reset();
-            return result;
-        } catch (UnsupportedEncodingException e) {
-            return e.getMessage();
-        }
+        String result = new String(out.toByteArray(), StandardCharsets.UTF_8).replaceAll("\n", "\n");
+        out.reset();
+        return result;
     }
 
     @Test
@@ -103,7 +101,7 @@ public class IntegrationTest {
          "Hello user!\n" +
                   "Please enter database, username and password in a format: connect|database|userName|password\n" +
                  "You have connected to database 'Academy' successfully!\n" +
-                "Please enter existing command or help\n", getData());
+                "Please enter existing DatabaseManagerMockitoTest or help\n", getData());
 
     }
 
@@ -120,8 +118,8 @@ public class IntegrationTest {
                 // tables
                 "Hello user!\n" +
                 "Please enter database, username and password in a format: connect|database|userName|password\n"+
-                "You can not use this command until you have established connection to the database\n" +
-                 "Please enter existing command or help\n", getData());
+                "You can not use this DatabaseManagerMockitoTest until you have established connection to the database\n" +
+                 "Please enter existing DatabaseManagerMockitoTest or help\n", getData());
                 // exit
 
     }
@@ -138,8 +136,8 @@ public class IntegrationTest {
                 // find|user
                 "Hello user!\n" +
                         "Please enter database, username and password in a format: connect|database|userName|password\n"+
-                        "You can not use this command until you have established connection to the database\n" +
-                        "Please enter existing command or help\n", getData());
+                        "You can not use this DatabaseManagerMockitoTest until you have established connection to the database\n" +
+                        "Please enter existing DatabaseManagerMockitoTest or help\n", getData());
                         // exit
 
     }
@@ -159,10 +157,10 @@ public class IntegrationTest {
                 "Hello user!\n" +
                 "Please enter database, username and password in a format: connect|database|userName|password\n" +
                  "You have connected to database 'Academy' successfully!\n" +
-                 "Please enter existing command or help\n" +
+                 "Please enter existing DatabaseManagerMockitoTest or help\n" +
                 // tables
                 "[teachers, tvboxes, tv, tvset]\n" +
-                "Please enter existing command or help\n", getData());
+                "Please enter existing DatabaseManagerMockitoTest or help\n", getData());
 
                 // exit
 
