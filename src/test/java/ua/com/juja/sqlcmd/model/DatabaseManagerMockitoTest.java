@@ -23,9 +23,7 @@ public class DatabaseManagerMockitoTest {
     public void testClearTableIfContentExists() throws SQLException {
         String tableName = "teachers";
         when(manager.clear(tableName)).thenReturn(true);
-
         assertTrue(manager.clear(tableName));
-
         verify(manager).clear(tableName);
 
     }
@@ -34,9 +32,7 @@ public class DatabaseManagerMockitoTest {
     public void testClearTableIfContentNotExists() throws SQLException {
         String tableName = "tv";
         when(manager.clear(tableName)).thenReturn(false);
-
         assertFalse(manager.clear(tableName));
-
         verify(manager).clear(tableName);
     }
 
