@@ -13,8 +13,9 @@ public class Clear implements Command {
         this.manager = manager;
         if (!manager.isConnected()) {
             throw new DBConnectionException();
+             }
         }
-    }
+
 
     @Override
     public String getStatusProcess() {

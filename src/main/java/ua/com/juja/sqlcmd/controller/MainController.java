@@ -73,12 +73,12 @@ class MainController {
                 view.write(command.getStatusProcess());
 
             } catch (IllegalArgumentException e) {
-                view.write("Not existing DatabaseManagerMockitoTest " + input);
+                view.write("Not existing command " + input);
 
             } catch (DBConnectionException e) {
-                view.write("You can not use this DatabaseManagerMockitoTest until you have established connection to the database");
+                view.write("You can not use this command until you have established connection to the database");
             }
-        view.write("Please enter existing DatabaseManagerMockitoTest or help");
+        view.write("Please enter existing command or help");
         }
     }
 }
