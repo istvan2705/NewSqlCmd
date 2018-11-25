@@ -29,7 +29,7 @@ public class JDBCDatabaseManagerTest {
     @Test
     public void testGetAllTableNames() throws SQLException {
         Set<String> tableNames = manager.getTableNames();
-        assertEquals("[tvsets, teachers]", tableNames.toString());
+        assertEquals("[tvsets, dvdplayers, teachers]", tableNames.toString());
     }
 
     @Test
