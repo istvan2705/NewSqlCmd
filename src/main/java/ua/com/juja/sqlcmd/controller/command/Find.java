@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputWrapper;
+import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,19 +11,22 @@ import java.util.Set;
 public class Find implements Command {
 
     private DatabaseManager manager;
+    View view;
 
-    public Find(DatabaseManager manager) throws DBConnectionException {
+
+   public Find(DatabaseManager manager, View view) throws DBConnectionException {
         this.manager = manager;
+        this.view = view;
         if (!manager.isConnected()) {
             throw new DBConnectionException();
         }
     }
 
     @Override
-    public String getStatusProcess() {
+    public void execute() {
         int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters != 2) {
-            return ERROR_ENTERING_MESSAGE + "'find|tableName'";
+            view.write(ERROR_ENTERING_MESSAGE + "'find|tableName'");
         }
         String tableName = InputWrapper.getTableName();
         try {
@@ -32,9 +36,9 @@ public class Find implements Command {
             String tableContent = printTableRows(rows);
             StringBuilder table = new StringBuilder();
             table.append(tableHeader).append(tableContent);
-            return table.toString();
+            view.write(table.toString());
         } catch (SQLException e) {
-            return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
+            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
 

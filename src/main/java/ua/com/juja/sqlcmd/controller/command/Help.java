@@ -1,20 +1,23 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.InputWrapper;
+import ua.com.juja.sqlcmd.view.View;
 
 public class Help implements Command {
+private View view;
 
-    public Help() {
+    public Help(View view) {
+        this.view = view;
     }
 
     @Override
-    public String getStatusProcess() {
+    public void execute() {
         int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters != 1) {
-            return ERROR_ENTERING_MESSAGE + "'tables'";
+            view.write(ERROR_ENTERING_MESSAGE + "'tables'");
         }
 
-        return "Existing commands:" + "\n" +
+        view.write("Existing commands:" + "\n" +
 
                 "\tconnect|databaseName|username|password" + "\n" +
                 "\t\tto connect to database" + "\n" +
@@ -49,6 +52,6 @@ public class Help implements Command {
                 "\t\tto display list of DatabaseManagerMockitoTest" + "\n" +
 
                 "\texit" + "\n" +
-                "\t\tto exit the program";
+                "\t\tto exit the program");
     }
 }

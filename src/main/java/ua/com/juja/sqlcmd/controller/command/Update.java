@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputWrapper;
+import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,20 +11,22 @@ import java.util.List;
 public class Update implements Command {
 
     private DatabaseManager manager;
+    private View view;
 
-    public Update(DatabaseManager manager) throws DBConnectionException {
+    public Update(DatabaseManager manager, View view) throws DBConnectionException {
         this.manager = manager;
+        this.view = view;
         if (!manager.isConnected()) {
             throw new DBConnectionException();
         }
     }
 
     @Override
-    public String getStatusProcess() {
+    public void execute() {
         int numberOfParameters = InputWrapper.getNumberOfParameters();
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
-            return ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
-                    "column2|value2|...|columnN|valueN'";
+            view.write( ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
+                    "column2|value2|...|columnN|valueN'");
         }
         String tableName = InputWrapper.getTableName();
         List<String> values = InputWrapper.getTableData();
@@ -34,9 +37,9 @@ public class Update implements Command {
 
         try {
             manager.update(tableName, columns, rows, keyColumn, keyValue);
-            return "The row has been updated";
+            view.write( "The row has been updated");
         } catch (SQLException e) {
-            return String.format(SQL_EXCEPTION_MESSAGE, e.getMessage());
+            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
 }

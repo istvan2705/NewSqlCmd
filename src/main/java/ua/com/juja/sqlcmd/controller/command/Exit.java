@@ -1,12 +1,15 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-public class Exit implements Command {
+import ua.com.juja.sqlcmd.view.View;
 
-    public Exit() {
+public class Exit implements Command {
+    private View view;
+    public Exit(View view) {
+        this.view = view;
     }
 
     @Override
-    public String getStatusProcess() {
-            return "See you soon!";
+    public void execute() {
+            view.write("See you soon!");
         }
     }
