@@ -9,7 +9,11 @@ public class Exit implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(String command)
+    {
+
+
+
             view.write("See you soon!");
         }
     }

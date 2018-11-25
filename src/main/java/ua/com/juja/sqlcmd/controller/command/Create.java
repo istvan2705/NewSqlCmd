@@ -12,22 +12,20 @@ public class Create implements Command {
 
     private DatabaseManager manager;
     private View view;
-    public Create(DatabaseManager manager, View view) throws DBConnectionException {
+    public Create(DatabaseManager manager, View view) {
            this.manager = manager;
            this.view = view;
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
-        }
+
     }
 
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters < 4) {
             view.write( "'create|tableName|column1|column2|...|columnN'");
         }
-        String tableName = InputWrapper.getTableName();
-        List<String> values = InputWrapper.getTableData();
+        String tableName = InputWrapper.getTableName(command);
+        List<String> values = InputWrapper.getTableData(command);
 
         try {
             manager.create(tableName, values);

@@ -12,17 +12,14 @@ public class Tables implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public Tables(DatabaseManager manager, View view) throws DBConnectionException {
+    public Tables(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
         }
-    }
 
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 1) {
             view.write(ERROR_ENTERING_MESSAGE + "'tables'");
         }

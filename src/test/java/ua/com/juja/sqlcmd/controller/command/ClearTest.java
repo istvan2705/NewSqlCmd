@@ -7,7 +7,6 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 
-import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 
@@ -16,46 +15,38 @@ public class ClearTest {
     private DatabaseManager manager;
     private Command command;
 
+
     @Before
-    public void init() throws DBConnectionException {
+    public void init() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
-        }
         command = new Clear(manager, view);
     }
-
 
     @Test
     public void testClearTableIfContentExists() throws SQLException {
         String tableName = "teachers";
         when(manager.clear(tableName)).thenReturn(true);
+        command.execute("clear|" + tableName);
+        verify(manager).clear(tableName);
+        verify(view).write(String.format("The content of table '%s' has been deleted", tableName));
+    }
 
-        command.execute();
+    @Test
+    public void testClearTableIfTableNotExists() throws SQLException {
+        String tableName = "tvboxes";
+        when(manager.clear(tableName)).thenReturn(false);
+        command.execute("clear|" + tableName);
         verify(manager).clear(tableName);
         verify(view).write("You are trying to clear the contents of an empty table");
     }
-    @Test
-    public void testClearTableIfTableNotExists() throws SQLException  {
-        String tableName = "tvboxes";
-        when(manager.clear(tableName)).thenReturn(false);
-              command.execute();
-              assertFalse(manager.clear(tableName));
 
-            verify(manager).clear(tableName);
-             verify(view).write("Can not execute command  due to: %s");
-        }
-
-    @Test
-    public void testNotClearTableIfContentNotExists() {
+    @Test(expected = SQLException.class)
+    public void testNotClearTableIfContentNotExists() throws SQLException {
         String tableName = "tvboxes";
-        try {
-            command.execute();
-            verify(manager).clear(tableName);
-        } catch (SQLException e) {
-            verify(view).write(String.format("Can not execute command  due to: %s", e.getMessage()));
-        }
+        doThrow(new SQLException()).when(manager).clear(tableName);
+        manager.clear(tableName);
+        verify(manager).clear(tableName);
     }
 }
 

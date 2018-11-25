@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -20,44 +21,43 @@ public class HelpTest {
     }
 
 
-
     @Test
     public void testHelp() {
-        command.execute();
-        verify(view).write("Existing commands:");
+        command.execute("help|");
+        verify(view).write("Existing commands:\n" +
 
-        verify(view).write("\tconnect|databaseName|username|password");
-        verify(view).write("\t\tto connect to database");
+        "\tconnect|databaseName|username|password\n" +
+        "\t\tto connect to database\n" +
 
-        verify(view).write("\tcreate|tableName|column1|column2|...|columnN");
-        verify(view).write("\t\tto create table with columns");
+        "\tcreate|tableName|column1|column2|...|columnN\n" +
+        "\t\tto create table with columns\n" +
 
-        verify(view).write("\tclear|tableName");
-        verify(view).write("\t\tto clear of table's content");
+        "\tclear|tableName\n" +
+        "\t\tto clear of table's content\n" +
 
-        verify(view).write("\tdrop|tableName");
-        verify(view).write("\t\tto delete table");
+        "\tdrop|tableName\n" +
+        "\t\tto delete table\n" +
 
-        verify(view).write("\tdelete|tableName|column|value");
-        verify(view).write("\t\tcommand deletes records for which the condition is satisfied column = value");
+        "\tdelete|tableName|column|value\n" +
+        "\t\tcommand deletes records for which the condition is satisfied column = value\n" +
 
-        verify(view).write("\tinsert|tableName|column1|value1|column2|value2|columnN|valueN");
-        verify(view).write("\t\tto insert row into the table");
+        "\tinsert|tableName|column1|value1|column2|value2|columnN|valueN\n" +
+        "\t\tto insert row into the table\n" +
 
-        verify(view).write("\tupdate|tableName|column1|value1|column2|value2|columnN|valueN");
-        verify(view).write("\t\tcommand updates the record by setting the column value2 = the value2 for which the condition is satisfied column1 = value1");
+        "\tupdate|tableName|column1|value1|column2|value2|columnN|valueN" + "\n" +
+        "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
+        "\t\tis satisfied column1 = value1" + "\n" +
+        "\tlist\n" +
+        "\t\tto get list of tables\n" +
 
-        verify(view).write("\tlist");
-        verify(view).write("\t\tto get list of tables");
+        "\tfind|tableName\n" +
+        "\t\tto get content of table 'tableName'\n" +
 
-        verify(view).write("\tfind|tableName");
-        verify(view).write("\t\tto get content of table 'tableName'");
+        "\thelp\n" +
+        "\t\tto display list of command\n" +
 
-        verify(view).write("\thelp");
-        verify(view).write("\t\tto display list of command");
-
-        verify(view).write("\texit");
-        verify(view).write("\t\tto exit the program");
+        "\texit\n" +
+        "\t\tto exit the program");
     }
 }
 

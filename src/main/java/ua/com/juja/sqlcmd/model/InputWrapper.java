@@ -6,32 +6,28 @@ import java.util.regex.Pattern;
 
 public class InputWrapper {
 
-    private static String input;
+
     private static String PARSER = "(.*?\\|)(\\w+)(.*)";
     private static String SEPARATOR = "\\|";
     private static List<String> parameters;
 
-    public static void setInput(String input) {
-        InputWrapper.input = input;
-    }
 
 
-
-    public static String getCommand() {
-        parameters = getParametersFromInput();
+    public static String getCommand(String input) {
+        parameters = getParametersFromInput(input);
         return parameters.get(0);
     }
 
-    private static List<String> getParametersFromInput() {
+    private static List<String> getParametersFromInput(String input) {
          return Arrays.asList(input.split(SEPARATOR));
     }
 
-    public static String getTableName() {
-        parameters = getParametersFromInput();
+    public static String getTableName(String input) {
+        parameters = getParametersFromInput(input);
         return parameters.get(1);
     }
 
-    public static List<String> getTableData() {
+    public static List<String> getTableData(String input) {
         Pattern pattern = Pattern.compile(PARSER);
         Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -41,14 +37,14 @@ public class InputWrapper {
         return parameters;
     }
 
-    public static int getNumberOfParameters() {
+    public static int getNumberOfParameters(String input ) {
         List<String> parameters = Arrays.asList(input.split(SEPARATOR));
         return parameters.size();
     }
 
-    public static List<String> getColumns() {
+    public static List<String> getColumns(String input) {
         int i = 0;
-        List<String> list = InputWrapper.getTableData();
+        List<String> list = InputWrapper.getTableData(input);
         List<String> columns = new ArrayList<>();
         for (String column : list) {
             if (i % 2 == 0) {
@@ -59,9 +55,9 @@ public class InputWrapper {
         return columns;
     }
 
-    public static List<Object> getRows() {
+    public static List<Object> getRows(String input) {
         int i = 0;
-        List<String> list = InputWrapper.getTableData();
+        List<String> list = InputWrapper.getTableData(input);
         List<Object> values = new ArrayList<>();
         for (Object value : list) {
             if (i % 2 != 0) {

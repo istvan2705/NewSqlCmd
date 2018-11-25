@@ -11,8 +11,8 @@ private View view;
     }
 
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 1) {
             view.write(ERROR_ENTERING_MESSAGE + "'tables'");
         }
@@ -32,14 +32,14 @@ private View view;
                 "\t\tto delete table" + "\n" +
 
                 "\tdelete|tableName|column|value" + "\n" +
-                "\t\tDatabaseManagerMockitoTest deletes records for which the condition is satisfied column = value" + "\n" +
+                "\t\tcommand deletes records for which the condition is satisfied column = value" + "\n" +
 
                 "\tinsert|tableName|column1|value1|column2|value2|columnN|valueN" + "\n" +
                 "\t\tto insert row into the table" + "\n" +
 
                 "\tupdate|tableName|column1|value1|column2|value2|columnN|valueN" + "\n" +
 
-                "\t\tDatabaseManagerMockitoTest updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
+                "\t\tcommand updates the record by setting the column value2 = the value2 for which the condition" + "\n" +
                 "\t\tis satisfied column1 = value1" + "\n" +
 
                 "\tlist" + "\n" +
@@ -49,7 +49,7 @@ private View view;
                 "\t\tto get content of table 'tableName'" + "\n" +
 
                 "\thelp" + "\n" +
-                "\t\tto display list of DatabaseManagerMockitoTest" + "\n" +
+                "\t\tto display list of command" + "\n" +
 
                 "\texit" + "\n" +
                 "\t\tto exit the program");

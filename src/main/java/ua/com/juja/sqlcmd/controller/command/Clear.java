@@ -4,6 +4,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.InputWrapper;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Clear implements Command {
@@ -11,22 +12,18 @@ public class Clear implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public Clear(DatabaseManager manager, View view) throws DBConnectionException {
+        public Clear(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
-             }
         }
 
-
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 2) {
              view.write(ERROR_ENTERING_MESSAGE + "'clear|tableName'");
         }
-        String tableName = InputWrapper.getTableName();
+        String tableName = InputWrapper.getTableName(command);
         try {
             boolean isCleared = manager.clear(tableName);
             if (isCleared) {

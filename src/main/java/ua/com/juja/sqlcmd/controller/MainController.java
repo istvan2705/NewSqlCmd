@@ -20,10 +20,8 @@ class MainController {
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {
             String input = view.read();
-            InputWrapper.setInput(input);
-
-            try {
-                String commandName = InputWrapper.getCommand();
+                try {
+                String commandName = InputWrapper.getCommand(input);
                 SqlCommand sqlCommand = SqlCommand.getSqlCommand(commandName);
                 switch (sqlCommand) {
                     case CONNECT:
@@ -71,13 +69,11 @@ class MainController {
                          return;
 
                 }
-                command.execute();
+                command.execute(input);
 
             } catch (IllegalArgumentException e) {
                 view.write("Not existing command " + input);
 
-            } catch (DBConnectionException e) {
-                view.write("You can not use this command until you have established connection to the database");
             }
         view.write("Please enter existing command or help");
         }

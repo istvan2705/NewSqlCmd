@@ -26,17 +26,18 @@ public class ConnectTest  {
         String databaseName = "Academy";
         String userName = "postgres";
         String password = "1401198n";
-        command.execute();
+        command.execute("connect|"+ databaseName+"|"+ userName +"|"+password);
         verify(manager).connect(databaseName, userName, password);
         view.write(String.format("You have login to database '%s' successfully!", databaseName));
     }
 
-    @Test
+    @Test(expected = SQLException.class)
     public void testConnectFailed() throws SQLException {
         String databaseName = "Academy";
         String userName = "postgres";
         String password = "14011981";
-        command.execute();
+        doThrow(new SQLException()).when(manager).connect(databaseName, userName ,password);
+        manager.connect(databaseName, userName, password);
         verify(manager).connect(databaseName, userName, password);
 
     }

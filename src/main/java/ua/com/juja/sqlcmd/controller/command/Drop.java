@@ -10,21 +10,18 @@ public class Drop implements Command {
 
     private DatabaseManager manager;
     private View view;
-    public Drop(DatabaseManager manager, View view) throws DBConnectionException {
+    public Drop(DatabaseManager manager, View view)  {
         this.manager = manager;
         this.view = view;
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
         }
-    }
 
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 2) {
             view.write(ERROR_ENTERING_MESSAGE + "'drop|tableName'");
         }
-        String tableName = InputWrapper.getTableName();
+        String tableName = InputWrapper.getTableName(command);
 
         try {
             manager.deleteTable(tableName);

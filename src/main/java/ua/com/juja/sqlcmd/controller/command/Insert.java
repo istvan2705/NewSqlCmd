@@ -11,24 +11,21 @@ public class Insert implements Command {
     private DatabaseManager manager;
     private View view;
 
-     public Insert( DatabaseManager manager, View view) throws DBConnectionException {
+     public Insert( DatabaseManager manager, View view) {
          this.view = view;
         this.manager = manager;
-         if (!manager.isConnected()){
-             throw new DBConnectionException();
-         }
-    }
+       }
 
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
             view.write("ERROR_ENTERING_MESSAGE" + "'insert|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN");
         }
-        String tableName = InputWrapper.getTableName();
-        List<String> columns = InputWrapper.getColumns();
-        List<Object> rows = InputWrapper.getRows();
+        String tableName = InputWrapper.getTableName(command);
+        List<String> columns = InputWrapper.getColumns(command);
+        List<Object> rows = InputWrapper.getRows(command);
         try {
             manager.insert(tableName, columns, rows);
             view.write(String.format("Statement are added into the table '%s'", tableName));

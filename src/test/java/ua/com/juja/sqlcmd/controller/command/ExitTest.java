@@ -16,22 +16,16 @@ public class ExitTest {
     public Command command;
 
     @Before
-    public void init() throws DBConnectionException{
+    public void init() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
-        }
         command = new Exit(view);
     }
 
-
-
-//    @Test
-//    public void testProcessExit() {
-//        command.process("exit");
-//        Mockito.verify(view).write("See you soon!");
-//        System.exit(0);
-//    }
+    @Test
+    public void testProcessExit() {
+        command.execute("exit|");
+        Mockito.verify(view).write("See you soon!");
+    }
 }
 

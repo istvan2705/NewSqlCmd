@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import static org.mockito.Mockito.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,56 +18,46 @@ public class InsertTest {
     public Command command;
 
     @Before
-    public void init() throws DBConnectionException {
+    public void init() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
-        }
         command = new Insert(manager, view);
     }
 
 
     @Test
-    public void testInsertIfRowNotExists() throws SQLException  {
+    public void testInsertIfRowNotExists() throws SQLException {
         String tableName = "teachers";
         List<String> columns = new ArrayList<>();
-        columns.add("id");
-        columns.add("surname");
-        columns.add("name");
-        columns.add("subject");
-
+        String column1 = "id";
+        String column2 = "surname";
+        columns.add(column1);
+        columns.add(column2);
         List<Object> rows = new ArrayList<>();
-        rows.add("3");
-        rows.add("Ivanov");
-        rows.add("History");
-        rows.add("Lviv");
-
-        command.execute();
+        String row1 = "3";
+        String row2 = "Ivanov";
+        rows.add(row1);
+        rows.add(row2);
+        command.execute("insert|" + tableName + "|" + column1 + "|" + row1 + "|" + column2 + "|" + row2);
         verify(manager).insert(tableName, columns, rows);
     }
 
 
-    @Test
-    public void testInsertIfRowExists() throws SQLException{
+    @Test(expected = SQLException.class)
+    public void testIfRowExists() throws SQLException {
         String tableName = "teachers";
         List<String> columns = new ArrayList<>();
-        columns.add("id");
-        columns.add("surname");
-        columns.add("name");
-        columns.add("subject");
-
+        String column1 = "id";
+        String column2 = "surname";
+        columns.add(column1);
+        columns.add(column2);
         List<Object> rows = new ArrayList<>();
-        rows.add("3");
-        rows.add("Ivanov");
-        rows.add("History");
-        rows.add("Lviv");
-
-
-        command.execute();
+        String row1 = "3";
+        String row2 = "Ivanov";
+        rows.add(row1);
+        rows.add(row2);
+        doThrow(new SQLException()).when(manager).insert(tableName, columns, rows);
+        manager.insert(tableName, columns, rows);
         verify(manager).insert(tableName, columns, rows);
-            command.execute();
-            verify(manager).insert(tableName, columns, rows);
-            verify(view).write(String.format("Statement are added into the table '%s'", tableName));
-        }
+    }
 }

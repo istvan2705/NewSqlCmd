@@ -19,13 +19,13 @@ public class Connect implements Command {
         }
 
     @Override
-    public void execute() {
-        int numberOfParameters = InputWrapper.getNumberOfParameters();
+    public void execute(String command) {
+        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 4) {
             view.write(ERROR_ENTERING_MESSAGE + "'connect|database|username|password'");
         }
-        String databaseName = InputWrapper.getTableName();
-        List<String> values = InputWrapper.getTableData();
+        String databaseName = InputWrapper.getTableName(command);
+        List<String> values = InputWrapper.getTableData(command);
         String userName = values.get(0);
         String password = values.get(1);
         try {

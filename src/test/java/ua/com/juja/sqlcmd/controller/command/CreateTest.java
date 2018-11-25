@@ -5,58 +5,58 @@ import org.junit.Test;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 
-public class CreateTest  {
+public class /**/CreateTest {
     public View view;
     public DatabaseManager manager;
     public Command command;
 
     @Before
-    public void init() throws DBConnectionException{
+    public void init() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        if (!manager.isConnected()) {
-            throw new DBConnectionException();
-        }
         command = new Create(manager, view);
     }
 
-       @Test
+    @Test
     public void testCreateIfNotExists() throws SQLException {
-        String tableName = "students";
-       List<String> list = new ArrayList<>();
-       list.add("id");
-       list.add("surname");
-       list.add("name");
-      manager.create(tableName,list);
+        String tableName = "teachers";
+        String column1 = "id";
+        String column2 = "surname";
+        String column3 = "name";
+        List<String> list = new ArrayList<>();
+        list.add(column1);
+        list.add(column2);
+        list.add(column3);
+        command.execute("create|" + tableName + "|" + column1 + "|" + column2 + "|" + column3);
 
-        command.execute();
-
-        verify(manager).create(tableName,list);
+        verify(manager).create(tableName, list);
         verify(view).write(String.format("The table '%s' has been created", tableName));
     }
 
-    @Test
+    @Test(expected = SQLException.class)
     public void testNotCreateIfExists() throws SQLException {
-        String tableName = "students";
+        String tableName = "teachers";
+        String column1 = "id";
+        String column2 = "surname";
+        String column3 = "name";
         List<String> list = new ArrayList<>();
-        list.add("id");
-        list.add("surname");
-        list.add("name");
-        manager.create(tableName,list);
-
-       command.execute();
-
-       verify(manager).create(tableName, list);
-            verify(view).write(String.format("The table '%s' has been created", tableName));
-        }
-
+        list.add(column1);
+        list.add(column2);
+        list.add(column3);
+        doThrow(new SQLException()).when(manager).create(tableName, list);
+        manager.create(tableName, list);
+        verify(manager).create(tableName, list);
     }
+}
 
 
