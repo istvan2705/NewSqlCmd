@@ -6,7 +6,7 @@ import java.util.*;
 
 public class JDBCDatabaseManager implements DatabaseManager {
 
-    private static Connection connection;
+    private Connection connection;
 
     @Override
     public void create(String tableName, List<String> columns) throws SQLException {

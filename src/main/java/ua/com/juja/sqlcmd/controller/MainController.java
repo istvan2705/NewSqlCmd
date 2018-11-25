@@ -72,9 +72,9 @@ class MainController {
                 command.execute(input);
 
             } catch (IllegalArgumentException e) {
-                view.write("Not existing command " + input);
+                    view.write("Not existing command " + input);
+                }
 
-            }
         view.write("Please enter existing command or help");
         }
     }
