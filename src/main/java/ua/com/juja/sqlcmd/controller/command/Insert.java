@@ -20,8 +20,9 @@ public class Insert implements Command {
     public void execute(String command) {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
-            view.write("ERROR_ENTERING_MESSAGE" + "'insert|tableName|column1|value1|" +
+            view.write(ERROR_ENTERING_MESSAGE +  " 'insert|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN");
+            return;
         }
         String tableName = InputWrapper.getTableName(command);
         List<String> columns = InputWrapper.getColumns(command);

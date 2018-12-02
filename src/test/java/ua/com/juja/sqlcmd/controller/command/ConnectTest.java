@@ -29,7 +29,7 @@ public class ConnectTest  {
         command.execute("connect|"+ databaseName+"|"+ userName +"|"+password);
         verify(manager).connect(databaseName, userName, password);
         view.write(String.format("You have login to database '%s' successfully!", databaseName));
-    }
+            }
 
     @Test(expected = SQLException.class)
     public void testConnectFailed() throws SQLException {

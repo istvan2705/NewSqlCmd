@@ -21,6 +21,7 @@ public class Delete implements Command {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters < 4 || numberOfParameters % 2 == 1) {
             view.write(ERROR_ENTERING_MESSAGE + "'delete|tableName|column|value'");
+            return;
         }
         String tableName = InputWrapper.getTableName(command);
         List<String> values = InputWrapper.getTableData(command);

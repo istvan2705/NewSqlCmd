@@ -23,52 +23,52 @@ class MainController {
                 try {
                 String commandName = InputWrapper.getCommand(input);
                 SqlCommand sqlCommand = SqlCommand.getSqlCommand(commandName);
-                switch (sqlCommand) {
-                    case CONNECT:
-                        command = new Connect(manager, view);
-                        break;
+                       switch (sqlCommand) {
+                        case CONNECT:
+                            command = new Connect(manager, view);
+                            break;
 
-                    case INSERT:
-                        command = new Insert(manager, view);
-                        break;
+                        case INSERT:
+                            command = new Insert(manager, view);
+                            break;
 
-                    case TABLES:
-                        command = new Tables(manager, view);
-                        break;
+                        case TABLES:
+                            command = new Tables(manager, view);
+                            break;
 
-                    case DROP:
-                        command = new Drop(manager, view);
-                        break;
+                        case DROP:
+                            command = new Drop(manager, view);
+                            break;
 
-                    case CREATE:
-                        command = new Create(manager, view);
-                        break;
+                        case CREATE:
+                            command = new Create(manager, view);
+                            break;
 
-                    case CLEAR:
-                        command = new Clear(manager, view);
-                        break;
+                        case CLEAR:
+                            command = new Clear(manager, view);
+                            break;
 
-                    case DELETE:
-                        command = new Delete(manager, view);
-                        break;
+                        case DELETE:
+                            command = new Delete(manager, view);
+                            break;
 
-                    case FIND:
-                        command = new Find(manager, view);
-                        break;
+                        case FIND:
+                            command = new Find(manager, view);
+                            break;
 
-                    case UPDATE:
-                        command = new Update(manager, view);
-                        break;
+                        case UPDATE:
+                            command = new Update(manager, view);
+                            break;
 
-                    case HELP:
-                        command = new Help(view);
-                        break;
+                        case HELP:
+                            command = new Help(view);
+                            break;
 
-                    case EXIT:
-                         command = new Exit(view);
-                         return;
+                        case EXIT:
+                           new Exit(view).execute(input);
+                           return;
+                           }
 
-                }
                 command.execute(input);
 
             } catch (IllegalArgumentException e) {

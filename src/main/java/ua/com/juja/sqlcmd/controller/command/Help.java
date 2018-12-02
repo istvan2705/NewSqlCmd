@@ -15,6 +15,7 @@ private View view;
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 1) {
             view.write(ERROR_ENTERING_MESSAGE + "'tables'");
+            return;
         }
 
         view.write("Existing commands:" + "\n" +

@@ -22,7 +22,8 @@ public class Create implements Command {
     public void execute(String command) {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters < 4) {
-            view.write( "'create|tableName|column1|column2|...|columnN'");
+            view.write(ERROR_ENTERING_MESSAGE + "'create|tableName|column1|column2|...|columnN'");
+            return;
         }
         String tableName = InputWrapper.getTableName(command);
         List<String> values = InputWrapper.getTableData(command);

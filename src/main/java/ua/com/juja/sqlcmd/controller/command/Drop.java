@@ -20,6 +20,7 @@ public class Drop implements Command {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 2) {
             view.write(ERROR_ENTERING_MESSAGE + "'drop|tableName'");
+            return;
         }
         String tableName = InputWrapper.getTableName(command);
 

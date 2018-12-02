@@ -10,7 +10,7 @@ public class Clear implements Command {
     private DatabaseManager manager;
     private View view;
 
-        public Clear(DatabaseManager manager, View view) {
+        public Clear(DatabaseManager manager, View view)  {
         this.manager = manager;
         this.view = view;
         }
@@ -20,6 +20,7 @@ public class Clear implements Command {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 2) {
              view.write(ERROR_ENTERING_MESSAGE + "'clear|tableName'");
+             return;
         }
         String tableName = InputWrapper.getTableName(command);
         try {

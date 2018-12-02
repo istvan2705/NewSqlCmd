@@ -40,8 +40,9 @@ public class FindTest {
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals(
                 "[--------------------------\n" +
-                        "|id||surname||name||subject|\n" +
-                        "--------------------------\n" +
-                        "|1||Pavlov||Ivan||history|]", captor.getAllValues().toString());
+                        "|id|surname|name|subject\n" +
+                        "--------------------------, "+
+                        "|1|Pavlov|Ivan|history"+
+                        "--------------------------]", captor.getAllValues().toString());
     }
 }

@@ -24,6 +24,7 @@ public class Update implements Command {
         if (numberOfParameters < 6 || numberOfParameters % 2 == 1) {
             view.write( ERROR_ENTERING_MESSAGE + "'update|tableName|column1|value1|" +
                     "column2|value2|...|columnN|valueN'");
+            return;
         }
         String tableName = InputWrapper.getTableName(command);
         List<String> values = InputWrapper.getTableData(command);

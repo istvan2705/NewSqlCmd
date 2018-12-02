@@ -29,13 +29,13 @@ public class JDBCDatabaseManagerTest {
     @Test
     public void testGetAllTableNames() throws SQLException {
         Set<String> tableNames = manager.getTableNames();
-        assertEquals("[tvsets, dvdplayers, teachers]", tableNames.toString());
+        assertEquals("[tvsets, teachers]", tableNames.toString());
     }
 
     @Test
     public void testClearTableIfExists() throws SQLException {
         String tableName = "teachers";
-        manager.insert(tableName, Arrays.asList("id", "surname", "name", "subject"), Arrays.<Object>asList("1", "Kish", "Stepan", "history"));
+        manager.insert(tableName, Arrays.asList("id", "surname", "name"), Arrays.<Object>asList("1", "Kish", "Stepan"));
         assertTrue(manager.clear(tableName));
     }
 
@@ -44,7 +44,7 @@ public class JDBCDatabaseManagerTest {
         String tableName = "teachers";
         String column = "id";
         String row = "1";
-        manager.insert(tableName, Arrays.asList("id", "surname", "name", "subject"), Arrays.<Object>asList("1", "Kish", "Stepan", "history"));
+        manager.insert(tableName, Arrays.asList("id", "surname", "name"), Arrays.<Object>asList("1", "Kish", "Stepan"));
 
         assertTrue(manager.deleteRows(tableName, column, row));
     }
@@ -61,6 +61,7 @@ public class JDBCDatabaseManagerTest {
         String tableName = "tvsets";
         List<String> columns = manager.getTableRows(tableName);
         assertEquals("[1, 12, oct12, 45, \n" +
+                ", 2, x96, oct15, 50, \n" +
                 "]", columns.toString());
 
     }

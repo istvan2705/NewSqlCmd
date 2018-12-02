@@ -14,47 +14,48 @@ public class Find implements Command {
     View view;
 
 
-   public Find(DatabaseManager manager, View view) {
+    public Find(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
-         }
+    }
 
     @Override
     public void execute(String command) {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 2) {
             view.write(ERROR_ENTERING_MESSAGE + "'find|tableName'");
+            return;
         }
         String tableName = InputWrapper.getTableName(command);
         try {
             Set<String> columns = manager.getColumnsNames(tableName);
-            String tableHeader = printColumnsNames(columns);
+           printColumnsNames(columns);
             List<String> rows = manager.getTableRows(tableName);
-            String tableContent = printTableRows(rows);
-            StringBuilder table = new StringBuilder();
-            table.append(tableHeader).append(tableContent);
-            view.write(table.toString());
+           printTableRows(rows);
+
         } catch (SQLException e) {
             view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
         }
     }
 
-    private String printColumnsNames(Set<String> columns) {
+    private void printColumnsNames(Set<String> columns) {
         StringBuilder result = new StringBuilder();
         for (String column : columns) {
-            result.append("|").append(column).append("|");
+            result.append("|").append(column);
         }
-        return "--------------------------" + "\n" +
+        view.write("--------------------------" + "\n" +
                 result.toString() + "\n" +
-               "--------------------------" + "\n";
+                "--------------------------");
     }
 
-    private String printTableRows(List<String> rows) {
+    private void printTableRows(List<String> rows) {
         StringBuilder result = new StringBuilder();
         for (String row : rows) {
-            result.append("|").append(row).append("|");
+           result.append("|").append(row);
         }
-        return result.toString();
+        view.write(result.toString()+
+                "--------------------------");
+
     }
 }
 

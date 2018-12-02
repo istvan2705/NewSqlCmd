@@ -6,7 +6,7 @@ import java.util.*;
 
 public class JDBCDatabaseManager implements DatabaseManager {
 
-    private Connection connection;
+    private static Connection connection;
 
     @Override
     public void create(String tableName, List<String> columns) throws SQLException {
@@ -68,13 +68,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableNames() throws SQLException {
-        Set<String> columns = new LinkedHashSet<>();
+        Set<String> tables = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
             while (rs.next()) {
-                columns.add(rs.getString("table_name"));
+                tables.add(rs.getString("table_name"));
             }
-            return columns;
+            return tables;
         }
     }
 

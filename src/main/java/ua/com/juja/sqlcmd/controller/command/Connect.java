@@ -23,6 +23,7 @@ public class Connect implements Command {
         int numberOfParameters = InputWrapper.getNumberOfParameters(command);
         if (numberOfParameters != 4) {
             view.write(ERROR_ENTERING_MESSAGE + "'connect|database|username|password'");
+
         }
         String databaseName = InputWrapper.getTableName(command);
         List<String> values = InputWrapper.getTableData(command);
