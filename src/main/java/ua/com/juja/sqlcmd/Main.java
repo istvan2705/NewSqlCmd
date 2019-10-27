@@ -1,3 +1,5 @@
+package ua.com.juja.sqlcmd;
+
 import ua.com.juja.sqlcmd.controller.MainController;
 
 public class Main {
