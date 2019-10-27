@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Connect implements Command {
-    CommandParser commandParser = new CommandParser();
-
+    private CommandParser commandParser = new CommandParser();
     private DatabaseManager manager;
     private View view;
 

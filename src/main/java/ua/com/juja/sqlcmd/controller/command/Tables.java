@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import java.util.Set;
 
 public class Tables implements Command {
-    CommandParser commandParser = new CommandParser();
+    private CommandParser commandParser = new CommandParser();
     private DatabaseManager manager;
     private View view;
 
     public Tables(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
-        }
+    }
 
     @Override
     public void execute(String command) throws SQLException {
@@ -24,9 +24,7 @@ public class Tables implements Command {
             view.write(ERROR_ENTERING_MESSAGE + "'tables'");
             return;
         }
-         view.write (format(manager.getTableNames()));
-       }
-    private String format(Set<String> tables) {
-        return tables.toString();
+        Set<String> tables = manager.getTableNames();
+        view.write(tables.toString());
     }
 }

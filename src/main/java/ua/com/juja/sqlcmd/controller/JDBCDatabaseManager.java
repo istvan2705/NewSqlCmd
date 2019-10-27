@@ -1,7 +1,4 @@
 package ua.com.juja.sqlcmd.controller;
-
-import ua.com.juja.sqlcmd.controller.DatabaseManager;
-
 import java.sql.*;
 import java.util.*;
 

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class Create implements Command {
     private CommandParser commandParser = new CommandParser();
-
     private DatabaseManager manager;
     private View view;
 

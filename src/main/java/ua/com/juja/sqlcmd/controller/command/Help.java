@@ -4,8 +4,8 @@ import ua.com.juja.sqlcmd.model.CommandParser;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Help implements Command {
-    CommandParser commandParser = new CommandParser();
-private View view;
+    private CommandParser commandParser = new CommandParser();
+    private View view;
 
     public Help(View view) {
         this.view = view;
