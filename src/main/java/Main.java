@@ -1,5 +1,4 @@
-package ua.com.juja.sqlcmd.controller;
-
+import ua.com.juja.sqlcmd.controller.MainController;
 
 public class Main {
 

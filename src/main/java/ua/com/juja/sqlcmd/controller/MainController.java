@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 
 public class MainController {
-    CommandParser commandParser = new CommandParser();
+    public CommandParser commandParser = new CommandParser();
     private Command command;
     private View view = new Console();
     private DatabaseManager manager = new JDBCDatabaseManager();
