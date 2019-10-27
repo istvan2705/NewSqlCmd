@@ -6,7 +6,7 @@ import org.mockito.ArgumentCaptor;
 
 import static org.mockito.Mockito.*;
 
-import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.controller.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;

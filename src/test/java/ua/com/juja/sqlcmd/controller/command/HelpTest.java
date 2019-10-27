@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.sql.SQLException;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
@@ -22,7 +24,7 @@ public class HelpTest {
 
 
     @Test
-    public void testHelp() {
+    public void testHelp() throws SQLException {
         command.execute("help|");
         verify(view).write("Existing commands:\n" +
 

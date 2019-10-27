@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.controller.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
@@ -25,24 +25,22 @@ public class DeleteTest {
 
     @Test
     public void testDeleteIfRowExists() throws SQLException {
-        String tableName = "teachers";
-        String columnName = "subject";
-        String rowName = "History";
-        when(manager.deleteRows(tableName, columnName, rowName)).thenReturn(true);
-        command.execute("delete|" + tableName + "|" + columnName + "|" + rowName);
+        String tableName = "players";
+        String columnName = "surname";
+        String rowName = "Kish";
+       command.execute("delete|" + tableName + "|" + columnName + "|" + rowName);
         verify(manager).deleteRows(tableName, columnName, rowName);
         verify(view).write("The row has been deleted");
     }
 
     @Test
     public void testDeleteIfRowNotExists() throws SQLException {
-        String tableName = "teachers";
-        String columnName = "city";
-        String rowName = "Lviv";
-        when(manager.deleteRows(tableName, columnName, rowName)).thenReturn(false);
+        String tableName = "players";
+        String columnName = "id";
+        String rowName = "12";
         command.execute("delete|" + tableName + "|" + columnName + "|" + rowName);
         verify(manager).deleteRows(tableName, columnName, rowName);
-        verify(view).write(String.format("Error entering command. The row value '%s' does not exist", rowName));
+       verify(view).write(String.format("Error entering command. The row value '%s' does not exist", rowName));
     }
 
 

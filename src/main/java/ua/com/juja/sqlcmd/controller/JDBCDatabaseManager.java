@@ -1,4 +1,6 @@
-package ua.com.juja.sqlcmd.model;
+package ua.com.juja.sqlcmd.controller;
+
+import ua.com.juja.sqlcmd.controller.DatabaseManager;
 
 import java.sql.*;
 import java.util.*;
@@ -108,14 +110,14 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public boolean deleteRows(String tableName, String columnName, String rowName) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")) {
+          try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")) {
             ps.setString(1, rowName);
-            return isUpdateTable(ps);
+          return isUpdateTable(ps);
         }
     }
 
     @Override
-    public void update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException {
+    public boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException {
         String columns = getColumnFormatted(column, "%s = ?,");
 
         try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + keyColumn + " = ?")) {
@@ -125,7 +127,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 index++;
             }
             ps.setString(index, keyValue);
-            ps.executeUpdate();
+            return isUpdateTable(ps);
         }
     }
 

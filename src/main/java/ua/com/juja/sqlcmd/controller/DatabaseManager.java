@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.model;
+package ua.com.juja.sqlcmd.controller;
 
 
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ public interface DatabaseManager {
 
     void create(String tableName, List<String> columns) throws SQLException;
 
-    void update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException;
+    boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException;
 
     Set<String> getTableNames() throws SQLException;
 

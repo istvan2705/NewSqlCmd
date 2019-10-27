@@ -3,10 +3,11 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.controller.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import static junit.framework.TestCase.*;
+import java.sql.SQLException;
+
 import static org.mockito.Mockito.mock;
 
 public class ExitTest {
@@ -23,7 +24,7 @@ public class ExitTest {
     }
 
     @Test
-    public void testProcessExit() {
+    public void testProcessExit() throws SQLException {
         command.execute("exit|");
         Mockito.verify(view).write("See you soon!");
     }
