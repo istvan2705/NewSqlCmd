@@ -8,16 +8,16 @@ import ua.com.juja.sqlcmd.view.View;
 import java.sql.SQLException;
 
 
-class MainController {
+public class MainController {
     CommandParser commandParser = new CommandParser();
     private Command command;
     private View view = new Console();
     private DatabaseManager manager = new JDBCDatabaseManager();
 
-    MainController() {
+  public  MainController() {
     }
 
-    void run() {
+    public void run() {
         view.write("Hello user!");
         view.write("Please enter database, username and password in a format: connect|database|userName|password");
         while (true) {
