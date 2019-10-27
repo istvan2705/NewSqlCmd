@@ -27,7 +27,7 @@ public class Insert implements Command {
         }
         String tableName = commandParser.getTableName(command);
         List<String> columns = commandParser.getColumns(command);
-        List<Object> rows = commandParser.getRows(command);
+        List<String> rows = commandParser.getRows(command);
         manager.insert(tableName, columns, rows);
         view.write(String.format("Statement are added into the table '%s'", tableName));
     }

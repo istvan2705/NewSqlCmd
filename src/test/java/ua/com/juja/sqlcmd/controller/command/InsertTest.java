@@ -33,7 +33,7 @@ public class InsertTest {
         String column2 = "surname";
         columns.add(column1);
         columns.add(column2);
-        List<Object> rows = new ArrayList<>();
+        List<String> rows = new ArrayList<>();
         String row1 = "3";
         String row2 = "Ivanov";
         rows.add(row1);
@@ -51,7 +51,7 @@ public class InsertTest {
         String column2 = "surname";
         columns.add(column1);
         columns.add(column2);
-        List<Object> rows = new ArrayList<>();
+        List<String> rows = new ArrayList<>();
         String row1 = "3";
         String row2 = "Ivanov";
         rows.add(row1);

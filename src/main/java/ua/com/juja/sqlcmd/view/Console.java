@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Console implements View {
     @Override
     public void write(String message) {
-            System.out.println(message);
-        }
+        System.out.println(message);
+    }
 
     @Override
     public String read() {
@@ -18,6 +18,6 @@ public class Console implements View {
             return scanner.nextLine();
         } catch (NoSuchElementException e) {
             return null;
-               }
+        }
     }
 }

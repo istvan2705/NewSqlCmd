@@ -40,13 +40,12 @@ public class DeleteTest {
         String rowName = "12";
         command.execute("delete|" + tableName + "|" + columnName + "|" + rowName);
         verify(manager).deleteRows(tableName, columnName, rowName);
-       verify(view).write(String.format("Error entering command. The row value '%s' does not exist", rowName));
+       verify(view).write(String.format("Entered row does not exist for column: %s", columnName));
     }
-
 
     @Test(expected = SQLException.class)
     public void testIfTableNotExist() throws SQLException {
-        String tableName = "teachers";
+        String tableName = "teacher";
         String columnName = "city";
         String rowName = "Lviv";
         doThrow(new SQLException()).when(manager).deleteRows(tableName, columnName, rowName);

@@ -1,6 +1,10 @@
 package ua.com.juja.sqlcmd.controller;
+
 import java.sql.*;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 
 public class JDBCDatabaseManager implements DatabaseManager {
@@ -56,7 +60,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public boolean clear(String tableName) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName)) {
             return isUpdateTable(ps);
-
         }
     }
 
@@ -95,7 +98,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName, List<String> column, List<Object> row) throws SQLException {
+    public void insert(String tableName, List<String> column, List<String> row) throws SQLException {
         String columns = getColumnFormatted(column, "%s,");
         String values = getValuesFormatted(row, "'%s',");
         String insertData = "INSERT INTO public." + tableName + "(" + columns + ")" +
@@ -107,27 +110,22 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public boolean deleteRows(String tableName, String columnName, String rowName) throws SQLException {
-          try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")) {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM public." + tableName + " WHERE " + columnName + " = ?")) {
             ps.setString(1, rowName);
-          return isUpdateTable(ps);
-        }
-    }
-
-    @Override
-    public boolean update(String tableName, List<String> column, List<Object> row, String keyColumn, String keyValue) throws SQLException {
-        String columns = getColumnFormatted(column, "%s = ?,");
-
-        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + columns + " WHERE " + keyColumn + " = ?")) {
-            int index = 1;
-            for (Object value : row) {
-                ps.setObject(index, value);
-                index++;
-            }
-            ps.setString(index, keyValue);
             return isUpdateTable(ps);
         }
     }
 
+    @Override
+    public boolean update(String tableName, String keyColumn, String keyValue, String column, String value) throws SQLException {
+        String formattedValue = String.format("'%s'", value);
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName + " SET " + column + " = " + formattedValue + " WHERE " + keyColumn + " = ?")) {
+            int index = 1;
+            ps.setString(index, keyValue);
+            ps.executeUpdate();
+            return isUpdateTable(ps);
+        }
+    }
 
     @Override
     public String getColumnFormatted(List<String> columns, String format) {
@@ -139,9 +137,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String getValuesFormatted(List<Object> values, String format) {
+    public String getValuesFormatted(List<String> values, String format) {
         StringBuilder names = new StringBuilder();
-        for (Object value : values) {
+        for (String value : values) {
             names.append(String.format(format, value));
         }
         return names.toString().substring(0, names.length() - 1);

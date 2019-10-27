@@ -6,8 +6,6 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 public class Update implements Command {
     private CommandParser commandParser = new CommandParser();
@@ -28,14 +26,15 @@ public class Update implements Command {
             return;
         }
         String tableName = commandParser.getTableName(command);
-        List<String> values = commandParser.getParameters(command).stream().skip(2).collect(Collectors.toList());
         List<String> columns = commandParser.getColumns(command);
-        List<Object> rows = commandParser.getRows(command);
-        String keyColumn = values.get(0);
-        String keyValue = values.get(1);
-        boolean isUpdate = manager.update(tableName, columns, rows, keyColumn, keyValue);
+        List<String> rows = commandParser.getRows(command);
+        String keyColumn = columns.get(0);
+        String keyValue = rows.get(0);
+        String column = columns.get(1);
+        String value = rows.get(1);
+        boolean isUpdate = manager.update(tableName, keyColumn, keyValue, column, value);
         if (isUpdate) {
             view.write("The row has been updated");
-        } else view.write("The row has been not updated because it does not exist");
+        } else view.write("The row has been not updated, because it does not exist");
     }
 }

@@ -13,7 +13,6 @@ public class Find implements Command {
     private DatabaseManager manager;
     private View view;
 
-
     public Find(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
@@ -32,6 +31,7 @@ public class Find implements Command {
         List<String> rows = manager.getTableRows(tableName);
         printTableRows(rows);
     }
+
     private void printColumnsNames(Set<String> columns) {
         StringBuilder result = new StringBuilder();
         for (String column : columns) {
@@ -45,9 +45,9 @@ public class Find implements Command {
     private void printTableRows(List<String> rows) {
         StringBuilder result = new StringBuilder();
         for (String row : rows) {
-           result.append("|").append(row);
+            result.append("|").append(row);
         }
-        view.write(result.toString()+
+        view.write(result.toString() +
                 "--------------------------");
     }
 }

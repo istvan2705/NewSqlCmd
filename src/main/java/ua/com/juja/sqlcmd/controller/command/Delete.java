@@ -32,7 +32,7 @@ public class Delete implements Command {
         boolean isRowDeleted = manager.deleteRows(tableName, columnName, rowName);
         if (isRowDeleted) {
             view.write("The row has been deleted");
-        } else view.write("The row " + columnName +" does not exist");
+        } else view.write(String.format("Entered row does not exist for column: %s", columnName));
     }
 }
 

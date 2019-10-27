@@ -16,7 +16,6 @@ public class Create implements Command {
     public Create(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
-
     }
 
     @Override

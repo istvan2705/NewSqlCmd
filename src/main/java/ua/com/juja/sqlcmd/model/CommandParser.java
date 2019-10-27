@@ -41,13 +41,13 @@ public class CommandParser {
         return columns;
     }
 
-    public List<Object> getRows(String input) {
+    public List<String> getRows(String input) {
         int skip = 2;
         List<String> parameters = getParameters(input).stream().skip(skip).collect(Collectors.toList());
         ;
         int size = parameters.size();
         int limit = size / skip + Math.min(size % skip, 1);
-        List<Object> rows = Stream.iterate(1, i -> i + skip)
+        List<String> rows = Stream.iterate(1, i -> i + skip)
                 .limit(limit)
                 .map(parameters::get)
                 .collect(Collectors.toList());

@@ -7,7 +7,6 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 
-
 public class MainController {
     public CommandParser commandParser = new CommandParser();
     private View view = new Console();

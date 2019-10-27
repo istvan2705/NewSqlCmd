@@ -1,7 +1,7 @@
 package ua.com.juja.sqlcmd.integration;
 
 import org.junit.*;
-import ua.com.juja.sqlcmd.controller.Main;
+import ua.com.juja.sqlcmd.Main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

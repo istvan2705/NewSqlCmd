@@ -18,7 +18,6 @@ public class Help implements Command {
             view.write(ERROR_ENTERING_MESSAGE + "'tables'");
             return;
         }
-
         view.write("Existing commands:" + "\n" +
 
                 "\tconnect|databaseName|username|password" + "\n" +
