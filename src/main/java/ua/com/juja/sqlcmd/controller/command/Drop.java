@@ -1,34 +1,30 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.InputWrapper;
+import ua.com.juja.sqlcmd.model.CommandParser;
+import ua.com.juja.sqlcmd.controller.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 
 public class Drop implements Command {
-
+    CommandParser commandParser = new CommandParser();
     private DatabaseManager manager;
     private View view;
-    public Drop(DatabaseManager manager, View view)  {
+
+    public Drop(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
-        }
+    }
 
     @Override
-    public void execute(String command) {
-        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
+    public void execute(String command) throws SQLException {
+        int numberOfParameters = commandParser.getNumberOfParameters(command);
         if (numberOfParameters != 2) {
             view.write(ERROR_ENTERING_MESSAGE + "'drop|tableName'");
             return;
         }
-        String tableName = InputWrapper.getTableName(command);
-
-        try {
-            manager.deleteTable(tableName);
-           view.write(String.format("The table '%s' has been deleted", tableName));
-        } catch (SQLException e) {
-            view.write(String.format(SQL_EXCEPTION_MESSAGE, e.getMessage()));
-        }
+        String tableName = commandParser.getTableName(command);
+        manager.deleteTable(tableName);
+        view.write(String.format("The table '%s' has been deleted", tableName));
     }
 }

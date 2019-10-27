@@ -1,9 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 
+import java.sql.SQLException;
+
 public interface Command {
     String ERROR_ENTERING_MESSAGE = "Error entering command, it should be";
-    String SQL_EXCEPTION_MESSAGE = "Can not execute command due to: %s";
 
-    void execute(String command);
+    void execute(String command) throws SQLException;
 }

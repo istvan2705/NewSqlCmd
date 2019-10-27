@@ -1,14 +1,15 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.InputWrapper;
+import ua.com.juja.sqlcmd.controller.DatabaseManager;
+import ua.com.juja.sqlcmd.model.CommandParser;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Connect implements Command {
-
+    CommandParser commandParser = new CommandParser();
 
     private DatabaseManager manager;
     private View view;
@@ -20,13 +21,13 @@ public class Connect implements Command {
 
     @Override
     public void execute(String command) {
-        int numberOfParameters = InputWrapper.getNumberOfParameters(command);
+        int numberOfParameters = commandParser.getNumberOfParameters(command);
         if (numberOfParameters != 4) {
             view.write(ERROR_ENTERING_MESSAGE + "'connect|database|username|password'");
 
         }
-        String databaseName = InputWrapper.getTableName(command);
-        List<String> values = InputWrapper.getTableData(command);
+        String databaseName = commandParser.getTableName(command);
+        List<String> values = commandParser.getParameters(command).stream().skip(2).collect(Collectors.toList());
         String userName = values.get(0);
         String password = values.get(1);
         try {
