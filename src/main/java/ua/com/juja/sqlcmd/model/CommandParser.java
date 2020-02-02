@@ -30,28 +30,34 @@ public class CommandParser {
     }
 
     public List<String> getColumns(String input) {
-        int skip = 2;
-        List<String> parameters = getParameters(input).stream().skip(skip).collect(Collectors.toList());
-        int size = parameters.size();
-        int limit = size / skip + Math.min(size % skip, 1);
-        List<String> columns = Stream.iterate(0, i -> i + skip)
+        List<String> columnsAndRows = getAllParameters(input);
+        return getOneParameter(columnsAndRows, 0);
+    }
+
+    // to get list one of the two parameters: columns or rows
+    private List<String> getOneParameter(List<String> columnsAndRows, int startIndex) {
+        int size = columnsAndRows.size();
+        int everySecondParameter = 2;
+        int limit = size / everySecondParameter + Math.min(size % everySecondParameter, 1);
+        return Stream.iterate(startIndex, i -> i + everySecondParameter)
                 .limit(limit)
-                .map(parameters::get)
+                .map(columnsAndRows::get)
                 .collect(Collectors.toList());
-        return columns;
+    }
+
+    // to get list of all parameters for table excluding command name and table name
+    private List<String> getAllParameters(String input) {
+        int firstTwoParameters = 2;
+        List<String> allParameters = getParameters(input);
+        return allParameters
+                .stream()
+                .skip(firstTwoParameters)
+                .collect(Collectors.toList());
     }
 
     public List<String> getRows(String input) {
-        int skip = 2;
-        List<String> parameters = getParameters(input).stream().skip(skip).collect(Collectors.toList());
-        ;
-        int size = parameters.size();
-        int limit = size / skip + Math.min(size % skip, 1);
-        List<String> rows = Stream.iterate(1, i -> i + skip)
-                .limit(limit)
-                .map(parameters::get)
-                .collect(Collectors.toList());
-        return rows;
+        List<String> columnsAndRows = getAllParameters(input);
+        return getOneParameter(columnsAndRows, 1);
     }
 }
 

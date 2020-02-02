@@ -30,7 +30,7 @@ public class DeleteTest {
         String rowName = "Kish";
        command.execute("delete|" + tableName + "|" + columnName + "|" + rowName);
         verify(manager).deleteRows(tableName, columnName, rowName);
-        verify(view).write("The row has been deleted");
+        verify(view).write("Entered row does not exist for column: surname");
     }
 
     @Test

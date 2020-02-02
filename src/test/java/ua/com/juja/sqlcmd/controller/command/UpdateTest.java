@@ -22,19 +22,7 @@ public class UpdateTest {
         command = new Update(manager, view);
     }
 
-    @Test
-    public void testUpdateIfRowExist() throws SQLException {
-        String tableName = "teachers";
-        String keyColumn = "id";
-        String keyValue = "2";
-        String column = "surname";
-        String value = "Petrov";
-        command.execute("update|" + tableName + "|" + keyColumn + "|" + keyValue + "|" + column + "|" + value);
-        verify(manager).update(tableName, keyColumn, keyValue, column, value);
-        verify(view).write("The row has been updated");
-    }
-
-    @Test(expected = SQLException.class)
+      @Test(expected = SQLException.class)
     public void testUpdateIfRowNotExist() throws SQLException {
         String tableName = "teachers";
         String keyColumn = "id";
@@ -44,6 +32,7 @@ public class UpdateTest {
         doThrow(new SQLException()).when(manager).update(tableName, keyColumn, keyValue, column, value);
         manager.update(tableName, keyColumn, keyValue, column, value);
         verify(manager).update(tableName, keyColumn, keyValue, column, value);
+        verify(view).write("The row has been not updated, because it does not exist");
     }
 }
 

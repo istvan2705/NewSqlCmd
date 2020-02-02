@@ -36,18 +36,40 @@ public class MainController {
         Command command;
         String commandName = commandParser.getCommandName(input);
         switch (commandName) {
-            case "connect" -> command = new Connect(manager, view);
-            case "insert" -> command = new Insert(manager, view);
-            case "tables" -> command = new Tables(manager, view);
-            case "drop" -> command = new Drop(manager, view);
-            case "create" -> command = new Create(manager, view);
-            case "clear" -> command = new Clear(manager, view);
-            case "delete" -> command = new Delete(manager, view);
-            case "find" -> command = new Find(manager, view);
-            case "update" -> command = new Update(manager, view);
-            case "help" -> command = new Help(view);
-            case "exit" -> command = new Exit(view);
-            default -> throw new IllegalArgumentException();
+            case "connect":
+                command = new Connect(manager, view);
+            break;
+            case "insert":
+                command = new Insert(manager, view);
+            break;
+            case "tables":
+                command = new Tables(manager, view);
+            break;
+            case "drop":
+                command = new Drop(manager, view);
+            break;
+            case "create":
+                command = new Create(manager, view);
+            break;
+            case "clear":
+                command = new Clear(manager, view);
+            break;
+            case "delete":
+                command = new Delete(manager, view);
+            break;
+            case "find":
+                command = new Find(manager, view);
+            break;
+            case "update":
+                command = new Update(manager, view);
+            break;
+            case "help":
+                command = new Help(view);
+            break;
+            case "exit":
+                command = new Exit(view);
+            break;
+            default: throw new IllegalArgumentException();
         }
         return command;
     }

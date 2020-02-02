@@ -27,7 +27,7 @@ public class JDBCDatabaseManagerTest {
     @Test
     public void testGetAllTableNames() throws SQLException {
         Set<String> tableNames = manager.getTableNames();
-        assertEquals("[students, teachers, players]", tableNames.toString());
+        assertEquals("[teachers, players]", tableNames.toString());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class JDBCDatabaseManagerTest {
     public void testGetTableRows() throws SQLException{
         String tableName = "teachers";
         List<String> rows = manager.getTableRows(tableName);
-        assertEquals("[2, Petrov]", rows.toString().trim());
+        assertEquals("[2, Ivanov]", rows.toString().trim());
     }
 }
 
